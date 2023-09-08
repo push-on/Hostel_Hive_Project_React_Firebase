@@ -1,0 +1,28 @@
+{
+  "name": "sup-test",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port=3000",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "deploy": "tsc && vite build && firebase deploy"
+  },
+  "dependencies": {
+    "@picocss/pico": "2.0.0-alpha1",
+    "firebase": "^10.1.0",
+    "framer-motion": "^10.16.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.4.1",
+    "react-router-dom": "^6.15.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react-swc": "^3.3.2",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9"
+  }
+}
