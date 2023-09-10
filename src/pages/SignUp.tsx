@@ -15,6 +15,7 @@ export default function SignUp() {
 	const [isState, setState] = useState("student")
 
 	const studentsCollection = collection(db, "students")
+	const staffCollection = collection(db, "staffs")
 	const usersCollection = collection(db, "users")
 
 	const createRole = async (id: string, userRole: string | null) => {
@@ -28,17 +29,30 @@ export default function SignUp() {
 
 
 	const createUser = async (id: string, name: string | null, useremail: string | null) => {
-		await setDoc(doc(studentsCollection, id), {
-			student_name: name === null ? "" : name,
-			student_email: useremail,
-			hostel_floor: "",
-			hostel_room: "",
-			booked: false,
-			created_at: new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-'),
-			userID: id
-		}).catch(error => {
-			toast.error(error.message)
-		})
+		if (isState === "student") {
+			await setDoc(doc(studentsCollection, id), {
+				student_name: name === null ? "" : name,
+				student_email: useremail,
+				hostel_floor: "",
+				hostel_room: "",
+				booked: false,
+				created_at: new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-'),
+				userID: id
+			}).catch(error => {
+				toast.error(error.message)
+			})
+		} else if (isState === "staff") {
+			await setDoc(doc(staffCollection, id), {
+				staff_name: name === null ? "" : name,
+				staff_email: useremail,
+				created_at: new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-'),
+				userID: id
+			}).catch(error => {
+				toast.error(error.message)
+			})
+		} else {
+			console.log()
+		}
 	}
 
 	const signInWithGoogle = async (e: React.FormEvent) => {
@@ -48,6 +62,7 @@ export default function SignUp() {
 				const user = userCredentials.user
 				createUser(user?.uid, user?.displayName, user?.email)
 				createRole(user?.uid, isState)
+				toast.success("sign up successfully")
 				setTimeout(() => {
 					navigate('/login')
 				}, 600)
@@ -63,7 +78,7 @@ export default function SignUp() {
 				const user = userCredentials.user
 				createUser(user?.uid, fullName, user?.email)
 				createRole(user?.uid, isState)
-				toast.success("signedup")
+				toast.success("sign up successfully")
 				setTimeout(() => {
 					navigate('/login')
 				}, 1000)

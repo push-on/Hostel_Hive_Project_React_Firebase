@@ -1,52 +1,62 @@
-import { useState } from "react"
+import { useState, useEffect, useContext } from "react"
+import { db } from "../../config/firebase"
+
+import { getDocs, collection, deleteDoc, doc, updateDoc, getDoc, addDoc } from "firebase/firestore"
 import { toast } from "react-hot-toast"
 import { motion } from "framer-motion"
 
-// import EditStaff from "../EditStaff" // Import the EditStaff component
-// import CreateStaff from "../CreateStaff" // Import the CreateStaff component
+import { AuthContext } from "../../context/AuthContext"
 
-// Dummy staff data
-const dummyStaffData = [
-	{
-		id: "1",
-		staff_name: "John Doe",
-		staff_email: "john.doe@example.com",
-		// Add other staff-specific fields here
-	},
-	{
-		id: "2",
-		staff_name: "Jane Smith",
-		staff_email: "jane.smith@example.com",
-		// Add other staff-specific fields here
-	},
-	{
-		id: "3",
-		staff_name: "Michael Johnson",
-		staff_email: "michael.johnson@example.com",
-		// Add other staff-specific fields here
-	},
-	// Add more staff members here
-]
-
+interface staff {
+	id: string
+}
 export default function Staff() {
-	const [staff, setStaff] = useState(dummyStaffData)
+	const [staff, setStaff] = useState<staff[]>([])
 	const [updateID, setUpdateID] = useState("")
 	const [EditMode, setEditMode] = useState(false)
 	const [CreateMode, setCreateMode] = useState(false)
+	const { currentUser } = useContext(AuthContext)
 
 	console.log(updateID, EditMode, CreateMode)
 
 
-	const editData = (id: string) => {
-		setUpdateID(id)
-		setEditMode(true)
+	const myCollectionRef = collection(db, "staffs")
+
+	const editData = async (id: string) => {
+		if (currentUser) {
+			setUpdateID(id)
+			setEditMode(true)
+		} else {
+			toast.error("you are not logged in")
+		}
 	}
 
-	const deleteData = (id: string) => {
-		const updatedStaff = staff.filter((staffMember) => staffMember.id !== id)
-		setStaff(updatedStaff)
-		toast.success("Deleted Successfully")
+
+	const getData = async () => {
+		try {
+			const data = await getDocs(myCollectionRef)
+			const userData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+			setStaff(userData)
+		} catch (error: any) {
+			toast.error(error.message)
+		}
 	}
+
+	const deleteData = async (id: string) => {
+		try {
+			const docRef = doc(db, "staffs", id)
+			await deleteDoc(docRef).then(() => {
+				getData()
+				toast.success("Deleted Successfully")
+			})
+		} catch (error) {
+			toast.error("you are not logged in")
+		}
+	}
+
+	useEffect(() => {
+		getData()
+	}, [])
 
 
 	return (
@@ -64,7 +74,7 @@ export default function Staff() {
 				<ul>
 					<li>
 						<button onClick={() => setCreateMode(!CreateMode)}>Create</button>
-						{/* {CreateMode ? <CreateStaff /> : ""} */}
+						{CreateMode ? <CreateUser updateData={getData} createMode={setCreateMode} /> : ""}
 					</li>
 				</ul>
 			</nav>
@@ -73,17 +83,15 @@ export default function Staff() {
 					<tr>
 						<th>Staff Name</th>
 						<th>Staff Email</th>
-						{/* Add other staff-specific fields here */}
 						<th>Update</th>
 						<th>Delete</th>
 					</tr>
 				</thead>
 				<tbody>
-					{staff.map((staffMember) => (
+					{staff.map((staffMember: any) => (
 						<tr key={staffMember.id}>
 							<td>{staffMember.staff_name}</td>
 							<td>{staffMember.staff_email}</td>
-							{/* Display other staff-specific fields here */}
 							<td>
 								<button className="btn" onClick={() => editData(staffMember.id)}>
 									Edit
@@ -96,9 +104,116 @@ export default function Staff() {
 							</td>
 						</tr>
 					))}
-					{/* {EditMode ? <EditStaff editData={editData} id={updateID} editMode={setEditMode} /> : ""} */}
+					{EditMode ? <EditUser editData={editData} id={updateID} editMode={setEditMode} updateData={getData} /> : ""}
 				</tbody>
 			</table>
 		</motion.div>
+	)
+}
+
+
+function EditUser({ editMode, id, updateData }: any) {
+	const [fullName, setFullName] = useState('')
+	const [email, setEmail] = useState('')
+
+	useEffect(() => {
+		const getPreviousData = async () => {
+			const docRef = doc(db, "staffs", id)
+			const docSnap = await getDoc(docRef)
+			if (docSnap.exists()) {
+				setFullName(docSnap.data().staff_name)
+				setEmail(docSnap.data().staff_email)
+			}
+		}
+		getPreviousData()
+	}, [])
+
+
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault()
+		try {
+			const docRef = doc(db, "staffs", id)
+			await updateDoc(docRef, {
+				staff_name: fullName,
+				staff_email: email,
+				created_at: new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-'),
+				userID: id
+			}).then(() => {
+				updateData()
+				editMode(false)
+				toast.success("Updated Successfully")
+			})
+		} catch (error: any) {
+			toast.error(error.message)
+		}
+	}
+
+	return (
+		<dialog open >
+			<article >
+				<h2>Edit User</h2>
+				<form >
+					<label>Full Name</label>
+					<input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+
+					<label>Email</label>
+					<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+
+					<footer className="grid">
+						<button className="outline" onClick={handleSubmit}>Submit</button>
+						<button className="outline secondary" onClick={() => editMode(false)}>Close</button>
+					</footer>
+				</form>
+			</article>
+		</dialog>
+	)
+}
+
+
+function CreateUser({ updateData, createMode }: any) {
+	const [fullName, setFullName] = useState('')
+	const [email, setEmail] = useState('')
+	const myCollectionRef = collection(db, "staffs")
+
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault()
+
+		await addDoc(myCollectionRef, {
+			staff_name: fullName,
+			staff_email: email,
+			created_at: new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-'),
+			userID: ""
+		}).then(() => {
+			updateData()
+			createMode(false)
+			toast.success("Added Successfully")
+		}).catch(error => {
+			toast.error(error.message)
+		})
+
+	}
+
+	return (
+		<div>
+			<dialog open >
+				<article>
+					<hgroup>
+						<h2>CREATE ENTRY</h2>
+						<p>Assign Staff to Hostel</p>
+					</hgroup>
+					<form >
+						<label>Full Name</label>
+						<input type="text" onChange={(e) => setFullName(e.target.value)} />
+						<label>Email</label>
+						<input type="email" onChange={(e) => setEmail(e.target.value)} />
+
+						<footer className="grid">
+							<button className="outline" onClick={handleSubmit}>Submit</button>
+							<button className="outline secondary" onClick={() => createMode(false)}>Close</button>
+						</footer>
+					</form>
+				</article>
+			</dialog>
+		</div>
 	)
 }
