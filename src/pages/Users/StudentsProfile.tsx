@@ -1,5 +1,5 @@
 export default function StudentsProfile () {
 	return (
-		<div>StudentsProfile</div>
+		<div><h1>StudentsProfile</h1></div>
 	)
 }

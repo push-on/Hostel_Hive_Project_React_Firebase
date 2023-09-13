@@ -12,7 +12,6 @@ export default function Login({ isState, setState }: { isState: string, setState
 	const [password, setPassword] = useState('')
 	const navigate = useNavigate()
 	const { currentUser } = useContext(AuthContext)
-
 	const { dispatch } = useContext(AuthContext)
 
 	const signInWithGoogle = async (e: React.FormEvent) => {
@@ -21,7 +20,7 @@ export default function Login({ isState, setState }: { isState: string, setState
 			const user = userCredentials.user
 			getDoc(doc(db, "users", user.uid)).then((doc) => {
 				if (isState === doc.data()?.role) {
-					dispatch({ type: 'LOGIN', payload: user })
+					dispatch({ type: 'LOGIN', payload: user, role: doc.data()?.role })
 					toast.success("Role Matched & login successful")
 					setTimeout(() => {
 						navigate('/dashboard')
@@ -44,7 +43,7 @@ export default function Login({ isState, setState }: { isState: string, setState
 			getDoc(doc(db, "users", user.uid)).then((doc) => {
 				if (isState === doc.data()?.role) {
 					toast.success("role Matched ")
-					dispatch({ type: 'LOGIN', payload: user })
+					dispatch({ type: 'LOGIN', payload: user , role: doc.data()?.role })
 					toast.success("login successful")
 					setTimeout(() => {
 						navigate('/dashboard')

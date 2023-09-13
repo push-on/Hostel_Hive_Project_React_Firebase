@@ -17,7 +17,7 @@ export default function Dashboard() {
 			navigate('/', { replace: true })
 			setTimeout(() => {
 				toast.success("logged out")
-				dispatch({ type: 'LOGOUT', payload: null })
+				dispatch({ type: 'LOGOUT', payload: null , role: '' })
 			}, 300)
 		}).catch(error => {
 			toast.error(error.message)

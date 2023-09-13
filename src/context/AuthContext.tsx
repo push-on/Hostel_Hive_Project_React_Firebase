@@ -8,14 +8,17 @@ export interface User {
 
 interface AuthContextValue {
 	currentUser: User | null
+	currentRole: string
 	dispatch: React.Dispatch<AuthAction>
 }
 const INITIAL_STATE: AuthState = {
 	currentUser: JSON.parse(localStorage.getItem('user') as string) || null,
+	currentRole: "student" || "staff" || "admin"
 }
 
 export const AuthContext = createContext<AuthContextValue>({
 	currentUser: null,
+	currentRole: "",
 	dispatch: () => null
 })
 
@@ -28,7 +31,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
 	
 
 	return (
-		<AuthContext.Provider value={{ currentUser: state.currentUser, dispatch }}>
+		<AuthContext.Provider value={{ currentUser: state.currentUser, currentRole: state.currentRole , dispatch }}>
 			{children}
 		</AuthContext.Provider>
 	)

@@ -17,6 +17,7 @@ import Overview from "./pages/Dashbord/Overview"
 import Profile from "./pages/Dashbord/Profile"
 import Settings from "./pages/Settings"
 import ProtectedRoutes from "./context/ProtectedRoutes"
+import StudentsProfile from "./pages/Users/StudentsProfile"
 
 export default function App() {
   const [isState, setState] = useState("student")
@@ -31,6 +32,7 @@ export default function App() {
     <>
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
+          <Route path="student" element={<StudentsProfile />} />
           <Route element={<ProtectedRoutes />}>
             <Route path="dashboard" element={<Dashboard />}>
               <Route index element={<Overview />} />

@@ -6,7 +6,7 @@ export default function ProtectedRoutes() {
 	const { currentUser, currentRole } = useContext(AuthContext)
 
 	return (
-		currentUser !== null && currentRole === "admin"
+		currentUser !== null && currentRole === "student"
 			?
 			<Outlet />
 			:
