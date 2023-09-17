@@ -11,7 +11,7 @@ export default function StudentPayment() {
 	const { currentUser } = useContext(AuthContext)
 	const [User, setUser] = useState<any>()
 
-	useEffect(() => {
+	function getUser() {
 		const uid = currentUser?.uid
 		if (uid) {
 			const documentRef = doc(db, "students", uid)
@@ -25,7 +25,12 @@ export default function StudentPayment() {
 		} else {
 			toast.error("UID Not Found")
 		}
+	}
+
+	useEffect(() => {
+		getUser()
 	}, [])
+
 	return (
 		<motion.div
 			initial={{ x: "100vw", opacity: 0 }}
