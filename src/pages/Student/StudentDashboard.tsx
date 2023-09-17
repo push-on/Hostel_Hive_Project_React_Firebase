@@ -1,11 +1,11 @@
 import { useContext } from "react"
 import toast, { Toaster } from "react-hot-toast"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, Outlet, useNavigate } from "react-router-dom"
 import { AuthContext } from "../../context/AuthContext"
 import { signOut } from "firebase/auth"
 import { auth } from "../../config/firebase"
 
-export default function StudentsProfile() {
+export default function StudentsDashboard() {
 	const navigate = useNavigate()
 	const { dispatch, currentRole, currentUser } = useContext(AuthContext)
 	
@@ -37,8 +37,8 @@ export default function StudentsProfile() {
 						<details className="dropdown">
 							<summary >Profile</summary>
 							<ul>
-								<li><Link to="/dashboard/profile">Profile</Link></li>
-								<li><Link to="/dashboard/settings">settings</Link></li>
+								<li><Link to="/student/profile">Profile</Link></li>
+								<li><Link to="/student/settings">settings</Link></li>
 								<li><button className="outline" onClick={HandleLogout}>Logout</button></li>
 							</ul>
 						</details>
@@ -46,7 +46,8 @@ export default function StudentsProfile() {
 				</ul>
 			</nav>
 			<Toaster />
-			<StudentNav/>
+			<StudentNav />
+			<Outlet/>
 		</div>
 	)
 }
@@ -57,12 +58,9 @@ function StudentNav() {
 			<h1>Students</h1>
 			<nav>
 				<ul>
-					<li><Link to="/dashboard/">Overview</Link></li>
-					<li><Link to="/dashboard/rooms" className='nowrap'>Rooms & Floor</Link></li>
-					<li><Link to="/dashboard/student">Students</Link></li>
-					<li><Link to="/dashboard/staff">Staffs</Link></li>
-					<li><Link to="/dashboard/food">Food</Link></li>
-					<li><Link to="/dashboard/payment">Payment</Link></li>
+					<li><Link to="/student/">Overview</Link></li>
+					<li><Link to="/student/food">Food</Link></li>
+					<li><Link to="/student/payment">Payment</Link></li>
 				</ul>
 			</nav>
 		</article>

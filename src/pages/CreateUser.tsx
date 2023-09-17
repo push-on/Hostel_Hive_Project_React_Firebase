@@ -9,12 +9,10 @@ export default function CreateUser({ updateData, createMode }: any) {
 	const [email, setEmail] = useState('')
 	const [floor, setFloor] = useState('')
 	const [room, setRoom] = useState('')
-
 	const myCollectionRef = collection(db, "students")
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
-
 		await addDoc(myCollectionRef, {
 			student_name: fullName,
 			student_email: email,
