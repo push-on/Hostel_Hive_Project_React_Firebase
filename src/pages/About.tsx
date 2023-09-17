@@ -17,7 +17,7 @@ export default function About() {
 					{
 						currentUser !== null ?
 							(<li><Link to="/dashboard">Dashboard</Link></li>) :
-							(<li><Link to="/login">Signin</Link></li>)
+							(<li><Link to="/login">login</Link></li>)
 					}
 				</ul>
 			</nav>

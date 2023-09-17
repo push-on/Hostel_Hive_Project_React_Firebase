@@ -1,7 +1,5 @@
 import { Routes, Route, useLocation, } from "react-router-dom"
-import { useEffect, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
-import { userType } from "./context/UserType"
 import Login from "./pages/Login"
 import Dashboard from "./pages/Dashboard"
 import RootPage from "./pages/RootPage"
@@ -20,12 +18,7 @@ import ProtectedRoutes from "./context/ProtectedRoutes"
 import StudentsProfile from "./pages/Users/StudentsProfile"
 
 export default function App() {
-  const [isState, setState] = useState("student")
   const location = useLocation()
-
-  useEffect(() => {
-    userType(isState)
-  }, [isState])
 
 
   return (
@@ -56,7 +49,7 @@ export default function App() {
             </motion.div>
           } />
           <Route path="/login" element={
-            <Login isState={isState} setState={setState} />
+            <Login />
           } />
           <Route path="/signup" element={
             <SignUp />

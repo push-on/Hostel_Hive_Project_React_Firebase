@@ -6,11 +6,11 @@ import img_two from "../assets/Hostel_Imgs/2.webp"
 import img_three from "../assets/Hostel_Imgs/3.webp"
 import { useContext } from "react"
 import { AuthContext } from "../context/AuthContext"
+import { Toaster } from "react-hot-toast"
 
 
 export default function RootPage() {
-  const { currentUser } = useContext(AuthContext)
-	
+	const { currentUser, currentRole } = useContext(AuthContext)
 
 	return (
 		<div className="container">
@@ -20,15 +20,25 @@ export default function RootPage() {
 				</ul>
 				<ul>
 					<li><Link to="/about">About</Link></li>
-					{currentUser === null ?
-						(<li><Link to="/login">Login / SignUp</Link></li>)
-						:
+					{currentUser !== null && currentRole === "admin"
+						?
 						(<li><Link to="/dashboard">Dashboard</Link></li>)
+						:
+						currentUser !== null && currentRole === "student"
+							?
+							(<li><Link to="/student">Student</Link></li>)
+							:
+							currentUser !== null && currentRole === "staff"
+								?
+								(<li><Link to="/staff">Staff</Link></li>)
+								:
+								(<li><Link to="/login">Login</Link></li>)
 					}
 				</ul>
 			</nav>
 
 			<header>
+				<Toaster />
 				<hgroup>
 					<h2>STUDENT HOSTEL</h2>
 					<p>Well decorated hostel with modern facilities</p>

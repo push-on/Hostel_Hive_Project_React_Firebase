@@ -8,7 +8,7 @@ import { AuthContext } from '../context/AuthContext'
 
 export default function Dashboard() {
 	const navigate = useNavigate()
-	const { dispatch } = useContext(AuthContext)
+	const { dispatch, currentRole, currentUser } = useContext(AuthContext)
 
 	// Logout
 	const HandleLogout = async (e: React.FormEvent) => {
@@ -22,9 +22,7 @@ export default function Dashboard() {
 		}).catch(error => {
 			toast.error(error.message)
 		})
-
 	}
-	const { currentUser } = useContext(AuthContext)
 
 	return (
 
@@ -33,7 +31,7 @@ export default function Dashboard() {
 				<ul>
 					<li><strong>User:</strong></li>
 					<li><strong>{currentUser?.email}</strong></li>
-					<li><strong className='nowrap'>Role: Admin</strong></li>
+					<li><strong className='nowrap'>Role: {currentRole}</strong></li>
 				</ul>
 				<ul>
 					<li><Link to="/">Home</Link></li>

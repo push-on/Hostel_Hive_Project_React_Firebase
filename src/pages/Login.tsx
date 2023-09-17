@@ -1,29 +1,28 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { auth, db, googleProvider } from "../config/firebase"
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 import { Link, useNavigate } from 'react-router-dom'
-import { Toaster, toast } from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
 import { AuthContext } from '../context/AuthContext'
 import { motion } from 'framer-motion'
 import { doc, getDoc } from 'firebase/firestore'
 
-export default function Login({ isState, setState }: { isState: string, setState: Function }) {
+export default function Login() {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const navigate = useNavigate()
-	const { currentUser } = useContext(AuthContext)
-	const { dispatch } = useContext(AuthContext)
+	const { currentUser, dispatch, currentRole } = useContext(AuthContext)
 
 	const signInWithGoogle = async (e: React.FormEvent) => {
 		e.preventDefault()
 		await signInWithPopup(auth, googleProvider).then((userCredentials) => {
 			const user = userCredentials.user
 			getDoc(doc(db, "users", user.uid)).then((doc) => {
-				if (isState === doc.data()?.role) {
+				if (currentRole === doc.data()?.role) {
 					dispatch({ type: 'LOGIN', payload: user, role: doc.data()?.role })
-					toast.success("Role Matched & login successful")
 					setTimeout(() => {
 						navigate('/dashboard')
+						toast.success("Role Matched & login successful")
 					}, 600)
 				} else {
 					toast.error("Role didn't Match")
@@ -41,12 +40,12 @@ export default function Login({ isState, setState }: { isState: string, setState
 		await signInWithEmailAndPassword(auth, email, password).then((userCredentials) => {
 			const user = userCredentials.user
 			getDoc(doc(db, "users", user.uid)).then((doc) => {
-				if (isState === doc.data()?.role) {
-					toast.success("role Matched ")
-					dispatch({ type: 'LOGIN', payload: user , role: doc.data()?.role })
-					toast.success("login successful")
+
+				if (currentRole === doc.data()?.role) {
+					dispatch({ type: 'LOGIN', payload: user, role: doc.data()?.role })
 					setTimeout(() => {
 						navigate('/dashboard')
+						toast.success("Role Matched & login successful")
 					}, 600)
 				} else {
 					toast.error("role not matched")
@@ -62,7 +61,6 @@ export default function Login({ isState, setState }: { isState: string, setState
 	return (
 		<div className='container'>
 			<dialog open>
-				<Toaster />
 				<motion.article
 					initial={{ opacity: 0, y: '-100%' }}
 					animate={{ opacity: 1, y: '0%' }}
@@ -78,7 +76,7 @@ export default function Login({ isState, setState }: { isState: string, setState
 						<h2>Login</h2>
 						<p>Login to your account </p>
 					</hgroup>
-					<UserSlector isState={isState} setState={setState} />
+					<UserSlector />
 					<form onSubmit={handleSubmit}>
 						<label htmlFor="email" >Email:</label>
 						<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder='example@email.com' />
@@ -98,22 +96,35 @@ export default function Login({ isState, setState }: { isState: string, setState
 	)
 }
 
-function UserSlector({ isState, setState }: { isState: string, setState: Function }) {
+function UserSlector() {
+	const { dispatch } = useContext(AuthContext)
+	const [Role, setRole] = useState<"" | "student" | "staff" | "admin">("student")
+	useEffect(() => { dispatch({ type: 'LOGIN', payload: null, role: "student" }) }, [])
+
 	return (
 		<div role="group" style={{ width: '100%' }}>
 			<button
-				className={`outline ${isState === "student" ? "" : "secondary"}`}
-				onClick={() => { setState("student") }}
+				className={`outline ${Role === "student" ? "" : "secondary"}`}
+				onClick={() => {
+					setRole("student")
+					dispatch({ type: 'LOGIN', payload: null, role: "student" })
+				}}
 			>
 				Student
 			</button>
-			<button className={`outline ${isState === "staff" ? "" : "secondary"}`}
-				onClick={() => { setState("staff") }}
+			<button className={`outline ${Role === "staff" ? "" : "secondary"}`}
+				onClick={() => {
+					setRole("staff")
+					dispatch({ type: 'LOGIN', payload: null, role: "staff" })
+				}}
 			>
 				Staff
 			</button>
-			<button className={`outline ${isState === "admin" ? "" : "secondary"}`}
-				onClick={() => { setState("admin") }}
+			<button className={`outline ${Role === "admin" ? "" : "secondary"}`}
+				onClick={() => {
+					setRole("admin")
+					dispatch({ type: 'LOGIN', payload: null, role: "admin" })
+				}}
 			>
 				Admin
 			</button>
