@@ -6,8 +6,6 @@ import { useContext, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 
 export default function StudentPayment() {
-
-
 	const { currentUser } = useContext(AuthContext)
 	const [User, setUser] = useState<any>()
 
