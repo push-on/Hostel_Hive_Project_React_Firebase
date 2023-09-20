@@ -2,10 +2,12 @@ import { useContext, useEffect, useState } from 'react'
 import { auth, db, googleProvider } from "../config/firebase"
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'react-hot-toast'
+import { Toaster, toast } from 'react-hot-toast'
 import { AuthContext } from '../context/AuthContext'
 import { motion } from 'framer-motion'
 import { doc, getDoc } from 'firebase/firestore'
+import { FcGoogle } from 'react-icons/fc';
+import { MdEmail } from 'react-icons/md';
 
 export default function Login() {
 	const [email, setEmail] = useState('')
@@ -20,10 +22,8 @@ export default function Login() {
 			getDoc(doc(db, "users", user.uid)).then((doc) => {
 				if (currentRole === doc.data()?.role) {
 					dispatch({ type: 'LOGIN', payload: user, role: doc.data()?.role })
-					setTimeout(() => {
-						navigate('/dashboard')
-						toast.success("Role Matched & login successful")
-					}, 600)
+					navigate('/dashboard')
+					toast.success("Role Matched & login successful")
 				} else {
 					toast.error("Role didn't Match")
 				}
@@ -43,10 +43,8 @@ export default function Login() {
 
 				if (currentRole === doc.data()?.role) {
 					dispatch({ type: 'LOGIN', payload: user, role: doc.data()?.role })
-					setTimeout(() => {
-						navigate('/dashboard')
-						toast.success("Role Matched & login successful")
-					}, 600)
+					navigate('/dashboard')
+					toast.success("Role Matched & login successful")
 				} else {
 					toast.error("role not matched")
 				}
@@ -60,6 +58,7 @@ export default function Login() {
 
 	return (
 		<div className='container'>
+			<Toaster />
 			<dialog open>
 				<motion.article
 					initial={{ opacity: 0, y: '-100%' }}
@@ -83,8 +82,8 @@ export default function Login() {
 						<label htmlFor="password">Password:</label>
 						<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder='********' />
 						<div role='group' className='' style={{ width: '100%' }}>
-							<button className='outline' type='submit' >Login with Email</button>
-							<button className='outline' onClick={signInWithGoogle}>Login with Google</button>
+							<button className='secondary' onClick={signInWithGoogle}><FcGoogle /> Google</button>
+							<button type='submit' ><MdEmail /> Email</button>
 						</div>
 					</form>
 					<footer>

@@ -33,8 +33,7 @@ export default function Students() {
 			toast.error("you are not logged in")
 		}
 	}
-
-
+	
 	const getData = async () => {
 		try {
 			const data = await getDocs(myCollectionRef)

@@ -5,19 +5,31 @@ import toast from "react-hot-toast"
 
 export default function Food() {
 	const [FoodItem, setFoodItem] = useState<any>()
+	const [FoodSubs, setFoodSubs] = useState<any>()
 	const food_items = collection(db, "food_items")
+	const food_subscriptions = collection(db, "food_subscriptions")
 
-	useEffect(() => {
-		const getData = async () => {
-			try {
-				const data = await getDocs(food_items)
-				const foodData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-				setFoodItem(foodData)
-			} catch (error: any) {
-				toast.error(error.message)
-			}
+	const get_food_items = async () => {
+		try {
+			const data = await getDocs(food_items)
+			const foodData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+			setFoodItem(foodData)
+		} catch (error: any) {
+			toast.error(error.message)
 		}
-		getData()
+	}
+	const get_food_subscriptions = async () => {
+		try {
+			const data = await getDocs(food_subscriptions)
+			const foodData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+			setFoodSubs(foodData)
+		} catch (error: any) {
+			toast.error(error.message)
+		}
+	}
+	useEffect(() => {
+		get_food_subscriptions()
+		get_food_items()
 	}, [])
 
 	return (
@@ -73,7 +85,7 @@ export default function Food() {
 					</tr>
 				</thead>
 				<tbody>
-					{foodSubscriptions.map((subscription) => (
+					{FoodSubs.map((subscription: any) => (
 						<tr key={subscription.id}>
 							<td>{subscription.student_id}</td>
 							<td>{/* Display food item name here */}</td>
@@ -98,54 +110,3 @@ export default function Food() {
 		</div>
 	)
 }
-
-const foodSubscriptions = [
-	{
-		id: "1",
-		student_id: "1",
-		food_item_id: "1",
-		subscription_start_date: "2023-08-01",
-		subscription_end_date: "2023-08-31",
-		status: "active",
-	},
-	{
-		id: "2",
-		student_id: "2",
-		food_item_id: "2",
-		subscription_start_date: "2023-08-01",
-		subscription_end_date: "2023-08-31",
-		status: "active",
-	},
-	{
-		id: "3",
-		student_id: "3",
-		food_item_id: "3",
-		subscription_start_date: "2023-09-01",
-		subscription_end_date: "2023-09-30",
-		status: "active",
-	},
-	{
-		id: "4",
-		student_id: "4",
-		food_item_id: "1",
-		subscription_start_date: "2023-09-01",
-		subscription_end_date: "2023-09-30",
-		status: "active",
-	},
-	{
-		id: "5",
-		student_id: "5",
-		food_item_id: "3",
-		subscription_start_date: "2023-08-15",
-		subscription_end_date: "2023-09-15",
-		status: "active",
-	},
-	{
-		id: "6",
-		student_id: "6",
-		food_item_id: "2",
-		subscription_start_date: "2023-08-15",
-		subscription_end_date: "2023-09-15",
-		status: "active",
-	},
-]

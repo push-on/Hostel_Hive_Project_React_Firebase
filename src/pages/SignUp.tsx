@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { auth, db, googleProvider } from "../config/firebase"
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 import { Link, useNavigate } from 'react-router-dom'
 import { Toaster, toast } from 'react-hot-toast'
 import { collection, doc, setDoc } from 'firebase/firestore'
 import { motion } from 'framer-motion'
-
+import { AuthContext } from '../context/AuthContext'
+import { FcGoogle } from 'react-icons/fc'
+import { MdEmail } from 'react-icons/md'
 
 export default function SignUp() {
 	const [email, setEmail] = useState('')
@@ -13,6 +15,7 @@ export default function SignUp() {
 	const [password, setPassword] = useState('')
 	const navigate = useNavigate()
 	const [isState, setState] = useState("student")
+	const { currentRole } = useContext(AuthContext)
 
 	const studentsCollection = collection(db, "students")
 	const staffCollection = collection(db, "staffs")
@@ -27,9 +30,8 @@ export default function SignUp() {
 		})
 	}
 
-
 	const createUser = async (id: string, name: string | null, useremail: string | null) => {
-		if (isState === "student") {
+		if (currentRole === "student") {
 			await setDoc(doc(studentsCollection, id), {
 				student_name: name === null ? "" : name,
 				student_email: useremail,
@@ -41,7 +43,7 @@ export default function SignUp() {
 			}).catch(error => {
 				toast.error(error.message)
 			})
-		} else if (isState === "staff") {
+		} else if (currentRole === "staff") {
 			await setDoc(doc(staffCollection, id), {
 				staff_name: name === null ? "" : name,
 				staff_email: useremail,
@@ -89,8 +91,8 @@ export default function SignUp() {
 
 	return (
 		<div className='container'>
+			<Toaster />
 			<dialog open >
-				<Toaster />
 				<motion.article
 					initial={{ opacity: 0, y: '-100%' }}
 					animate={{ opacity: 1, y: '0%' }}
@@ -111,8 +113,8 @@ export default function SignUp() {
 						<label htmlFor="password">Password:</label>
 						<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder='********' />
 						<div role='group' className='' style={{ width: '100%' }}>
-							<button type='submit' className='outline'>Sign-up with Email</button>
-							<button onClick={signInWithGoogle} className='outline'>Sign-up with Google</button>
+							<button className='secondary' onClick={signInWithGoogle}><FcGoogle /> Google</button>
+							<button type='submit' ><MdEmail /> Email</button>
 						</div>
 					</form>
 					<footer>

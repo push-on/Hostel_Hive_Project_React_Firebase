@@ -5,10 +5,10 @@ import { AuthContext } from "../../context/AuthContext"
 import { signOut } from "firebase/auth"
 import { auth } from "../../config/firebase"
 
-export default function StudentsDashboard() {
+export default function StaffDashboard() {
 	const navigate = useNavigate()
 	const { dispatch, currentRole, currentUser } = useContext(AuthContext)
-	
+
 	// Logout
 	const HandleLogout = async (e: React.FormEvent) => {
 		e.preventDefault()
@@ -22,13 +22,11 @@ export default function StudentsDashboard() {
 			toast.error(error.message)
 		})
 	}
-
 	useEffect(() => {
 		if (currentUser === null) {
 			navigate('/', { replace: true })
 		}
 	}, [])
-	
 	return (
 		<div className="container">
 			<nav>
@@ -43,8 +41,6 @@ export default function StudentsDashboard() {
 						<details className="dropdown">
 							<summary >Profile</summary>
 							<ul>
-								<li><Link to="/student/profile">Profile</Link></li>
-								<li><Link to="/student/settings">settings</Link></li>
 								<li><button className="outline" onClick={HandleLogout}>Logout</button></li>
 							</ul>
 						</details>
@@ -52,22 +48,19 @@ export default function StudentsDashboard() {
 				</ul>
 			</nav>
 			<Toaster />
-			<StudentNav />
-			<Outlet/>
+			<Staff />
+			<Outlet />
 		</div>
 	)
 }
 
-function StudentNav() {
+function Staff() {
 	return (
 		<article>
-			<h1>Students</h1>
+			<h1>Staffs</h1>
 			<nav>
 				<ul>
-					<li><Link to="/student/">Overview</Link></li>
-					<li><Link to="/student/food">Food</Link></li>
-					<li><Link to="/student/payment">Payment</Link></li>
-					<li><Link to="/student/room">Room & Floor</Link></li>
+					<li><Link to="/staff/">Overview</Link></li>
 				</ul>
 			</nav>
 		</article>

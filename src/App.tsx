@@ -19,10 +19,12 @@ import StudentsDashboard from "./pages/Student/StudentDashboard"
 import StudentOverview from "./pages/Student/StudentOverview"
 import StudentsFood from "./pages/Student/StudentsFood"
 import StudentPayment from "./pages/Student/StudentPayment"
+import StaffDashboard from "./pages/Staff/StaffDashboard"
+import StaffOverview from "./pages/Staff/StaffOverview"
+import StudentFloor from "./pages/Student/StudentFloor"
 
 export default function App() {
   const location = useLocation()
-
 
   return (
     <>
@@ -32,55 +34,59 @@ export default function App() {
             <Route index element={<StudentOverview />} />
             <Route path="food" element={<StudentsFood />} />
             <Route path="payment" element={<StudentPayment />} />
+            <Route path="room" element={<StudentFloor />} />
           </Route>
-            <Route element={<ProtectedRoutes />}>
-              <Route path="dashboard" element={<Dashboard />}>
-                <Route index element={<Overview />} />
-                <Route path="student" element={<Students />} />
-                <Route path="staff" element={<Staff />} />
-                <Route path="food" element={<Food />} />
-                <Route path="payment" element={<Payments />} />
-                <Route path="rooms" element={<Rooms />} />
-                <Route path="profile" element={<Profile />} />
-                <Route path="settings" element={<Settings />} />
-              </Route>
+          <Route path="staff" element={<StaffDashboard />} >
+            <Route index element={<StaffOverview />} />
+          </Route>
+          <Route element={<ProtectedRoutes />}>
+            <Route path="dashboard" element={<Dashboard />}>
+              <Route index element={<Overview />} />
+              <Route path="student" element={<Students />} />
+              <Route path="staff" element={<Staff />} />
+              <Route path="food" element={<Food />} />
+              <Route path="payment" element={<Payments />} />
+              <Route path="rooms" element={<Rooms />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="settings" element={<Settings />} />
             </Route>
-            <Route path="/" element={
-              <motion.div
-                initial={{ x: '100vw', opacity: 0 }}
-                animate={{ x: '0vw', opacity: 1 }}
-                exit={{ x: '-100vw', opacity: 0 }}
-                transition={{ ease: 'easeInOut', duration: 0.2 }}
-              >
-                <RootPage />
-              </motion.div>
-            } />
-            <Route path="/login" element={
-              <Login />
-            } />
-            <Route path="/signup" element={
-              <SignUp />
-            } />
-            <Route path="/about" element={
-              <motion.div
-                initial={{ x: '100vw', opacity: 0 }}
-                animate={{ x: '0vw', opacity: 1 }}
-                exit={{ x: '-100vw', opacity: 0 }}
-                transition={{ ease: 'easeInOut', duration: 0.2 }}
-              >
-                <About />
-              </motion.div>
-            } />
-            <Route path="*" element={
-              <motion.div
-                initial={{ x: '100vw', opacity: 0 }}
-                animate={{ x: '0vw', opacity: 1 }}
-                exit={{ x: '-100vw', opacity: 0 }}
-                transition={{ ease: 'easeInOut', duration: 0.2 }}
-              >
-                <NotFound />
-              </motion.div>
-            } />
+          </Route>
+          <Route path="/" element={
+            <motion.div
+              initial={{ x: '100vw', opacity: 0 }}
+              animate={{ x: '0vw', opacity: 1 }}
+              exit={{ x: '-100vw', opacity: 0 }}
+              transition={{ ease: 'easeInOut', duration: 0.2 }}
+            >
+              <RootPage />
+            </motion.div>
+          } />
+          <Route path="/login" element={
+            <Login />
+          } />
+          <Route path="/signup" element={
+            <SignUp />
+          } />
+          <Route path="/about" element={
+            <motion.div
+              initial={{ x: '100vw', opacity: 0 }}
+              animate={{ x: '0vw', opacity: 1 }}
+              exit={{ x: '-100vw', opacity: 0 }}
+              transition={{ ease: 'easeInOut', duration: 0.2 }}
+            >
+              <About />
+            </motion.div>
+          } />
+          <Route path="*" element={
+            <motion.div
+              initial={{ x: '100vw', opacity: 0 }}
+              animate={{ x: '0vw', opacity: 1 }}
+              exit={{ x: '-100vw', opacity: 0 }}
+              transition={{ ease: 'easeInOut', duration: 0.2 }}
+            >
+              <NotFound />
+            </motion.div>
+          } />
         </Routes>
       </AnimatePresence>
     </>

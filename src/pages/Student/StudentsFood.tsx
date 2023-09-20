@@ -22,7 +22,7 @@ export default function StudentsFood() {
 			.then((docSnapshot) => {
 				const data = docSnapshot.data()
 				if (data) {
-					data.id = docSnapshot.id // Add the ID to the data object
+					data.id = docSnapshot.id 
 					setcurrentOrderData(data)
 					saveData(data)
 				} else {
@@ -90,7 +90,7 @@ export default function StudentsFood() {
 		const docRef = doc(db, "food_subscriptions", currentOrderData?.id)
 		await deleteDoc(docRef).then(() => {
 			toast.success("Order canceled successfully.")
-			// Clear current order data from local storage
+			
 			localStorage.removeItem("currentOrderData")
 			setcurrentOrderData(null)
 		})
