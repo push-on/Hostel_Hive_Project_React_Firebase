@@ -11,9 +11,10 @@ interface AuthContextValue {
 	currentRole: string
 	dispatch: React.Dispatch<AuthAction>
 }
+
 const INITIAL_STATE: AuthState = {
 	currentUser: JSON.parse(localStorage.getItem('user') as string) || null,
-	currentRole: "student" || "staff" || "admin"
+	currentRole: ""
 }
 
 export const AuthContext = createContext<AuthContextValue>({

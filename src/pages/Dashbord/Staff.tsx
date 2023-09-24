@@ -31,7 +31,6 @@ export default function Staff() {
 		}
 	}
 
-
 	const getData = async () => {
 		try {
 			const data = await getDocs(myCollectionRef)
@@ -116,15 +115,15 @@ function EditUser({ editMode, id, updateData }: any) {
 	const [fullName, setFullName] = useState('')
 	const [email, setEmail] = useState('')
 
-	useEffect(() => {
-		const getPreviousData = async () => {
-			const docRef = doc(db, "staffs", id)
-			const docSnap = await getDoc(docRef)
-			if (docSnap.exists()) {
-				setFullName(docSnap.data().staff_name)
-				setEmail(docSnap.data().staff_email)
-			}
+	const getPreviousData = async () => {
+		const docRef = doc(db, "staffs", id)
+		const docSnap = await getDoc(docRef)
+		if (docSnap.exists()) {
+			setFullName(docSnap.data().staff_name)
+			setEmail(docSnap.data().staff_email)
 		}
+	}
+	useEffect(() => {
 		getPreviousData()
 	}, [])
 

@@ -15,6 +15,7 @@ import Overview from "./pages/Dashbord/Overview"
 import Profile from "./pages/Dashbord/Profile"
 import Settings from "./pages/Settings"
 import ProtectedRoutes from "./context/ProtectedRoutes"
+import ProtectedProfiles from "./context/ProtectedProfiles"
 import StudentsDashboard from "./pages/Student/StudentDashboard"
 import StudentOverview from "./pages/Student/StudentOverview"
 import StudentsFood from "./pages/Student/StudentsFood"
@@ -30,11 +31,13 @@ export default function App() {
     <>
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
-          <Route path="student" element={<StudentsDashboard />} >
-            <Route index element={<StudentOverview />} />
-            <Route path="food" element={<StudentsFood />} />
-            <Route path="payment" element={<StudentPayment />} />
-            <Route path="room" element={<StudentFloor />} />
+          <Route element={<ProtectedProfiles />}>
+            <Route path="student" element={<StudentsDashboard />} >
+              <Route index element={<StudentOverview />} />
+              <Route path="food" element={<StudentsFood />} />
+              <Route path="payment" element={<StudentPayment />} />
+              <Route path="room" element={<StudentFloor />} />
+            </Route>
           </Route>
           <Route path="staff" element={<StaffDashboard />} >
             <Route index element={<StaffOverview />} />
