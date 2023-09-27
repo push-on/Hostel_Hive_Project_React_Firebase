@@ -4,7 +4,7 @@ import { useContext } from "react"
 import { AuthContext } from "../context/AuthContext"
 
 export default function About() {
-	const { currentUser } = useContext(AuthContext)
+	const { currentUser , currentRole } = useContext(AuthContext)
 
 	return (
 		<div className="container">
@@ -14,10 +14,19 @@ export default function About() {
 				</ul>
 				<ul>
 					<li><Link to="/">Home</Link></li>
-					{
-						currentUser !== null ?
-							(<li><Link to="/dashboard">Dashboard</Link></li>) :
-							(<li><Link to="/login">login</Link></li>)
+					{currentUser !== null && currentRole === "admin"
+						?
+						(<li><Link to="/dashboard">Dashboard</Link></li>)
+						:
+						currentUser !== null && currentRole === "student"
+							?
+							(<li><Link to="/student">Student</Link></li>)
+							:
+							currentUser !== null && currentRole === "staff"
+								?
+								(<li><Link to="/staff">Staff</Link></li>)
+								:
+								(<li><Link to="/login">Login</Link></li>)
 					}
 				</ul>
 			</nav>

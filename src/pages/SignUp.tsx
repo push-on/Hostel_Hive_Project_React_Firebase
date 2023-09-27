@@ -1,11 +1,10 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { auth, db, googleProvider } from "../config/firebase"
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 import { Link, useNavigate } from 'react-router-dom'
 import { Toaster, toast } from 'react-hot-toast'
 import { collection, doc, setDoc } from 'firebase/firestore'
 import { motion } from 'framer-motion'
-import { AuthContext } from '../context/AuthContext'
 import { FcGoogle } from 'react-icons/fc'
 import { MdEmail } from 'react-icons/md'
 
@@ -15,8 +14,6 @@ export default function SignUp() {
 	const [password, setPassword] = useState('')
 	const navigate = useNavigate()
 	const [isState, setState] = useState("student")
-	const { currentRole } = useContext(AuthContext)
-
 	const studentsCollection = collection(db, "students")
 	const staffCollection = collection(db, "staffs")
 	const usersCollection = collection(db, "users")
@@ -31,7 +28,7 @@ export default function SignUp() {
 	}
 
 	const createUser = async (id: string, name: string | null, useremail: string | null) => {
-		if (currentRole === "student") {
+		if (isState === "student") {
 			await setDoc(doc(studentsCollection, id), {
 				student_name: name === null ? "" : name,
 				student_email: useremail,
@@ -43,7 +40,7 @@ export default function SignUp() {
 			}).catch(error => {
 				toast.error(error.message)
 			})
-		} else if (currentRole === "staff") {
+		} else if (isState === "staff") {
 			await setDoc(doc(staffCollection, id), {
 				staff_name: name === null ? "" : name,
 				staff_email: useremail,
@@ -97,7 +94,7 @@ export default function SignUp() {
 					initial={{ opacity: 0, y: '-100%' }}
 					animate={{ opacity: 1, y: '0%' }}
 					exit={{ opacity: 0, y: '-100%' }}
-					transition={{ ease: 'easeInOut', duration: 0.5 }}
+					transition={{ ease: 'easeInOut', duration: 0.2 }}
 				>
 					<Link className='close' to='/'></Link>
 					<hgroup>

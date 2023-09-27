@@ -4,6 +4,7 @@ import { db } from "../../config/firebase"
 import { AuthContext } from "../../context/AuthContext"
 import { useContext, useEffect, useState } from "react"
 import toast from "react-hot-toast"
+import { useNavigate } from "react-router-dom"
 
 
 export default function StudentSettings() {
@@ -17,6 +18,7 @@ export default function StudentSettings() {
 	const [emergency_number, setEmergency_number] = useState("")
 	const [religion, setReligion] = useState("")
 	const [Nationality, setNationality] = useState("")
+	const navigate = useNavigate()
 
 	const getData = async () => {
 		const uid = currentUser?.uid as string
@@ -59,6 +61,7 @@ export default function StudentSettings() {
 			}).then(() => {
 				getData()
 				toast.success("Updated Successfully")
+				navigate("/student", { replace: true })
 			}).catch((error) => {
 				toast.error(error.message)
 			})

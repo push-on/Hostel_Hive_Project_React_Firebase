@@ -10,17 +10,18 @@ export default function StaffDashboard() {
 	const { dispatch, currentRole, currentUser } = useContext(AuthContext)
 
 	// Logout
-	const HandleLogout = async (e: React.FormEvent) => {
+	const HandleLogout = (e: React.FormEvent) => {
 		e.preventDefault()
-		await signOut(auth).then(() => {
-			navigate('/', { replace: true })
-			setTimeout(() => {
-				toast.success("logged out")
-				dispatch({ type: 'LOGOUT', payload: null, role: '' })
-			}, 300)
-		}).catch(error => {
-			toast.error(error.message)
-		})
+		toast.promise(
+			signOut(auth).then(() => {
+				navigate('/', { replace: true })
+				dispatch({ type: 'LOGOUT', payload: null, role: null })
+			}), {
+			loading: 'Logout...',
+			success: <b>Logged out!</b>,
+			error: <b>Failed to logout!</b>,
+		}
+		)
 	}
 	useEffect(() => {
 		if (currentUser === null) {

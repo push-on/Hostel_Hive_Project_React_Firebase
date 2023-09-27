@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { auth, db, googleProvider } from "../config/firebase"
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 import { Link, useNavigate } from 'react-router-dom'
@@ -6,53 +6,65 @@ import { Toaster, toast } from 'react-hot-toast'
 import { AuthContext } from '../context/AuthContext'
 import { motion } from 'framer-motion'
 import { doc, getDoc } from 'firebase/firestore'
-import { FcGoogle } from 'react-icons/fc';
-import { MdEmail } from 'react-icons/md';
+import { FcGoogle } from 'react-icons/fc'
+import { MdEmail } from 'react-icons/md'
 
 export default function Login() {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const navigate = useNavigate()
-	const { currentUser, dispatch, currentRole } = useContext(AuthContext)
+	const { currentUser, dispatch } = useContext(AuthContext)
 
-	const signInWithGoogle = async (e: React.FormEvent) => {
-		e.preventDefault()
-		await signInWithPopup(auth, googleProvider).then((userCredentials) => {
-			const user = userCredentials.user
-			getDoc(doc(db, "users", user.uid)).then((doc) => {
-				if (currentRole === doc.data()?.role) {
-					dispatch({ type: 'LOGIN', payload: user, role: doc.data()?.role })
-					navigate('/dashboard')
-					toast.success("Role Matched & login successful")
-				} else {
-					toast.error("Role didn't Match")
-				}
-			}).catch((error: any) => {
-				toast.error(error.message)
-			})
-		}).catch((error: any) => {
-			toast.error(error.message)
-		})
+	function navigateTo(role: string) {
+		switch (role) {
+			case "admin":
+				navigate('/dashboard')
+				break
+			case "staff":
+				navigate('/staff')
+				break
+			case "student":
+				navigate('/student')
+				break
+			default:
+				navigate('/')
+				break
+		}
+
 	}
 
-	const handleSubmit = async (e: React.FormEvent) => {
+	const signInWithGoogle = (e: React.FormEvent) => {
 		e.preventDefault()
-		await signInWithEmailAndPassword(auth, email, password).then((userCredentials) => {
-			const user = userCredentials.user
-			getDoc(doc(db, "users", user.uid)).then((doc) => {
-
-				if (currentRole === doc.data()?.role) {
+		toast.promise(
+			signInWithPopup(auth, googleProvider).then((userCredentials) => {
+				const user = userCredentials.user
+				getDoc(doc(db, "users", user.uid)).then((doc) => {
 					dispatch({ type: 'LOGIN', payload: user, role: doc.data()?.role })
-					navigate('/dashboard')
-					toast.success("Role Matched & login successful")
-				} else {
-					toast.error("role not matched")
-				}
-			}).catch((error: any) => {
-				toast.error(error.message)
-			})
-		}).catch(() => {
-			toast.error("Invalid email or password")
+					navigateTo(doc.data()?.role)
+				})
+			}), {
+			loading: 'Login...',
+			success: <b>Login successful!</b>,
+			error: <b>Login failed.</b>,
+		}
+		)
+	}
+
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault()
+		toast.promise(
+			signInWithEmailAndPassword(auth, email, password).then((userCredentials) => {
+				const user = userCredentials.user
+				getDoc(doc(db, "users", user.uid)).then((doc) => {
+					dispatch({ type: 'LOGIN', payload: user, role: doc.data()?.role })
+					navigateTo(doc.data()?.role)
+				}).catch((error: any) => {
+					toast.error(error.message)
+				})
+			}), {
+				loading: 'Login...',
+			success: <b>Login successful!</b>,
+			error: <b>Login failed.</b>,
 		})
 	}
 
@@ -64,7 +76,7 @@ export default function Login() {
 					initial={{ opacity: 0, y: '-100%' }}
 					animate={{ opacity: 1, y: '0%' }}
 					exit={{ opacity: 0, y: '-100%' }}
-					transition={{ ease: 'easeInOut', duration: 0.5 }}
+					transition={{ ease: 'easeInOut', duration: 0.2 }}
 				>
 					{currentUser !== null ? (
 						<Link className='close' to='/dashboard'></Link>
@@ -75,7 +87,7 @@ export default function Login() {
 						<h2>Login</h2>
 						<p>Login to your account </p>
 					</hgroup>
-					<UserSlector />
+					{/* <UserSlector /> */}
 					<form onSubmit={handleSubmit}>
 						<label htmlFor="email" >Email:</label>
 						<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder='example@email.com' />
@@ -91,42 +103,6 @@ export default function Login() {
 					</footer>
 				</motion.article>
 			</dialog>
-		</div>
-	)
-}
-
-function UserSlector() {
-	const { dispatch } = useContext(AuthContext)
-	const [Role, setRole] = useState<"" | "student" | "staff" | "admin">("student")
-	useEffect(() => { dispatch({ type: 'LOGIN', payload: null, role: "student" }) }, [])
-
-	return (
-		<div role="group" style={{ width: '100%' }}>
-			<button
-				className={`outline ${Role === "student" ? "" : "secondary"}`}
-				onClick={() => {
-					setRole("student")
-					dispatch({ type: 'LOGIN', payload: null, role: "student" })
-				}}
-			>
-				Student
-			</button>
-			<button className={`outline ${Role === "staff" ? "" : "secondary"}`}
-				onClick={() => {
-					setRole("staff")
-					dispatch({ type: 'LOGIN', payload: null, role: "staff" })
-				}}
-			>
-				Staff
-			</button>
-			<button className={`outline ${Role === "admin" ? "" : "secondary"}`}
-				onClick={() => {
-					setRole("admin")
-					dispatch({ type: 'LOGIN', payload: null, role: "admin" })
-				}}
-			>
-				Admin
-			</button>
 		</div>
 	)
 }

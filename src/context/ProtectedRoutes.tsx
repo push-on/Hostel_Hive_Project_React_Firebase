@@ -4,20 +4,13 @@ import { Navigate, Outlet } from "react-router-dom"
 
 export default function ProtectedRoutes() {
 	const { currentUser, currentRole } = useContext(AuthContext)
+	console.log(currentRole)
 
 	return (
 		currentUser !== null && currentRole === "admin"
 			?
 			<Outlet />
 			:
-			currentUser !== null && currentRole === "student"
-				?
-				<Navigate to="/student" replace />
-				:
-				currentUser !== null && currentRole === "staff"
-					?
-					<Navigate to="/staff" replace />
-					:
-					<Navigate to="/login" replace />
+			<Navigate to="/" replace />
 	)
 }
