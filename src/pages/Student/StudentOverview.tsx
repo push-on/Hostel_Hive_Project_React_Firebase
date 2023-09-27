@@ -44,6 +44,13 @@ export default function StudentOverview() {
 				<p><strong>Hostel Room:</strong> {User?.hostel_room === "" ? "Not Assigned" : User?.hostel_room}</p>
 				<p><strong>Hostel Floor:</strong> {User?.hostel_floor === "" ? "Not Assigned" : User?.hostel_floor}</p>
 				<p><strong>Created At:</strong> {User?.created_at}</p>
+				<p><strong>Adress: </strong> {User?.adress}</p>
+				<p><strong>Phone Number: </strong> {User?.phone}</p>
+				<p><strong>Guardian Number: </strong> {User?.guardian_name}</p>
+				<p><strong>Guardian Number: </strong> {User?.emergency_num}</p>
+				<p><strong>Gender: </strong> {User?.gender}</p>
+				<p><strong>religion: {User?.religion}</strong></p>
+				<p><strong>Nationality: {User?.nationality}</strong></p>
 			</article>
 		</motion.div>
 	)

@@ -43,8 +43,7 @@ export default function StudentsDashboard() {
 						<details className="dropdown">
 							<summary >Profile</summary>
 							<ul>
-								<li><Link to="/student/profile">Profile</Link></li>
-								<li><Link to="/student/settings">settings</Link></li>
+								<li><Link to="/student/">Profile</Link></li>
 								<li><button className="outline" onClick={HandleLogout}>Logout</button></li>
 							</ul>
 						</details>
@@ -68,6 +67,7 @@ function StudentNav() {
 					<li><Link to="/student/food">Food</Link></li>
 					<li><Link to="/student/payment">Payment</Link></li>
 					<li><Link to="/student/room">Room & Floor</Link></li>
+					<li><Link to="/student/settings">Settings</Link></li>
 				</ul>
 			</nav>
 		</article>

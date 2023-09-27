@@ -11,20 +11,21 @@ export default function EditUser({ editMode, id, updateData }: any) {
 	const [room, setRoom] = useState('')
 	const [loading, setLoading] = useState(false)
 
-	useEffect(() => {
-		const getPreviousData = async () => {
-			setLoading(true)
-			const docRef = doc(db, "students", id)
-			const docSnap = await getDoc(docRef)
-			if (docSnap.exists()) {
-				setFullName(docSnap.data().student_name)
-				setEmail(docSnap.data().student_email)
-				setFloor(docSnap.data().hostel_floor)
-				setRoom(docSnap.data().hostel_room)
-				setBooking(docSnap.data().booked)
-			}
-			setLoading(false)
+	const getPreviousData = async () => {
+		setLoading(true)
+		const docRef = doc(db, "students", id)
+		const docSnap = await getDoc(docRef)
+		if (docSnap.exists()) {
+			setFullName(docSnap.data().student_name)
+			setEmail(docSnap.data().student_email)
+			setFloor(docSnap.data().hostel_floor)
+			setRoom(docSnap.data().hostel_room)
+			setBooking(docSnap.data().booked)
 		}
+		setLoading(false)
+	}
+	
+	useEffect(() => {
 		getPreviousData()
 	}, [])
 

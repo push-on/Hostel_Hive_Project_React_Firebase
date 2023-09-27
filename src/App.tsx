@@ -23,6 +23,7 @@ import StudentPayment from "./pages/Student/StudentPayment"
 import StaffDashboard from "./pages/Staff/StaffDashboard"
 import StaffOverview from "./pages/Staff/StaffOverview"
 import StudentFloor from "./pages/Student/StudentFloor"
+import StudentSettings from "./pages/Student/StudentSettings"
 
 export default function App() {
   const location = useLocation()
@@ -37,6 +38,7 @@ export default function App() {
               <Route path="food" element={<StudentsFood />} />
               <Route path="payment" element={<StudentPayment />} />
               <Route path="room" element={<StudentFloor />} />
+              <Route path="settings" element={<StudentSettings />} />
             </Route>
           </Route>
           <Route path="staff" element={<StaffDashboard />} >

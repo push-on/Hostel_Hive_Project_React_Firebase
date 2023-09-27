@@ -3,9 +3,18 @@ import { useEffect, useState } from "react"
 import { db } from "../../config/firebase"
 import toast from "react-hot-toast"
 
+interface foodItem {
+	id: string
+	food_name: string
+}
+interface foodSubscription {
+	id: string
+
+}
+
 export default function Food() {
-	const [FoodItem, setFoodItem] = useState<any>()
-	const [FoodSubs, setFoodSubs] = useState<any>()
+	const [FoodItem, setFoodItem] = useState<foodItem[]>([])
+	const [FoodSubs, setFoodSubs] = useState<foodSubscription[]>([])
 	const food_items = collection(db, "food_items")
 	const food_subscriptions = collection(db, "food_subscriptions")
 
@@ -13,7 +22,9 @@ export default function Food() {
 		try {
 			const data = await getDocs(food_items)
 			const foodData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-			setFoodItem(foodData)
+			setFoodItem(foodData as foodItem[])
+			console.log(FoodItem);
+			
 		} catch (error: any) {
 			toast.error(error.message)
 		}
@@ -23,9 +34,20 @@ export default function Food() {
 			const data = await getDocs(food_subscriptions)
 			const foodData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
 			setFoodSubs(foodData)
+			console.log();
+			
 		} catch (error: any) {
 			toast.error(error.message)
 		}
+	}
+	const getFoodNameById = (foodId: any) => {
+		if (FoodItem) {
+			const selectedFoodItem = FoodItem.find((item: any) => item.id === foodId)
+			if (selectedFoodItem) {
+				return selectedFoodItem?.food_name
+			}
+		}
+		return "Food not found"
 	}
 	useEffect(() => {
 		get_food_subscriptions()
@@ -62,11 +84,11 @@ export default function Food() {
 				<tbody>
 					{FoodItem &&
 						FoodItem.map((item: any) => (
-							<tr key={item.id}>
-								<td>{item.food_name}</td>
-								<td>{item.description}</td>
-								<td>{item.price}</td>
-								<td>{item.availability ? "Available" : "Not Available"}</td>
+							<tr key={item?.id}>
+								<td>{item?.food_name}</td>
+								<td>{item?.description}</td>
+								<td>{item?.price}</td>
+								<td>{item?.availability ? "Available" : "Not Available"}</td>
 							</tr>
 						))}
 				</tbody>
@@ -86,12 +108,12 @@ export default function Food() {
 				</thead>
 				<tbody>
 					{FoodSubs.map((subscription: any) => (
-						<tr key={subscription.id}>
-							<td>{subscription.student_id}</td>
-							<td>{/* Display food item name here */}</td>
-							<td>{subscription.subscription_start_date}</td>
-							<td>{subscription.subscription_end_date}</td>
-							<td>{subscription.status}</td>
+						<tr key={subscription?.id}>
+							<td>{subscription?.student_id.substring(0, 5)}</td>
+							<td>{getFoodNameById(subscription?.food_item_id)}</td>
+							<td>{subscription?.subscription_start_date}</td>
+							<td>{subscription?.subscription_end_date}</td>
+							<td>{subscription?.status ? "Active" : "Inactive"}</td>
 							<td>
 								<button className="btn" >
 									Edit
@@ -110,3 +132,4 @@ export default function Food() {
 		</div>
 	)
 }
+
