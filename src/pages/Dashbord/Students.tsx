@@ -79,19 +79,19 @@ export default function Students() {
 						<th className='nowrap'>Student Email</th>
 						<th className='nowrap'>Hostel FLoor</th>
 						<th className='nowrap'>Hostel Room</th>
-						<th className='nowrap'>Reservation</th>
+						<th className='nowrap'>Booked</th>
 						<th className='nowrap'>Update</th>
 						<th className='nowrap'>Delete</th>
 					</tr>
 				</thead>
 				<tbody>
 					{students?.map((student: any) => (
-						<tr key={student.id}>
-							<td>{student.student_name}</td>
-							<td>{student.student_email}</td>
-							<td>{student.hostel_floor}</td>
-							<td>{student.hostel_room}</td>
-							<td>{student.booked ? "Yes" : "No"}</td>
+						<tr key={student?.id}>
+							<td>{student?.student_name}</td>
+							<td>{student?.student_email}</td>
+							<td>{student?.hostel_floor === "" ? "Not Assigned" : student?.hostel_floor}</td>
+							<td>{student?.hostel_room === "" ? "Not Assigned" : student?.hostel_room}</td>
+							<td>{student?.booked ? "Yes" : "No"}</td>
 							<td><button className="btn" onClick={() => editData(student.id)}>edit</button></td>
 							<td><button className="btn" onClick={() => deleteData(student.id)}>delete</button></td>
 						</tr>
