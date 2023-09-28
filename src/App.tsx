@@ -24,6 +24,9 @@ import StaffDashboard from "./pages/Staff/StaffDashboard"
 import StaffOverview from "./pages/Staff/StaffOverview"
 import StudentFloor from "./pages/Student/StudentFloor"
 import StudentSettings from "./pages/Student/StudentSettings"
+import StaffRole from "./pages/Staff/StaffRole"
+import StaffSettings from "./pages/Staff/StaffSettings"
+import StaffSchedule from "./pages/Staff/StaffScedule"
 
 export default function App() {
   const location = useLocation()
@@ -32,6 +35,7 @@ export default function App() {
     <>
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
+
           <Route element={<ProtectedProfiles />}>
             <Route path="student" element={<StudentsDashboard />} >
               <Route index element={<StudentOverview />} />
@@ -43,8 +47,40 @@ export default function App() {
           </Route>
           <Route element={<ProtectedStaff />}>
 
-          <Route path="staff" element={<StaffDashboard />} >
-            <Route index element={<StaffOverview />} />
+            <Route path="staff" element={<StaffDashboard />} >
+              <Route index element={<StaffOverview />} />
+              <Route path="role" element={
+                <motion.div
+                  initial={{ x: '100vw', opacity: 0 }}
+                  animate={{ x: '0vw', opacity: 1 }}
+                  exit={{ x: '-100vw', opacity: 0 }}
+                  transition={{ ease: 'easeInOut', duration: 0.2 }}
+                >
+                  <StaffRole />
+                </motion.div>
+              } />
+              <Route path="scedule" element={
+                <motion.div
+                  initial={{ x: '100vw', opacity: 0 }}
+                  animate={{ x: '0vw', opacity: 1 }}
+                  exit={{ x: '-100vw', opacity: 0 }}
+                  transition={{ ease: 'easeInOut', duration: 0.2 }}
+                >
+                  <StaffSchedule />
+                </motion.div>
+
+
+              } />
+              <Route path="settings" element={
+                <motion.div
+                  initial={{ x: '100vw', opacity: 0 }}
+                  animate={{ x: '0vw', opacity: 1 }}
+                  exit={{ x: '-100vw', opacity: 0 }}
+                  transition={{ ease: 'easeInOut', duration: 0.2 }}
+                >
+                  <StaffSettings />
+                </motion.div>
+              } />
             </Route>
           </Route>
           <Route element={<ProtectedRoutes />}>

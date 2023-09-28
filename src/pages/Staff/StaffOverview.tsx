@@ -41,7 +41,13 @@ export default function StaffOverview() {
 				<p><strong>User Name:</strong> {User?.staff_name}</p>
 				<p><strong>User Email:</strong> {User?.staff_email}</p>
 				<p><strong>Created At:</strong> {User?.created_at}</p>
+				<p><strong>Address:</strong> {User?.address} 123 Main Street</p>
+				<p><strong>Phone:</strong> {User?.phone} 0123456789</p>
+				<p><strong>Role:</strong> {User?.role} Receptionist</p>
+				<p><strong>Salary:</strong> {User?.salary} 1000</p>
+				<p><strong>Shift:</strong> {User?.shift} Morning</p>
 			</article>
+
 		</motion.div>
 	)
 }
