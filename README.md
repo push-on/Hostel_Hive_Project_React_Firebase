@@ -1,7 +1,8 @@
 
 # link to file 
-[env file](https://drive.google.com/file/d/1HLb8Ck1fRhZaMA-gsNun1FKdOR4RcMh7/view?usp=sharing)
-[Link To Deploy Site](https://hostel-management-diu.web.app/)
+
+- Dot Env File [Download Link](https://drive.google.com/file/d/1HLb8Ck1fRhZaMA-gsNun1FKdOR4RcMh7/view?usp=sharing)
+- Link To Deployed site [link](https://hostel-management-diu.web.app/)
 
 
 # 📋 Tasks
