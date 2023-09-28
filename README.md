@@ -4,55 +4,7 @@
 [Link To Deploy Site](https://hostel-management-diu.web.app/)
 
 
-### Diagrams
-
-### Student / User / staff
-
-- Name
-- Student ID
-- role
-- Gender
-- Nationality
-- Religion
-- Address
-- Booking date
-- contact info
-    - personal number
-    - guardian number
-    - Emergency number
-    - email
-- **date of birth**
-
-### Room
-
-- Room
-    - Room ID
-    - Bed no
-    - floor
-    - Status (active or inactive.)
-    - ac
-    - price
-    - is booked
-- Room Allotment
-
-### Room Allotment
-
-- userID
-- serviceManID
-- roomID
-- createdAT
-- updatedAT
-
-### Payment
-
-- userID
-- roomID
-- paymentID
-- PaymentType
-- ammount
-- TransationID
-- CreatedAt
-- updatedAt
+# 📋 Tasks
 - **Authentication**:
     - [x]  Role based Auth for student, staff and admin
     - [x]  Admin can create, delete & update staff & student account.
@@ -125,3 +77,54 @@
         - [x]  disable adblocker
     - [x]  corss origin error
         - [x]  built in brownser feature
+
+
+# 🗺 Diagrams
+
+### Student / User / staff
+
+- Name
+- Student ID
+- role
+- Gender
+- Nationality
+- Religion
+- Address
+- Booking date
+- contact info
+    - personal number
+    - guardian number
+    - Emergency number
+    - email
+- **date of birth**
+
+### Room
+
+- Room
+    - Room ID
+    - Bed no
+    - floor
+    - Status (active or inactive.)
+    - ac
+    - price
+    - is booked
+- Room Allotment
+
+### Room Allotment
+
+- userID
+- serviceManID
+- roomID
+- createdAT
+- updatedAT
+
+### Payment
+
+- userID
+- roomID
+- paymentID
+- PaymentType
+- ammount
+- TransationID
+- CreatedAt
+- updatedAt
