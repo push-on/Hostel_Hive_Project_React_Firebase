@@ -40,7 +40,7 @@ export default function Dashboard() {
 						<details className="dropdown">
 							<summary >Profile</summary>
 							<ul>
-								<li><Link to="/dashboard/profile">Profile</Link></li>
+								<li><Link to="/dashboard/">Profile</Link></li>
 								<li><Link to="/dashboard/settings">settings</Link></li>
 								<li><button className="outline" onClick={HandleLogout}>Logout</button></li>
 							</ul>

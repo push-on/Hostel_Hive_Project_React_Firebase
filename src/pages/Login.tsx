@@ -62,7 +62,7 @@ export default function Login() {
 					toast.error(error.message)
 				})
 			}), {
-				loading: 'Login...',
+			loading: 'Login...',
 			success: <b>Login successful!</b>,
 			error: <b>Login failed.</b>,
 		})
@@ -98,9 +98,13 @@ export default function Login() {
 							<button type='submit' ><MdEmail /> Email</button>
 						</div>
 					</form>
-					<footer>
-						<p>Don't Have an Account ? <Link to='/signup'>Signup</Link></p>
-					</footer>
+					<p>Don't Have an Account ? <Link to='/signup'>Signup</Link></p>
+
+					<div style={{ backgroundColor: '#1e293b', padding: '10px', borderRadius: '10px' }}>
+						<small><p><strong>Admin:</strong> admin@admin.com <strong>pass:</strong> adminuser</p></small>
+						<small><p><strong>Staff:</strong> test_staff@email.com <strong>pass:</strong> abcd1234</p></small>
+						<small><p><strong>Student:</strong> test_student@gmail.com <strong>pass:</strong> adminuser</p></small>
+					</div>
 				</motion.article>
 			</dialog>
 		</div>

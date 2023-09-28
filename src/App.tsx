@@ -12,10 +12,10 @@ import Food from "./pages/Dashbord/Food"
 import Payments from "./pages/Dashbord/Payment"
 import Rooms from "./pages/Dashbord/Room"
 import Overview from "./pages/Dashbord/Overview"
-import Profile from "./pages/Dashbord/Profile"
 import Settings from "./pages/Settings"
 import ProtectedRoutes from "./context/ProtectedRoutes"
 import ProtectedProfiles from "./context/ProtectedProfiles"
+import ProtectedStaff from "./context/ProtectedStaff"
 import StudentsDashboard from "./pages/Student/StudentDashboard"
 import StudentOverview from "./pages/Student/StudentOverview"
 import StudentsFood from "./pages/Student/StudentsFood"
@@ -41,8 +41,11 @@ export default function App() {
               <Route path="settings" element={<StudentSettings />} />
             </Route>
           </Route>
+          <Route element={<ProtectedStaff />}>
+
           <Route path="staff" element={<StaffDashboard />} >
             <Route index element={<StaffOverview />} />
+            </Route>
           </Route>
           <Route element={<ProtectedRoutes />}>
             <Route path="dashboard" element={<Dashboard />}>
@@ -52,7 +55,6 @@ export default function App() {
               <Route path="food" element={<Food />} />
               <Route path="payment" element={<Payments />} />
               <Route path="rooms" element={<Rooms />} />
-              <Route path="profile" element={<Profile />} />
               <Route path="settings" element={<Settings />} />
             </Route>
           </Route>

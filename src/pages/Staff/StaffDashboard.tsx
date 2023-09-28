@@ -62,6 +62,9 @@ function Staff() {
 			<nav>
 				<ul>
 					<li><Link to="/staff/">Overview</Link></li>
+					<li><Link to="/staff/role">Role</Link></li>
+					<li><Link to="/staff/scedule">Scedule</Link></li>
+					<li><Link to="/staff/settings">settings</Link></li>
 				</ul>
 			</nav>
 		</article>
