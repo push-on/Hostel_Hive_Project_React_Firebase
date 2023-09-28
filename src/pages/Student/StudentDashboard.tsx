@@ -55,7 +55,7 @@ function StudentNav() {
 	return (
 		<article>
 			<h1>Students</h1>
-			<nav>
+			<nav style={{ textTransform: "uppercase" }}>
 				<ul>
 					<li><Link to="/student/">Overview</Link></li>
 					<li><Link to="/student/food">Food</Link></li>

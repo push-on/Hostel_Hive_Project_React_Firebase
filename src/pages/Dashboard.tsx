@@ -5,7 +5,6 @@ import { Toaster, toast } from "react-hot-toast"
 import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../context/AuthContext'
 
-
 export default function Dashboard() {
 	const navigate = useNavigate()
 	const { dispatch, currentRole, currentUser } = useContext(AuthContext)
@@ -76,9 +75,9 @@ function DashbordNav() {
 	return (
 		<article>
 			<h1>Manage {pageTitle}</h1>
-			<nav>
+			<nav style={{ textTransform: "uppercase" }}>
 				<ul>
-					<li><Link to="/dashboard/">Overview</Link></li>
+					<li><Link to="/dashboard/">Overview</Link> </li>
 					<li><Link to="/dashboard/rooms" className='nowrap'>Rooms & Floor</Link></li>
 					<li><Link to="/dashboard/student">Students</Link></li>
 					<li><Link to="/dashboard/staff">Staffs</Link></li>

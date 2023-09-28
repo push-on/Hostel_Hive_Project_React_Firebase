@@ -43,42 +43,50 @@
 h1 {
   --pico-typography-spacing-vertical: 0.5rem;
 }
+
 button {
   --pico-font-weight: 700;
 }
 
-img{
-	border-radius: 15px;
+img {
+  border-radius: 15px;
 }
+
 .btn {
   background: none;
   color: var(--pico-primary-background);
   border: none;
   padding: 0;
-  outline: none; 
+  outline: none;
 }
-.btn:hover, .btn:focus {
+
+.btn:hover,
+.btn:focus {
   color: var(--pico-primary-hover);
   text-decoration: underline;
   text-underline-offset: 0.25rem;
-  outline: none; 
+  outline: none;
   border: none;
 }
 
-.w-full{
+.w-full {
   width: 100%;
 }
 
-.red{
+.red {
   color: red;
   text-transform: capitalize;
 
 }
 
-.nowrap{
+.nowrap {
   white-space: nowrap;
 }
 
-.overflow{
+.overflow {
   overflow: hidden;
+}
+
+.icon {
+  color: white
 }

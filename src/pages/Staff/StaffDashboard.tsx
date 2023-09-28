@@ -59,7 +59,7 @@ function Staff() {
 	return (
 		<article>
 			<h1>Staffs</h1>
-			<nav>
+			<nav style={{ textTransform: "uppercase" }}>
 				<ul>
 					<li><Link to="/staff/">Overview</Link></li>
 					<li><Link to="/staff/role">Role</Link></li>
