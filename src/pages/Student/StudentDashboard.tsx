@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import toast, { Toaster } from "react-hot-toast"
 import { Link, Outlet, useNavigate } from "react-router-dom"
 import { AuthContext } from "../../context/AuthContext"
@@ -23,19 +23,13 @@ export default function StudentsDashboard() {
 		})
 	}
 
-	useEffect(() => {
-		if (currentUser === null) {
-			navigate('/', { replace: true })
-		}
-	}, [])
-
 	return (
 		<div className="container">
-			<nav>
+			<nav style={{ textTransform: "uppercase" }}>
 				<ul>
-					<li><strong>User:</strong></li>
-					<li><strong>{currentUser?.email}</strong></li>
-					<li><strong className='nowrap'>Role: {currentRole}</strong></li>
+					<li style={{ fontSize: "30px" }}><strong><Link to="/">DIU</Link></strong></li>
+					<li style={{ color: "greenyellow" }}>User: {currentUser === null ? "User Not Logged in" : currentUser?.email}</li>
+					<li className="nowrap" style={{ color: "greenyellow" }}>Role: {currentRole === null ? "Public" : currentRole}</li>
 				</ul>
 				<ul>
 					<li><Link to="/">Home</Link></li>
