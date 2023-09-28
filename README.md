@@ -4,6 +4,15 @@
 - Dot Env File [Download Link](https://drive.google.com/file/d/1HLb8Ck1fRhZaMA-gsNun1FKdOR4RcMh7/view?usp=sharing)
 - Link To Deployed site [link](https://hostel-management-diu.web.app/)
 
+# Instructions for Development and installation 
+- **Requirements**
+    -  Node.js v18.x
+- **Npm Commands**
+    ```pwsh
+    npm i -g pnpm firebase-tools
+    pnpm i
+    pnpm run dev
+    ```
 
 # 📋 Tasks
 - **Authentication**:
