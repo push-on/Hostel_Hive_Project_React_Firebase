@@ -27,6 +27,8 @@ import StudentSettings from "./pages/Student/StudentSettings"
 import StaffRole from "./pages/Staff/StaffRole"
 import StaffSettings from "./pages/Staff/StaffSettings"
 import StaffSchedule from "./pages/Staff/StaffScedule"
+import RootFoods from "./pages/HomePage/RootFoods"
+import RootRooms from "./pages/HomePage/RootRooms"
 
 export default function App() {
   const location = useLocation()
@@ -94,32 +96,17 @@ export default function App() {
               <Route path="settings" element={<Settings />} />
             </Route>
           </Route>
-          <Route path="/" element={
-            <motion.div
-              initial={{ x: '100vw', opacity: 0 }}
-              animate={{ x: '0vw', opacity: 1 }}
-              exit={{ x: '-100vw', opacity: 0 }}
-              transition={{ ease: 'easeInOut', duration: 0.2 }}
-            >
-              <RootPage />
-            </motion.div>
-          } />
+          <Route path="/" element={<RootPage />} />
+          <Route path="/foods" element={<RootFoods />} />
+          <Route path="/rooms" element={<RootRooms />} />
+          <Route />
           <Route path="/login" element={
             <Login />
           } />
           <Route path="/signup" element={
             <SignUp />
           } />
-          <Route path="/about" element={
-            <motion.div
-              initial={{ x: '100vw', opacity: 0 }}
-              animate={{ x: '0vw', opacity: 1 }}
-              exit={{ x: '-100vw', opacity: 0 }}
-              transition={{ ease: 'easeInOut', duration: 0.2 }}
-            >
-              <About />
-            </motion.div>
-          } />
+          <Route path="/about" element={<About />} />
           <Route path="*" element={
             <motion.div
               initial={{ x: '100vw', opacity: 0 }}

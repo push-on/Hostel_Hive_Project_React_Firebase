@@ -1,38 +1,12 @@
-import { Link } from "react-router-dom"
 import Profile_Image from "../assets/Profile_pics/profile.webp"
-import { useContext } from "react"
-import { AuthContext } from "../context/AuthContext"
-import { BsFacebook, BsInstagram, BsTwitter } from "react-icons/bs"
+import Footer from "../components/Footer"
+import NavBar from "../components/NavBar"
 
 export default function About() {
-	const { currentUser , currentRole } = useContext(AuthContext)
 
 	return (
 		<div className="container">
-			<nav style={{ textTransform: "uppercase" }}>
-				<ul>
-					<li style={{ fontSize: "30px" }}><strong><Link to="/">DIU</Link></strong></li>
-					<li style={{ color: "greenyellow" }}>User: {currentUser === null ? "User Not Logged in" : currentUser?.email}</li>
-					<li className="nowrap" style={{ color: "greenyellow" }}>Role: {currentRole === null ? "Public" : currentRole}</li>
-				</ul>
-				<ul>
-					<li><Link to="/">Home</Link></li>
-					{currentUser !== null && currentRole === "admin"
-						?
-						(<li><Link to="/dashboard">Admin Dashboard</Link></li>)
-						:
-						currentUser !== null && currentRole === "student"
-							?
-							(<li><Link to="/student">Student Dashboard</Link></li>)
-							:
-							currentUser !== null && currentRole === "staff"
-								?
-								(<li><Link to="/staff">Staff Dashboard</Link></li>)
-								:
-								(<li><Link to="/login">Login / SignUp</Link></li>)
-					}
-				</ul>
-			</nav>
+			<NavBar />
 
 			<article>
 				<header>
@@ -130,38 +104,8 @@ export default function About() {
 				</header>
 			</article>
 			<article>
+				<Footer />
 
-				<footer >
-					<div className="grid">
-						<div>
-							<h4>STUDENT HOSTEL</h4>
-							<p>A place to live, learn, and grow</p>
-							<ul>
-								<li><a href="/">About us</a></li>
-								<li><a href="/">Contact us</a></li>
-								<li><a href="/">Privacy policy</a></li>
-							</ul>
-						</div>
-						<div>
-							<h4>FOLLOW US</h4>
-							<p>Stay connected with us on social media</p>
-							<ul className="social-icons">
-								<li><BsFacebook /> <a href="https://www.facebook.com/diu.net.bd/">Facebook</a></li>
-								<li><BsTwitter /> <a href="https://twitter.com/diubd">Twitter</a></li>
-								<li><BsInstagram /> <a href="https://www.instagram.com/diu.net.bd/">Instagram</a></li>
-							</ul>
-						</div>
-						<div>
-							<h4>SUBSCRIBE</h4>
-							<p>Get the latest news and updates from our hostel</p>
-							<form action="#" method="post">
-								<input type="email" name="email" placeholder="Enter your email" />
-								<button type="submit">Subscribe</button>
-							</form>
-						</div>
-					</div>
-					<p className="copy">&copy; 2023 Dhaka International University. All rights reserved.</p>
-				</footer>
 			</article>
 		</div>
 	)

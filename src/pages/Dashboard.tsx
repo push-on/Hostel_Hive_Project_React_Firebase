@@ -29,7 +29,7 @@ export default function Dashboard() {
 		<div className="container">
 			<nav style={{ textTransform: "uppercase" }}>
 				<ul>
-					<li style={{ fontSize: "30px" }}><strong><Link to="/">DIU</Link></strong></li>
+					<li style={{ fontSize: "30px" }}><strong><Link to="/">HOSETEL HIVE</Link></strong></li>
 					<li style={{ color: "greenyellow" }}>User: {currentUser === null ? "User Not Logged in" : currentUser?.email}</li>
 					<li className="nowrap" style={{ color: "greenyellow" }}>Role: {currentRole === null ? "Public" : currentRole}</li>
 				</ul>

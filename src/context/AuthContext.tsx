@@ -13,8 +13,8 @@ interface AuthContextValue {
 }
 
 const INITIAL_STATE: AuthState = {
-	currentUser: JSON.parse(localStorage.getItem('user') as string) || null,
-	currentRole: JSON.parse(localStorage.getItem('role') as string) || null
+	currentUser: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) || null : null,
+	currentRole: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('role') as string) || null : null
 }
 
 export const AuthContext = createContext<AuthContextValue>({
