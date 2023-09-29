@@ -71,42 +71,53 @@ export default function Login() {
 	return (
 		<div className='container'>
 			<Toaster />
-			<dialog open>
-				<motion.article
-					initial={{ opacity: 0, y: '-100%' }}
-					animate={{ opacity: 1, y: '0%' }}
-					exit={{ opacity: 0, y: '-100%' }}
-					transition={{ ease: 'easeInOut', duration: 0.2 }}
-				>
-					{currentUser !== null ? (
-						<Link className='close' to='/dashboard'></Link>
-					) : (
-						<Link className='close' to='/'></Link>
-					)}
-					<hgroup>
-						<h2>Login</h2>
-						<p>Login to your account </p>
-					</hgroup>
-					{/* <UserSlector /> */}
-					<form onSubmit={handleSubmit}>
-						<label htmlFor="email" >Email:</label>
-						<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder='example@email.com' />
-						<label htmlFor="password">Password:</label>
-						<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder='********' />
-						<div role='group' className='' style={{ width: '100%' }}>
-							<button className='secondary' onClick={signInWithGoogle}><FcGoogle /> Google</button>
-							<button type='submit' ><MdEmail /> Email</button>
-						</div>
-					</form>
-					<p>Don't Have an Account ? <Link to='/signup'>Signup</Link></p>
+			<motion.article
+				initial={{ opacity: 0, y: '-100%' }}
+				animate={{ opacity: 1, y: '0%' }}
+				exit={{ opacity: 0, y: '-100%' }}
+				transition={{ ease: 'easeInOut', duration: 0.2 }}
+			>
+				{currentUser !== null ? (
+					<Link className='close' to='/dashboard'></Link>
+				) : (
+					<Link className='close' to='/'></Link>
+				)}
+				<hgroup>
+					<h2>Login</h2>
+					<p>Login to your account </p>
+				</hgroup>
+				<article>
+					<Link to={'/'} style={{ position: 'absolute', backgroundColor: '#2d3748', color: '#f9fafb', borderRadius: '50%', padding: '0.25rem', right: '0.75rem', top: '0.75rem' }}>
+						<svg style={{
+							width: '1.5rem',
+							height: '1.5rem',
+							transition: 'transform 500ms',
+							transformOrigin: 'center'
+						}} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /> </svg>
 
-					<div style={{ backgroundColor: '#1e293b', padding: '10px', borderRadius: '10px' }}>
-						<small><p><strong>Admin:</strong> admin@admin.com <strong>pass:</strong> adminuser</p></small>
-						<small><p><strong>Staff:</strong> test_staff@email.com <strong>pass:</strong> abcd1234</p></small>
-						<small><p><strong>Student:</strong> test_student@gmail.com <strong>pass:</strong> adminuser</p></small>
-					</div>
-				</motion.article>
-			</dialog>
+					</Link>
+					<form onSubmit={handleSubmit}>
+							<label htmlFor="email">
+								Email:
+								<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder='example@email.com' />
+							</label>
+							<label htmlFor="password">Password:
+								<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder='********' />
+							</label>
+							<button type='submit' ><MdEmail /> Login with Email</button>
+					</form>
+				</article>
+				<footer>
+					<nav>
+						<ul>
+							<button className='secondary outline' onClick={signInWithGoogle}><FcGoogle /> Login with Google</button>
+						</ul>
+						<ul>
+							<p>Don't Have an Account ? <Link to='/signup'>Signup</Link></p>
+						</ul>
+					</nav>
+				</footer>
+			</motion.article>
 		</div>
 	)
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import {  useState } from 'react'
 import { auth, db, googleProvider } from "../config/firebase"
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 import { Link, useNavigate } from 'react-router-dom'
@@ -12,6 +12,7 @@ export default function SignUp() {
 	const [email, setEmail] = useState('')
 	const [fullName, setFullName] = useState('')
 	const [password, setPassword] = useState('')
+	const [confirmPassword, setConfirmPassword] = useState('')
 	const navigate = useNavigate()
 	const [isState, setState] = useState("student")
 	const studentsCollection = collection(db, "students")
@@ -71,7 +72,13 @@ export default function SignUp() {
 	}
 
 	const handleSubmit = async (e: React.FormEvent) => {
+
 		e.preventDefault()
+
+		if (password !== confirmPassword) {
+			toast.error("Password didn't match")
+			return
+		}
 		await createUserWithEmailAndPassword(auth, email, password)
 			.then((userCredentials) => {
 				const user = userCredentials.user
@@ -89,36 +96,61 @@ export default function SignUp() {
 	return (
 		<div className='container'>
 			<Toaster />
-			<dialog open >
-				<motion.article
-					initial={{ opacity: 0, y: '-100%' }}
-					animate={{ opacity: 1, y: '0%' }}
-					exit={{ opacity: 0, y: '-100%' }}
-					transition={{ ease: 'easeInOut', duration: 0.2 }}
-				>
-					<Link className='close' to='/'></Link>
-					<hgroup>
-						<h2>Signup</h2>
-						<p>Create a new account</p>
-					</hgroup>
-					<UserSlector isState={isState} setState={setState} />
+			<motion.article
+				initial={{ opacity: 0, y: '-100%' }}
+				animate={{ opacity: 1, y: '0%' }}
+				exit={{ opacity: 0, y: '-100%' }}
+				transition={{ ease: 'easeInOut', duration: 0.2 }}
+			>
+				<Link className='close' to='/'></Link>
+				<Link to={'/'} style={{ position: 'absolute', backgroundColor: '#2d3748', color: '#f9fafb', borderRadius: '50%', padding: '0.25rem', right: '0.75rem', top: '0.75rem' }}>
+					<svg style={{
+						width: '1.5rem',
+						height: '1.5rem',
+						transition: 'transform 500ms',
+						transformOrigin: 'center'
+					}} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /> </svg>
+
+				</Link>
+				<hgroup>
+					<h2>Signup</h2>
+					<p>Create a new account</p>
+				</hgroup>
+				<article>
+				<UserSlector isState={isState} setState={setState} />
 					<form onSubmit={handleSubmit}>
-						<label >Full Name:</label>
-						<input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required placeholder='user name' />
-						<label htmlFor="email">Email:</label>
-						<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder='example@email.com' />
-						<label htmlFor="password">Password:</label>
-						<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder='********' />
-						<div role='group' className='' style={{ width: '100%' }}>
-							<button className='secondary' onClick={signInWithGoogle}><FcGoogle /> Google</button>
-							<button type='submit' ><MdEmail /> Email</button>
-						</div>
+						<fieldset className="grid">
+							<label >Full Name:
+								<input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required placeholder='user name' />
+							</label>
+							<label htmlFor="email">Email:
+								<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder='example@email.com' />
+							</label>
+						</fieldset>
+						<fieldset className="grid">
+							<label htmlFor="password">Password:
+								<input type="password" aria-invalid={password === confirmPassword && password !== "" ? false : undefined} value={password} onChange={(e) => setPassword(e.target.value)} required placeholder='********' />
+								{password === confirmPassword && password !== "" ? <small id="valid-helper">Password matched</small> : <small>Enter your password</small>}
+							</label>
+							<label htmlFor="password">Reenter your password:
+								<input type="password" aria-invalid={password === confirmPassword && password !== "" ? false : undefined} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required placeholder='********' />
+								{password === confirmPassword && password !== "" ? <small id="valid-helper">Password matched</small> : <small></small>}
+							</label>
+						</fieldset>
+						<button type='submit'  ><MdEmail /> SignUp with Email</button>
 					</form>
-					<footer>
-						<p>Already Have an Account ? <Link to='/login'>Login</Link></p>
-					</footer>
-				</motion.article>
-			</dialog>
+				</article>
+				<footer>
+					<nav>
+						<ul>
+							<button className='secondary outline' onClick={signInWithGoogle}><FcGoogle /> SignUp with Google</button>
+						</ul>
+						<ul>
+							<p>Already Have an Account ? <Link to='/login'>Login</Link></p>
+						</ul>
+					</nav>
+				</footer>
+			</motion.article>
 		</div>
 	)
 }
