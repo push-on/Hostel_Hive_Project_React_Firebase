@@ -1,4 +1,4 @@
-import {  useState } from 'react'
+import { useState } from 'react'
 import { auth, db, googleProvider } from "../config/firebase"
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 import { Link, useNavigate } from 'react-router-dom'
@@ -117,26 +117,22 @@ export default function SignUp() {
 					<p>Create a new account</p>
 				</hgroup>
 				<article>
-				<UserSlector isState={isState} setState={setState} />
+					<UserSlector isState={isState} setState={setState} />
 					<form onSubmit={handleSubmit}>
-						<fieldset className="grid">
-							<label >Full Name:
-								<input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required placeholder='user name' />
-							</label>
-							<label htmlFor="email">Email:
-								<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder='example@email.com' />
-							</label>
-						</fieldset>
-						<fieldset className="grid">
-							<label htmlFor="password">Password:
-								<input type="password" aria-invalid={password === confirmPassword && password !== "" ? false : undefined} value={password} onChange={(e) => setPassword(e.target.value)} required placeholder='********' />
-								{password === confirmPassword && password !== "" ? <small id="valid-helper">Password matched</small> : <small>Enter your password</small>}
-							</label>
-							<label htmlFor="password">Reenter your password:
-								<input type="password" aria-invalid={password === confirmPassword && password !== "" ? false : undefined} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required placeholder='********' />
-								{password === confirmPassword && password !== "" ? <small id="valid-helper">Password matched</small> : <small></small>}
-							</label>
-						</fieldset>
+						<label >Full Name:
+							<input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required placeholder='user name' />
+						</label>
+						<label htmlFor="email">Email:
+							<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder='example@email.com' />
+						</label>
+						<label htmlFor="password">Password:
+							<input type="password" aria-invalid={password === confirmPassword && password !== "" ? false : undefined} value={password} onChange={(e) => setPassword(e.target.value)} required placeholder='********' />
+							{password === confirmPassword && password !== "" ? <small id="valid-helper">Password matched</small> : <small>Enter your password</small>}
+						</label>
+						<label htmlFor="password">Conform your password
+							<input type="password" aria-invalid={password === confirmPassword && password !== "" ? false : undefined} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required placeholder='********' />
+							{password === confirmPassword && password !== "" ? <small id="valid-helper">Password matched</small> : <small>Reenter your password</small>}
+						</label>
 						<button type='submit'  ><MdEmail /> SignUp with Email</button>
 					</form>
 				</article>
