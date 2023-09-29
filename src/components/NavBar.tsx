@@ -17,7 +17,8 @@ export default function NavBar() {
 			<ul>
 				{curLoc.pathname === "/rooms" ? null : <li><Link to="/rooms">Rooms</Link></li>}
 				{curLoc.pathname === "/foods" ? null : <li><Link to="/foods">Foods</Link></li>}
-				{curLoc.pathname === "/" ? <li><Link to="/about">About</Link></li> : <li><Link to="/">Home</Link></li>}
+				{curLoc.pathname === "/about" ? null : <li><Link to="/about">About</Link></li>}
+				{curLoc.pathname === "/" ? null : <li><Link to="/">Home</Link></li>}
 				{currentUser !== null && currentRole === "admin"
 					?
 					(<li><Link to="/dashboard">Admin Dashboard</Link></li>)
