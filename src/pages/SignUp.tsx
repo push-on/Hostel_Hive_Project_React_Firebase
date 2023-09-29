@@ -127,11 +127,11 @@ export default function SignUp() {
 						</label>
 						<label htmlFor="password">Password:
 							<input type="password" aria-invalid={password === confirmPassword && password !== "" ? false : undefined} value={password} onChange={(e) => setPassword(e.target.value)} required placeholder='********' />
-							{password === confirmPassword && password !== "" ? <small id="valid-helper">Password matched</small> : <small>Enter your password</small>}
+							{password === confirmPassword && password !== "" ? <small id="valid-helper">Password matched</small> : <small></small>}
 						</label>
 						<label htmlFor="password">Conform your password
 							<input type="password" aria-invalid={password === confirmPassword && password !== "" ? false : undefined} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required placeholder='********' />
-							{password === confirmPassword && password !== "" ? <small id="valid-helper">Password matched</small> : <small>Reenter your password</small>}
+							{password === confirmPassword && password !== "" ? <small id="valid-helper">Password matched</small> : <small></small>}
 						</label>
 						<button type='submit'  ><MdEmail /> SignUp with Email</button>
 					</form>
