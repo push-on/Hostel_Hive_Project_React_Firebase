@@ -8,7 +8,6 @@ import { motion } from "framer-motion"
 
 
 import EditUser from "./EditUser"
-import CreateUser from "../CreateUser"
 import { AuthContext } from "../../context/AuthContext"
 
 interface User {
@@ -20,7 +19,6 @@ export default function Users() {
 	const [Users, setStudents] = useState<User[]>([])
 	const [updateID, setUpdateID] = useState('')
 	const [EditMode, setEditMode] = useState(false)
-	const [CreateMode, setCreateMode] = useState(false)
 	const { currentUser } = useContext(AuthContext)
 
 	const myCollectionRef = collection(db, "Users")
@@ -71,7 +69,7 @@ export default function Users() {
 		>
 			<nav>
 				<ul><li><h1>Student Details</h1></li></ul>
-				<ul><li><button onClick={() => setCreateMode(!CreateMode)}>Create</button>{CreateMode ? <CreateUser updateData={getData} createMode={setCreateMode} /> : ""}</li></ul>
+				<ul></ul>
 			</nav>
 			<table>
 				<thead>

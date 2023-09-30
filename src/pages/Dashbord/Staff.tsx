@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react"
 import { db } from "../../config/firebase"
 
-import { getDocs, collection, deleteDoc, doc, updateDoc, getDoc, addDoc } from "firebase/firestore"
+import { getDocs, collection, deleteDoc, doc, updateDoc, getDoc } from "firebase/firestore"
 import { toast } from "react-hot-toast"
 import { motion } from "framer-motion"
 
@@ -14,10 +14,8 @@ export default function Staff() {
 	const [staff, setStaff] = useState<staff[]>([])
 	const [updateID, setUpdateID] = useState("")
 	const [EditMode, setEditMode] = useState(false)
-	const [CreateMode, setCreateMode] = useState(false)
 	const { currentUser } = useContext(AuthContext)
 
-	console.log(updateID, EditMode, CreateMode)
 
 
 	const myCollectionRef = collection(db, "staffs")
@@ -71,10 +69,7 @@ export default function Staff() {
 					</li>
 				</ul>
 				<ul>
-					<li>
-						<button onClick={() => setCreateMode(!CreateMode)}>Create</button>
-						{CreateMode ? <CreateUser updateData={getData} createMode={setCreateMode} /> : ""}
-					</li>
+					
 				</ul>
 			</nav>
 			<table>
@@ -168,51 +163,3 @@ function EditUser({ editMode, id, updateData }: any) {
 	)
 }
 
-
-function CreateUser({ updateData, createMode }: any) {
-	const [fullName, setFullName] = useState('')
-	const [email, setEmail] = useState('')
-	const myCollectionRef = collection(db, "staffs")
-
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault()
-
-		await addDoc(myCollectionRef, {
-			staff_name: fullName,
-			staff_email: email,
-			created_at: new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-'),
-			userID: ""
-		}).then(() => {
-			updateData()
-			createMode(false)
-			toast.success("Added Successfully")
-		}).catch(error => {
-			toast.error(error.message)
-		})
-
-	}
-
-	return (
-		<div>
-			<dialog open >
-				<article>
-					<hgroup>
-						<h2>CREATE ENTRY</h2>
-						<p>Assign Staff to Hostel</p>
-					</hgroup>
-					<form >
-						<label>Full Name</label>
-						<input type="text" onChange={(e) => setFullName(e.target.value)} />
-						<label>Email</label>
-						<input type="email" onChange={(e) => setEmail(e.target.value)} />
-
-						<footer className="grid">
-							<button className="outline" onClick={handleSubmit}>Submit</button>
-							<button className="outline secondary" onClick={() => createMode(false)}>Close</button>
-						</footer>
-					</form>
-				</article>
-			</dialog>
-		</div>
-	)
-}
