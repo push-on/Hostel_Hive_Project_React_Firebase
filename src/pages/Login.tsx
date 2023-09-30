@@ -85,9 +85,9 @@ export default function Login() {
 					<Lottie animationData={LoginLotiAnim} />
 				</motion.article>
 				<motion.article
-					initial={{ opacity: 0, y: '-100%' }}
+					initial={{ opacity: 0, y: '-10%' }}
 					animate={{ opacity: 1, y: '0%' }}
-					exit={{ opacity: 0, y: '-100%' }}
+					exit={{ opacity: 0, y: '-10%' }}
 					transition={{ ease: 'easeInOut', duration: 0.2 }}
 				>
 					{currentUser !== null ? (
