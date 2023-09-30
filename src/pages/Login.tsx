@@ -121,12 +121,12 @@ export default function Login() {
 						</form>
 					</article>
 					<footer>
-						<nav>
+						<nav >
 							<ul>
-								<button className='secondary outline' onClick={signInWithGoogle}><FcGoogle /> Login with Google</button>
+								<li><button className='secondary outline' onClick={signInWithGoogle}><FcGoogle /> Login with Google</button></li>
 							</ul>
 							<ul>
-								<p>Don't Have an Account ? <Link to='/signup'>Signup</Link></p>
+								<li>Don't Have an Account ? <Link to='/signup'>Signup</Link></li>
 							</ul>
 						</nav>
 					</footer>

@@ -152,10 +152,10 @@ export default function SignUp() {
 					<footer>
 						<nav>
 							<ul>
-								<button className='secondary outline' onClick={signInWithGoogle}><FcGoogle /> SignUp with Google</button>
+								<li><button className='secondary outline' onClick={signInWithGoogle}><FcGoogle /> Signup with Google</button></li>
 							</ul>
 							<ul>
-								<p>Already Have an Account ? <Link to='/login'>Login</Link></p>
+								<li>Don't an Account ? <Link to='/login'>Login</Link></li>
 							</ul>
 						</nav>
 					</footer>
