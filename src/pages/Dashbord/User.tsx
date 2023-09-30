@@ -7,7 +7,7 @@ import { toast } from "react-hot-toast"
 import { motion } from "framer-motion"
 
 
-import EditUser from "../EditUser"
+import EditUser from "./EditUser"
 import CreateUser from "../CreateUser"
 import { AuthContext } from "../../context/AuthContext"
 

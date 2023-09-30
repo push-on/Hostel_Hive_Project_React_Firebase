@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { updateDoc, doc, getDoc } from "firebase/firestore"
-import { auth, db } from "../config/firebase"
+import { auth, db } from "../../config/firebase"
 import { toast } from "react-hot-toast"
 
 export default function EditUser({ editMode, id, updateData }: any) {
@@ -24,7 +24,7 @@ export default function EditUser({ editMode, id, updateData }: any) {
 		}
 		setLoading(false)
 	}
-	
+
 	useEffect(() => {
 		getPreviousData()
 	}, [])

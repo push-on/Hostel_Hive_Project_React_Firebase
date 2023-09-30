@@ -1,4 +1,3 @@
-// import { Link } from "react-router-dom"
 import { useState, useEffect, useContext } from "react"
 import { db } from "../../config/firebase"
 
@@ -7,8 +6,7 @@ import { toast } from "react-hot-toast"
 import { motion } from "framer-motion"
 
 
-import EditUser from "../EditUser"
-import CreateUser from "../CreateUser"
+import EditUser from "./EditUser"
 import { AuthContext } from "../../context/AuthContext"
 
 interface Student {
@@ -20,7 +18,6 @@ export default function Students() {
 	const [students, setStudents] = useState<Student[]>([])
 	const [updateID, setUpdateID] = useState('')
 	const [EditMode, setEditMode] = useState(false)
-	const [CreateMode, setCreateMode] = useState(false)
 	const { currentUser } = useContext(AuthContext)
 
 	const myCollectionRef = collection(db, "students")
@@ -33,7 +30,7 @@ export default function Students() {
 			toast.error("you are not logged in")
 		}
 	}
-	
+
 	const getData = async () => {
 		try {
 			const data = await getDocs(myCollectionRef)
@@ -70,7 +67,6 @@ export default function Students() {
 		>
 			<nav>
 				<ul><li><h1>Student Details</h1></li></ul>
-				<ul><li><button onClick={() => setCreateMode(!CreateMode)}>Create</button>{CreateMode ? <CreateUser updateData={getData} createMode={setCreateMode} /> : ""}</li></ul>
 			</nav>
 			<table>
 				<thead>
