@@ -1,7 +1,7 @@
 import Footer from "../../components/Footer"
 import NavBar from "../../components/NavBar"
 import { motion } from "framer-motion"
-
+import generalImage from "../../assets/rooms/1.webp"
 export default function RootRooms() {
 	const roomsData = [
 		{
@@ -11,7 +11,7 @@ export default function RootRooms() {
 			acAvailable: true,
 			wifi: true,
 			foodService: true,
-			price: "9,000 BDT per month", 
+			price: "9,000 BDT per month",
 			image: "https://picsum.photos/500",
 			additionalInfo: [
 				"Private bathroom",
@@ -26,7 +26,7 @@ export default function RootRooms() {
 			acAvailable: true,
 			wifi: true,
 			foodService: true,
-			price: "6,000 BDT per month (per person)", 
+			price: "6,000 BDT per month (per person)",
 			image: "https://picsum.photos/500",
 			additionalInfo: [
 				"Shared bathroom",
@@ -35,13 +35,13 @@ export default function RootRooms() {
 			],
 		},
 		{
-			name: "Shared Dormitory",
+			name: "Shared Room",
 			description: "Budget-friendly option for social students",
 			beds: 4,
 			acAvailable: false,
 			wifi: true,
 			foodService: true,
-			price: "3,000 BDT per month (per bed)", 
+			price: "3,000 BDT per month (per bed)",
 			image: "https://picsum.photos/500",
 			additionalInfo: [
 				"Shared bathroom",
@@ -68,14 +68,35 @@ export default function RootRooms() {
 					<article className="grid">
 						<article>
 							<h2>General Information</h2>
-							<p>Number of Rooms available: {roomsData.length}</p>
-							<p>Number of Beds: {roomsData.reduce((total, room) => total + room.beds, 0)}</p>
-							<p>Air Conditioning: {roomsData.some((room) => room.acAvailable) ? "Available" : "Not Available"}</p>
-							<p>Wi-Fi: {roomsData.every((room) => room.wifi) ? "Available in all rooms" : "Available in common areas"}</p>
-							<p>Food Service: {roomsData.some((room) => room.foodService) ? "Available" : "Not Available"}</p>
+							<ul>
+								<li><p>Number of Rooms available: {roomsData.length}</p></li>
+							</ul>
+							<ul>
+								<li>
+									<p>Number of Beds: {roomsData.reduce((total, room) => total + room.beds, 0)}</p>
+								</li>
+							</ul>
+							<ul>
+								<li>
+									<p>Air Conditioning: {roomsData.some((room) => room.acAvailable) ? "Available" : "Not Available"}</p>
+								</li>
+							</ul>
+							<ul>
+								<li>
+									<p>Wi-Fi: {roomsData.every((room) => room.wifi) ? "Available in all rooms" : "Available in common areas"}</p>
+								</li>
+							</ul>
+							<ul>
+								<li>
+									<p>Food Service: {roomsData.some((room) => room.foodService) ? "Available" : "Not Available"}</p>
+								</li>
+							</ul>
+							<ul>
+								<li><p>Access to shared spaces.</p></li>
+							</ul>
 						</article>
 						<article>
-							<img src="https://picsum.photos/500" alt="" />
+							<img src={generalImage} alt="" />
 						</article>
 					</article>
 					{roomsData.map((room, index) => (

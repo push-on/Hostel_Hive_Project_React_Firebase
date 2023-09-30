@@ -1,12 +1,12 @@
-import HosteImg from "../assets/Hostel.jpg"
-import img_one from "../assets/Hostel_Imgs/1.webp"
-import img_two from "../assets/Hostel_Imgs/2.webp"
-import img_three from "../assets/Hostel_Imgs/3.webp"
+import HosteImg from "../../assets/Hostel.webp"
+import img_one from "../../assets/Hostel_Imgs/1.webp"
+import img_two from "../../assets/Hostel_Imgs/2.webp"
+import img_three from "../../assets/Hostel_Imgs/3.webp"
 import { useContext } from "react"
-import { AuthContext } from "../context/AuthContext"
+import { AuthContext } from "../../context/AuthContext"
 import { Toaster } from "react-hot-toast"
-import Footer from "../components/Footer"
-import NavBar from "../components/NavBar"
+import Footer from "../../components/Footer"
+import NavBar from "../../components/NavBar"
 import { motion } from "framer-motion"
 
 
@@ -27,25 +27,31 @@ export default function RootPage() {
 
 				<header>
 					<Toaster />
-					<hgroup>
-						<h2>HOSTEL HIVE</h2>
-						<p>Hostel Management System</p>
-					</hgroup>
-					<article className="grid">
-						<img src={HosteImg} alt="" />
-						<p >
-							Dhaka International University offers well decorated
-							hostel modern facilities. Foreign students are living
-							in the hostels with a comfort. At present there are
-							seven boys hostel ( Nikunja, Khilkhet and Satarkul,
-							Badda) and one girl's hostels (Satarkul, Badda). In
-							the hostels there are prayer rooms, Game
-							rooms(lndoor), Common rooms and well decorated
-							canteen. All DIU hostels are under CC camera sur-
-							veillance. Wi-Fi facilities are available. We have well
-							experienced cook and well trained security guards
-							to serve the students.
-						</p>
+
+					<article >
+
+						<hgroup>
+							<h2>HOSTEL HIVE</h2>
+							<p>Students Hostel Management System</p>
+						</hgroup>
+						<main>
+							<div className="center " >
+								<img className="w-full" src={HosteImg} alt="" />
+							</div>
+							<p >
+								Hostel Hive offers well decorated
+								hostel modern facilities. Foreign students are living
+								in the hostels with a comfort. At present there are
+								seven boys hostel and one girl's hostels. In
+								the hostels there are prayer rooms, Game
+								rooms, Common rooms and well decorated
+								canteen. All Hostel Hive hostels are under CC camera sur-
+								valiance. Wi-Fi facilities are available. We have well
+								experienced cook and well trained security guards
+								to serve the students.
+							</p>
+						</main>
+
 					</article>
 
 					<article >
