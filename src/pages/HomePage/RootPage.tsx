@@ -1,7 +1,7 @@
-import HosteImg from "../../assets/Hostel.webp"
-import img_one from "../../assets/Hostel_Imgs/1.webp"
-import img_two from "../../assets/Hostel_Imgs/2.webp"
-import img_three from "../../assets/Hostel_Imgs/3.webp"
+import HosteImg from "../../assets/Hostel_Imgs/img_5.webp"
+import img_one from "../../assets/Hostel_Imgs/img_2.webp"
+import img_two from "../../assets/Hostel_Imgs/img_4.webp"
+import img_three from "../../assets/Hostel_Imgs/img_10.webp"
 import { useContext } from "react"
 import { AuthContext } from "../../context/AuthContext"
 import { Toaster } from "react-hot-toast"
@@ -61,7 +61,7 @@ export default function RootPage() {
 					</article>
 					<article className="grid">
 						<div>
-							<h3>A Private Modern & Productive  Workstation </h3>
+							<h3>A Private & Productive Study place </h3>
 							<img src={img_two} alt="" />
 							<small>
 								<p>Our hostel provides a state-of-the-art workstation for our students to work on their projects, assignments, or online classes. Our workstation has a wooden desk, a computer monitor, a keyboard, a mouse, and other office supplies. Our students can write in their notebooks, use the computer, or join a video call with their instructors or classmates. Our workstation is cozy and inviting, with a plant, a coffee cup, and a window with natural light. The workstation is available for booking anytime and has high-speed internet connection. Whether you need a professional place to work or a comfortable place to learn, our workstation is the ideal option for you.</p>
