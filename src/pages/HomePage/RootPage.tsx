@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast"
 import Footer from "../../components/Footer"
 import NavBar from "../../components/NavBar"
 import { motion } from "framer-motion"
+import CurrentUser from "../../components/CurrentUser"
 
 
 export default function RootPage() {
@@ -27,9 +28,10 @@ export default function RootPage() {
 
 				<header>
 					<Toaster />
-
 					<article >
-
+						<header>
+							<CurrentUser />
+						</header>
 						<hgroup>
 							<h2>HOSTEL HIVE</h2>
 							<p>Students Hostel Management System</p>

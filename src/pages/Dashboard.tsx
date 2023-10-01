@@ -4,10 +4,11 @@ import { signOut } from "firebase/auth"
 import { Toaster, toast } from "react-hot-toast"
 import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../context/AuthContext'
+import CurrentUser from '../components/CurrentUser'
 
 export default function Dashboard() {
 	const navigate = useNavigate()
-	const { dispatch, currentRole, currentUser } = useContext(AuthContext)
+	const { dispatch } = useContext(AuthContext)
 
 	// Logout
 	const HandleLogout = (e: React.FormEvent) => {
@@ -30,8 +31,6 @@ export default function Dashboard() {
 			<nav style={{ textTransform: "uppercase" }}>
 				<ul>
 					<li style={{ fontSize: "30px" }}><strong><Link to="/">HOSTEL HIVE</Link></strong></li>
-					<li style={{ color: "greenyellow" }}>User: {currentUser === null ? "User Not Logged in" : currentUser?.email}</li>
-					<li className="nowrap" style={{ color: "greenyellow" }}>Role: {currentRole === null ? "Public" : currentRole}</li>
 				</ul>
 				<ul>
 					<li><Link to="/">Home</Link></li>
@@ -73,8 +72,11 @@ function DashbordNav() {
 		}
 	}, [curLoc])
 	return (
-		<article>
-			<h1>Manage {pageTitle}</h1>
+		<>
+			<hgroup>
+				<h1>Manage {pageTitle}</h1>
+				<CurrentUser />
+			</hgroup>
 			<nav style={{ textTransform: "uppercase" }}>
 				<ul>
 					<li><Link to="/dashboard/">Overview</Link> </li>
@@ -85,6 +87,6 @@ function DashbordNav() {
 					<li><Link to="/dashboard/payment">Payment</Link></li>
 				</ul>
 			</nav>
-		</article>
+		</>
 	)
 }

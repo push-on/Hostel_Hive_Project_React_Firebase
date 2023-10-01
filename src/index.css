@@ -103,6 +103,12 @@ img {
   }
 }
 
+@media (max-width: 768px) {
+  .md {
+    display: none;
+  }
+}
+
 .border{
   border: 1px solid white;
   

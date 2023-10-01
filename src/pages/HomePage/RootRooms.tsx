@@ -10,6 +10,7 @@ import { Counter, CounterField } from "../../lib/Counter"
 import { db } from "../../config/firebase"
 import { getDocs, collection } from "firebase/firestore"
 import toast, { Toaster } from "react-hot-toast"
+import CurrentUser from "../../components/CurrentUser"
 
 export default function RootRooms() {
 	const [roomTypes, setRoomTypes] = useState<any[]>([])
@@ -47,6 +48,9 @@ export default function RootRooms() {
 				transition={{ ease: "easeInOut", duration: 0.2 }}
 			>
 				<article>
+					<header>
+						<CurrentUser />
+					</header>
 					<header>
 						<hgroup style={{ textAlign: "center" }}>
 							<h1>ROOMS</h1>

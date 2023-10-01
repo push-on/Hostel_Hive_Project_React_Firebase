@@ -4,10 +4,11 @@ import { Link, Outlet, useNavigate } from "react-router-dom"
 import { AuthContext } from "../../context/AuthContext"
 import { signOut } from "firebase/auth"
 import { auth } from "../../config/firebase"
+import CurrentUser from "../../components/CurrentUser"
 
 export default function StaffDashboard() {
 	const navigate = useNavigate()
-	const { dispatch, currentRole, currentUser } = useContext(AuthContext)
+	const { dispatch, currentUser } = useContext(AuthContext)
 
 	// Logout
 	const HandleLogout = (e: React.FormEvent) => {
@@ -33,8 +34,6 @@ export default function StaffDashboard() {
 			<nav style={{ textTransform: "uppercase" }}>
 				<ul>
 					<li style={{ fontSize: "30px" }}><strong><Link to="/">HOSETEL HIVE</Link></strong></li>
-					<li style={{ color: "greenyellow" }}>User: {currentUser === null ? "User Not Logged in" : currentUser?.email}</li>
-					<li className="nowrap" style={{ color: "greenyellow" }}>Role: {currentRole === null ? "Public" : currentRole}</li>
 				</ul>
 				<ul>
 					<li><Link to="/">Home</Link></li>
@@ -57,8 +56,9 @@ export default function StaffDashboard() {
 
 function Staff() {
 	return (
-		<article>
+		<>
 			<h1>Staffs</h1>
+			<CurrentUser />
 			<nav style={{ textTransform: "uppercase" }}>
 				<ul>
 					<li><Link to="/staff/">Overview</Link></li>
@@ -67,6 +67,6 @@ function Staff() {
 					<li><Link to="/staff/settings">settings</Link></li>
 				</ul>
 			</nav>
-		</article>
+		</>
 	)
 }
