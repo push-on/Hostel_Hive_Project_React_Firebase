@@ -76,8 +76,8 @@ export default function Students() {
 						<th className='nowrap'>Hostel FLoor</th>
 						<th className='nowrap'>Hostel Room</th>
 						<th className='nowrap'>Booked</th>
-						<th className='nowrap'>Update</th>
-						<th className='nowrap'>Delete</th>
+						<th className='nowrap'>Assign</th>
+						<th className='nowrap'>Remove</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -88,8 +88,8 @@ export default function Students() {
 							<td>{student?.hostel_floor === "" ? "Not Assigned" : student?.hostel_floor}</td>
 							<td>{student?.hostel_room === "" ? "Not Assigned" : student?.hostel_room}</td>
 							<td>{student?.booked ? "Yes" : "No"}</td>
-							<td><button className="btn" onClick={() => editData(student.id)}>edit</button></td>
-							<td><button className="btn" onClick={() => deleteData(student.id)}>delete</button></td>
+							<td><button className="btn" onClick={() => editData(student.id)}>Assign</button></td>
+							<td><button className="btn" onClick={() => deleteData(student.id)}>Remove</button></td>
 						</tr>
 					))}
 					{EditMode ? <EditUser editData={editData} id={updateID} editMode={setEditMode} updateData={getData} /> : ""}

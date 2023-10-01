@@ -1,12 +1,39 @@
 import Footer from "../../components/Footer"
 import NavBar from "../../components/NavBar"
 import { motion } from "framer-motion"
+import { Counter, CounterField } from "../../lib/Counter"
+import { useEffect, useState } from "react"
+import { CountingAnimation } from "../../lib/CounterAnimation"
+
 export default function About() {
+	const [TotalStudents, setTotalStudents] = useState(0)
+	const [TotalStaff, setTotalStaff] = useState(0)
+	const [TotalStudentsBooked, setTotalStudentsBooked] = useState(0)
+
+	useEffect(() => {
+		// get number of students
+		Counter("students").then(data => {
+			setTotalStudents(data)
+		})
+		CounterField("students", "booked").then(data => {
+			setTotalStudentsBooked(data)
+		})
+		// get number of staffs
+		Counter("staffs").then(data => {
+			setTotalStaff(data)
+		})
+	}, [])
+
 
 	return (
 		<div className="container">
 			<NavBar />
-			<motion.div>
+			<motion.div
+				initial={{ x: "100vw", opacity: 0 }}
+				animate={{ x: "0vw", opacity: 1 }}
+				exit={{ x: "-100vw", opacity: 0 }}
+				transition={{ ease: "easeInOut", duration: 0.2 }}
+			>
 				<article>
 					<header>
 						<hgroup>
@@ -21,9 +48,9 @@ export default function About() {
 					</header>
 					<footer>
 						<div className="grid">
-							<h3>Students Booked: { }</h3>
-							<h3>Active Hostels: { }</h3>
-							<h3>Staff Members: { }</h3>
+							<h3>Students registered: 0{<CountingAnimation value={TotalStudents} />} </h3>
+							<h3>Students Booked: 0{<CountingAnimation value={TotalStudentsBooked} />}</h3>
+							<h3>Staff Members: 0{<CountingAnimation value={TotalStaff} />}</h3>
 						</div>
 					</footer>
 				</article>

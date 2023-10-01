@@ -5,56 +5,42 @@ import generalImage from "../../assets/Hostel_Imgs/img_16.webp"
 import singleRoom from "../../assets/Hostel_Imgs/img_7.webp"
 import doubleRoom from "../../assets/Hostel_Imgs/img_8.webp"
 import sharedRoom from "../../assets/Hostel_Imgs/img_6.webp"
+import { useEffect, useState } from "react"
+import { Counter, CounterField } from "../../lib/Counter"
+import { db, storage } from "../../config/firebase"
+import { getDocs, collection, deleteDoc, doc } from "firebase/firestore"
+import toast from "react-hot-toast"
+import { getDownloadURL, ref } from "firebase/storage"
+
 export default function RootRooms() {
-	const roomsData = [
-		{
-			name: "Standard Single Room",
-			description: "Perfect for solo students",
-			beds: 1,
-			acAvailable: true,
-			wifi: true,
-			foodService: true,
-			price: "9,000 BDT per month",
-			image: singleRoom,
-			additionalInfo: [
-				"Private bathroom",
-				"Study desk and chair",
-				"Wardrobe",
-			],
-		},
-		{
-			name: "Double Room",
-			description: "Great for friends or roommates",
-			beds: 2,
-			acAvailable: true,
-			wifi: true,
-			foodService: true,
-			price: "6,000 BDT per month (per person)",
-			image: doubleRoom,
-			additionalInfo: [
-				"Shared bathroom",
-				"Two study desks and chairs",
-				"Wardrobe for each student",
-			],
-		},
-		{
-			name: "Shared Room",
-			description: "Budget-friendly option for social students",
-			beds: 4,
-			acAvailable: false,
-			wifi: true,
-			foodService: true,
-			price: "3,000 BDT per month (per bed)",
-			image: sharedRoom,
-			additionalInfo: [
-				"Shared bathroom",
-				"Individual lockers",
-				"Common lounge area",
-			],
-		},
+	const [roomTypes, setRoomTypes] = useState<any[]>([])
+	const [imgUrl, setImgUrl] = useState<any>("")
+	const getData = async () => {
+		try {
+			const data = await getDocs(collection(db, "room_types"))
+			const userData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+			setRoomTypes(userData)
+		} catch (error: any) {
+			toast.error(error.message)
+		}
+	}
+	const [TotalRooms, setTotalRooms] = useState(0)
+	const [TotalRoomsActive, setRoomsActive] = useState(0)
 
-	]
+	getDownloadURL(ref(storage, "double_room.webp")).then((url) => {
+		setImgUrl(url)
+	})
 
+	useEffect(() => {
+		// get number of rooms
+		Counter("floor_and_room").then(data => {
+			setTotalRooms(data)
+		})
+		CounterField("floor_and_room", "status").then(data => {
+			setRoomsActive(data)
+		})
+		getData()
+	}, [])
 	return (
 		<div className="container">
 			<NavBar />
@@ -79,26 +65,31 @@ export default function RootRooms() {
 								<p>An Overview of Available Rooms and Beds</p>
 							</hgroup>
 							<ul>
-								<li><p>Number of Rooms available: </p></li>
+								<li><p>Total Number of Rooms: 0{TotalRooms} </p></li>
 							</ul>
 							<ul>
 								<li>
-									<p>Number of Beds: </p>
+									<p>Total Number of Rooms Available: 0{TotalRoomsActive}</p>
 								</li>
 							</ul>
 							<ul>
 								<li>
-									<p>Air Conditioning: </p>
+									<p>Number of Beds Available: </p>
 								</li>
 							</ul>
 							<ul>
 								<li>
-									<p>Wi-Fi: </p>
+									<p>Air Conditioning: Available</p>
 								</li>
 							</ul>
 							<ul>
 								<li>
-									<p>Food Service: </p>
+									<p>Wi-Fi: Available</p>
+								</li>
+							</ul>
+							<ul>
+								<li>
+									<p>Food Service: Available</p>
 								</li>
 							</ul>
 							<ul>
@@ -112,14 +103,14 @@ export default function RootRooms() {
 							<img src={generalImage} alt="" />
 						</article>
 					</article>
-					{roomsData.map((room, index) => (
+					{roomTypes.map((room, index) => (
 						<article className="grid" key={index}>
 							<article className="center">
-								<img src={room.image} alt={`Room ${index + 1}`} />
+								<img src={imgUrl} alt={`Room ${index + 1}`} />
 							</article>
 							<article>
 								<hgroup>
-									<h2>{room.name}</h2>
+									<h2>{room.room_type}</h2>
 									<p>{room.description}</p>
 								</hgroup>
 								<ul>
@@ -128,12 +119,9 @@ export default function RootRooms() {
 									<li>Wi-Fi: {room.wifi ? "Available" : "Not Available"}</li>
 									<li>Food Service: {room.foodService ? "Available" : "Not Available"}</li>
 									<li>Price: {room.price}</li>
-									<li>Additional Information:</li>
-									<ul>
-										{room.additionalInfo.map((info, i) => (
-											<li key={i}>{info}</li>
-										))}
-									</ul>
+									<li>Private bathroom</li>
+									<li>Study desk and chair</li>
+									<li>Wardrobe</li>
 								</ul>
 								<footer>
 									<nav>
