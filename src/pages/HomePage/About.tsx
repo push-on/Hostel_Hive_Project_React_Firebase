@@ -48,7 +48,7 @@ export default function About() {
 					</header>
 					<footer>
 						<div className="grid">
-							<h3>Students registered: 0{<CountingAnimation value={TotalStudents} />} </h3>
+							<h3>Students Registered: 0{<CountingAnimation value={TotalStudents} />} </h3>
 							<h3>Students Booked: 0{<CountingAnimation value={TotalStudentsBooked} />}</h3>
 							<h3>Staff Members: 0{<CountingAnimation value={TotalStaff} />}</h3>
 						</div>
@@ -57,20 +57,29 @@ export default function About() {
 				<article>
 					<hgroup>
 						<h1>Our Team</h1>
-						<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Mollitia necessitatibus pariatur doloribus ab quis aliquid ipsa, fugiat temporibus illo magni quas perspiciatis porro iste fugit minima voluptas debitis tempora nobis.</p>
+						<p>The Hostel Hive Team</p>
 					</hgroup>
 					<div className="grid">
 						<hgroup>
-							<h3>Team Leader</h3>
-							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione commodi, laborum est fuga, nulla aliquam vero neque tempore nostrum non omnis natus porro adipisci obcaecati, numquam reprehenderit dignissimos. Recusandae, beatae!</p>
+							<h3>Imran Hossain</h3>
+							<p></p>
+							<p>roll: 53</p>
 						</hgroup>
 						<hgroup>
-							<h3>Assistant Manager</h3>
-							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, unde aliquid magni omnis consequuntur dolor repellendus saepe fugiat corrupti! Id, dignissimos qui tempora praesentium autem cumque velit facere odio nostrum.</p>
+							<h3>Abu Bakar Raihan</h3>
+							<p>roll: 52</p>
 						</hgroup>
 						<hgroup>
-							<h3>Staff Manager</h3>
-							<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officiis, soluta! Eaque enim odio, quibusdam cum labore expedita non fuga nihil impedit voluptate quae eveniet tempora in dolorum beatae repellat delectus.</p>
+							<h3>Ashikuzzaman Pranto</h3>
+							<p>roll: 00</p>
+						</hgroup>
+						<hgroup>
+							<h3>Abu Sayed Khandaker</h3>
+							<p>roll: 54</p>
+						</hgroup>
+						<hgroup>
+							<h3>Siyam Khondker</h3>
+							<p>role: 00</p>
 						</hgroup>
 					</div>
 				</article>

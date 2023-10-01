@@ -7,14 +7,16 @@ import doubleRoom from "../../assets/Hostel_Imgs/img_8.webp"
 import sharedRoom from "../../assets/Hostel_Imgs/img_6.webp"
 import { useEffect, useState } from "react"
 import { Counter, CounterField } from "../../lib/Counter"
-import { db, storage } from "../../config/firebase"
-import { getDocs, collection, deleteDoc, doc } from "firebase/firestore"
-import toast from "react-hot-toast"
-import { getDownloadURL, ref } from "firebase/storage"
+import { db } from "../../config/firebase"
+import { getDocs, collection } from "firebase/firestore"
+import toast, { Toaster } from "react-hot-toast"
 
 export default function RootRooms() {
 	const [roomTypes, setRoomTypes] = useState<any[]>([])
-	const [imgUrl, setImgUrl] = useState<any>("")
+
+	const [TotalRooms, setTotalRooms] = useState(0)
+	const [TotalRoomsActive, setRoomsActive] = useState(0)
+
 	const getData = async () => {
 		try {
 			const data = await getDocs(collection(db, "room_types"))
@@ -24,13 +26,6 @@ export default function RootRooms() {
 			toast.error(error.message)
 		}
 	}
-	const [TotalRooms, setTotalRooms] = useState(0)
-	const [TotalRoomsActive, setRoomsActive] = useState(0)
-
-	getDownloadURL(ref(storage, "double_room.webp")).then((url) => {
-		setImgUrl(url)
-	})
-
 	useEffect(() => {
 		// get number of rooms
 		Counter("floor_and_room").then(data => {
@@ -44,6 +39,7 @@ export default function RootRooms() {
 	return (
 		<div className="container">
 			<NavBar />
+			<Toaster />
 			<motion.div
 				initial={{ x: "100vw", opacity: 0 }}
 				animate={{ x: "0vw", opacity: 1 }}
@@ -53,50 +49,41 @@ export default function RootRooms() {
 				<article>
 					<header>
 						<hgroup style={{ textAlign: "center" }}>
-
-							<h1 >ROOMS</h1>
+							<h1>ROOMS</h1>
 							<p>Rooms & Service of Hostel Hive</p>
 						</hgroup>
 					</header>
 					<article className="grid">
 						<article>
-							<hgroup >
+							<hgroup>
 								<h1>General Information</h1>
 								<p>An Overview of Available Rooms and Beds</p>
 							</hgroup>
 							<ul>
-								<li><p>Total Number of Rooms: 0{TotalRooms} </p></li>
-							</ul>
-							<ul>
+								<li>
+									<p>Total Number of Rooms: 0{TotalRooms} </p>
+								</li>
 								<li>
 									<p>Total Number of Rooms Available: 0{TotalRoomsActive}</p>
 								</li>
-							</ul>
-							<ul>
 								<li>
 									<p>Number of Beds Available: </p>
 								</li>
-							</ul>
-							<ul>
 								<li>
 									<p>Air Conditioning: Available</p>
 								</li>
-							</ul>
-							<ul>
 								<li>
 									<p>Wi-Fi: Available</p>
 								</li>
-							</ul>
-							<ul>
 								<li>
 									<p>Food Service: Available</p>
 								</li>
-							</ul>
-							<ul>
-								<li><p>Access to shared spaces.</p></li>
-							</ul>
-							<ul>
-								<li><p>Access to Common Place.</p></li>
+								<li>
+									<p>Access to shared spaces.</p>
+								</li>
+								<li>
+									<p>Access to Common Place.</p>
+								</li>
 							</ul>
 						</article>
 						<article>
@@ -104,24 +91,47 @@ export default function RootRooms() {
 						</article>
 					</article>
 					{roomTypes.map((room, index) => (
-						<article className="grid" key={index}>
+						<motion.article
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							exit={{ opacity: 0 }}
+							transition={{ ease: "easeInOut", duration: 0.2 }}
+							className="grid"
+							key={index}
+						>
 							<article className="center">
-								<img src={imgUrl} alt={`Room ${index + 1}`} />
+								<img
+									src={
+										room.room_type === "single"
+											? singleRoom
+											: room.room_type === "double"
+												? doubleRoom
+												: room.room_type === "shared"
+													? sharedRoom
+													: ""
+									}
+									alt={`Room ${index + 1}`}
+								/>
 							</article>
 							<article>
 								<hgroup>
-									<h2>{room.room_type}</h2>
+									<h2 style={{textTransform: "capitalize"}}>{room.room_type} Room</h2>
 									<p>{room.description}</p>
 								</hgroup>
 								<ul>
-									<li>Number of Beds: {room.beds}</li>
-									<li>Air Conditioning: {room.acAvailable ? "Available" : "Not Available"}</li>
+									<li>Number of Beds: {room.bed}</li>
+									<li>
+										Air Conditioning: {room.ac ? "Available" : "Not Available"}
+									</li>
 									<li>Wi-Fi: {room.wifi ? "Available" : "Not Available"}</li>
-									<li>Food Service: {room.foodService ? "Available" : "Not Available"}</li>
+									<li>
+										Food Service:{" "}
+										{room.foodservice ? "Available" : "Not Available"}
+									</li>
 									<li>Price: {room.price}</li>
-									<li>Private bathroom</li>
-									<li>Study desk and chair</li>
-									<li>Wardrobe</li>
+									<li>bathroom: {room.bathroom}</li>
+									<li>Study desk: {room.desk}</li>
+									<li>Wardrobe: {room.wardrobe}</li>
 								</ul>
 								<footer>
 									<nav>
@@ -132,7 +142,7 @@ export default function RootRooms() {
 									</nav>
 								</footer>
 							</article>
-						</article>
+						</motion.article>
 					))}
 				</article>
 			</motion.div>

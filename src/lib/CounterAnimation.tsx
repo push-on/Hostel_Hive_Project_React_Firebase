@@ -4,7 +4,7 @@ interface CountingAnimationProps {
 	value: number
 }
 
-const duration = 1000
+const duration = 300
 const from = 0
 
 export const CountingAnimation: React.FC<CountingAnimationProps> = ({ value }) => {
