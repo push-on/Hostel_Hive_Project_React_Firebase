@@ -1,136 +1,126 @@
-import { useState } from "react"
 import { motion } from "framer-motion"
 
-const dummyFloorData = [
-	{
-		id: "1",
-		floor_name: "1st Floor",
-		num_rooms: 10,
-		description: "Standard rooms",
-	},
-	{
-		id: "2",
-		floor_name: "2nd Floor",
-		num_rooms: 8,
-		description: "Deluxe rooms",
-	},
-	// Add more floor data here
-]
-
-// Dummy room data
-const dummyRoomData = [
-	{
-		id: "1",
-		room_name: "101",
-		floor_id: "1",
-		status: "active",
-		ac_available: true,
-		price: "৳1000",
-		is_booked: false,
-	},
-	{
-		id: "2",
-		room_name: "102",
-		floor_id: "1",
-		status: "active",
-		ac_available: false,
-		price: "৳800",
-		is_booked: false,
-	},
-	// Add more room data here
-]
-
 export default function Rooms() {
-	const [floors, setFloors] = useState(dummyFloorData)
-	const [rooms, setRooms] = useState(dummyRoomData)
-	// const [updateRoomID, setUpdateRoomID] = useState("")
-	// const [editRoomMode, setEditRoomMode] = useState(false)
-	const [createRoomMode, setCreateRoomMode] = useState(false)
-
-
 	return (
 		<motion.div
 			initial={{ x: '100vw', opacity: 0 }}
 			animate={{ x: '0vw', opacity: 1 }}
 			exit={{ x: '-100vw', opacity: 0 }}
-			transition={{ ease: 'easeInOut', duration: 0.2 }}
-		>			<nav>
-				<ul>
-					<li>
-						<h1>Room Management</h1>
-					</li>
-				</ul>
-				<ul>
-					<li>
-						<button onClick={() => {
-							setCreateRoomMode(!createRoomMode)
-							setFloors(dummyFloorData)
-							setRooms(dummyRoomData)
-						}
-							
-
-						}>Create Room</button>
-
-					</li>
-				</ul>
-			</nav>
-			<h2>Floors</h2>
-			<table>
-				<thead>
-					<tr>
-						<th>Floor Name</th>
-						<th>Number of Rooms</th>
-						<th>Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					{floors.map((floor) => (
-						<tr key={floor.id}>
-							<td>{floor.floor_name}</td>
-							<td>{floor.num_rooms}</td>
-							<td>{floor.description}</td>
+			transition={{ ease: 'easeInOut', duration: 0.2 }}>
+			<article>
+				<h1>Room Management</h1>
+				<nav>
+					<ul></ul>
+					<ul>
+						<li>
+							<button>Create Room Types</button>
+						</li>
+					</ul>
+				</nav>
+				<h2>Types Of Rooms</h2>
+				<table>
+					<thead>
+						<tr>
+							<th>name</th>
+							<th>description</th>
+							<th>beds</th>
+							<th>ac</th>
+							<th>wifi</th>
+							<th>foodService</th>
+							<th>price</th>
+							<th>image</th>
+							<th>Bathroom</th>
+							<th>Desk</th>
+							<th>Wardrobe</th>
 						</tr>
-					))}
-				</tbody>
-			</table>
-			<h2>Rooms</h2>
-			<table>
-				<thead>
-					<tr>
-						<th>Room Name/Number</th>
-						<th>Floor</th>
-						<th>Status</th>
-						<th>AC Available</th>
-						<th>Price (৳)</th>
-						<th>Is Booked</th>
-						<th>Edit</th>
-						<th>Delete</th>
-					</tr>
-				</thead>
-				<tbody>
-					{rooms.map((room) => (
-						<tr key={room.id}>
-							<td>{room.room_name}</td>
-							<td>{/* Display floor name here */}</td>
-							<td>{room.status}</td>
-							<td>{room.ac_available ? "Yes" : "No"}</td>
-							<td>{room.price}</td>
-							<td>{room.is_booked ? "Yes" : "No"}</td>
-							<td>
-								<button className="btn" >
-									Edit
-								</button>
-							</td>
-							<td>
-								<button className="btn" >
-									Delete
-								</button>
-							</td>
+					</thead>
+					<tbody>
+						<tr >
+							<td>Single</td>
+							<td>1 students room</td>
+							<td>1</td>
+							<td>true</td>
+							<td>true</td>
+							<td>true</td>
+							<td>12,000</td>
+							<td>img_url</td>
+							<td>Private</td>
+							<td>1</td>
+							<td>1</td>
 						</tr>
-					))}
-
-				</tbody>
-			</table>
+						<tr >
+							<td>Double</td>
+							<td>2 students room</td>
+							<td>2</td>
+							<td>true</td>
+							<td>true</td>
+							<td>true</td>
+							<td>6,000</td>
+							<td>img_url</td>
+							<td>Shared</td>
+							<td>2</td>
+							<td>2</td>
+						</tr>
+						<tr >
+							<td>Shared</td>
+							<td>4 students room</td>
+							<td>4</td>
+							<td>true</td>
+							<td>true</td>
+							<td>true</td>
+							<td>3,000</td>
+							<td>img_url</td>
+							<td>Shared</td>
+							<td>4</td>
+							<td>4</td>
+						</tr>
+					</tbody>
+				</table>
+			</article>
+			<article>
+				<h2>Availability</h2>
+				<nav>
+					<ul></ul>
+					<ul>
+						<li>
+							<button>Add Rooms</button>
+						</li>
+					</ul>
+				</nav>
+				<table>
+					<thead>
+						<tr>
+							<th>Room Type</th>
+							<th>Floor No</th>
+							<th>Room No</th>
+							<th>Bed Available</th>
+							<th>Status</th>
+							<th>Assign</th>
+							<th>Remove</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr >
+							<td>Shared</td>
+							<td>02</td>
+							<td>201</td>
+							<td>2</td>
+							<td>Active</td>
+							<td><button className="btn">Assign</button></td>
+							<td><button className="btn">Remove</button></td>
+						</tr>
+						<tr >
+							<td>Shared</td>
+							<td>02</td>
+							<td>201</td>
+							<td>2</td>
+							<td>Active</td>
+							<td><button className="btn">Assign</button></td>
+							<td><button className="btn">Remove</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</article>
 		</motion.div>
 	)
 }
