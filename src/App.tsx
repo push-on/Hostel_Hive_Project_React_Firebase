@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation, } from "react-router-dom"
+import { Routes, Route, useLocation } from "react-router-dom"
 import { AnimatePresence, motion } from "framer-motion"
 import Login from "./pages/Login"
 import Dashboard from "./pages/Dashboard"
@@ -37,9 +37,8 @@ export default function App() {
     <>
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
-
           <Route element={<ProtectedProfiles />}>
-            <Route path="student" element={<StudentsDashboard />} >
+            <Route path="student" element={<StudentsDashboard />}>
               <Route index element={<StudentOverview />} />
               <Route path="food" element={<StudentsFood />} />
               <Route path="payment" element={<StudentPayment />} />
@@ -48,41 +47,44 @@ export default function App() {
             </Route>
           </Route>
           <Route element={<ProtectedStaff />}>
-
-            <Route path="staff" element={<StaffDashboard />} >
+            <Route path="staff" element={<StaffDashboard />}>
               <Route index element={<StaffOverview />} />
-              <Route path="role" element={
-                <motion.div
-                  initial={{ x: '100vw', opacity: 0 }}
-                  animate={{ x: '0vw', opacity: 1 }}
-                  exit={{ x: '-100vw', opacity: 0 }}
-                  transition={{ ease: 'easeInOut', duration: 0.2 }}
-                >
-                  <StaffRole />
-                </motion.div>
-              } />
-              <Route path="scedule" element={
-                <motion.div
-                  initial={{ x: '100vw', opacity: 0 }}
-                  animate={{ x: '0vw', opacity: 1 }}
-                  exit={{ x: '-100vw', opacity: 0 }}
-                  transition={{ ease: 'easeInOut', duration: 0.2 }}
-                >
-                  <StaffSchedule />
-                </motion.div>
-
-
-              } />
-              <Route path="settings" element={
-                <motion.div
-                  initial={{ x: '100vw', opacity: 0 }}
-                  animate={{ x: '0vw', opacity: 1 }}
-                  exit={{ x: '-100vw', opacity: 0 }}
-                  transition={{ ease: 'easeInOut', duration: 0.2 }}
-                >
-                  <StaffSettings />
-                </motion.div>
-              } />
+              <Route
+                path="role"
+                element={
+                  <motion.div
+                    initial={{ x: "100vw", opacity: 0 }}
+                    animate={{ x: "0vw", opacity: 1 }}
+                    exit={{ x: "-100vw", opacity: 0 }}
+                    transition={{ ease: "easeInOut", duration: 0.2 }}>
+                    <StaffRole />
+                  </motion.div>
+                }
+              />
+              <Route
+                path="scedule"
+                element={
+                  <motion.div
+                    initial={{ x: "100vw", opacity: 0 }}
+                    animate={{ x: "0vw", opacity: 1 }}
+                    exit={{ x: "-100vw", opacity: 0 }}
+                    transition={{ ease: "easeInOut", duration: 0.2 }}>
+                    <StaffSchedule />
+                  </motion.div>
+                }
+              />
+              <Route
+                path="settings"
+                element={
+                  <motion.div
+                    initial={{ x: "100vw", opacity: 0 }}
+                    animate={{ x: "0vw", opacity: 1 }}
+                    exit={{ x: "-100vw", opacity: 0 }}
+                    transition={{ ease: "easeInOut", duration: 0.2 }}>
+                    <StaffSettings />
+                  </motion.div>
+                }
+              />
             </Route>
           </Route>
           <Route element={<ProtectedRoutes />}>
@@ -100,30 +102,23 @@ export default function App() {
           <Route path="/foods" element={<RootFoods />} />
           <Route path="/rooms" element={<RootRooms />} />
           <Route />
-          <Route path="/login" element={
-            <Login />
-          } />
-          <Route path="/signup" element={
-            <SignUp />
-          } />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/about" element={<About />} />
-          <Route path="*" element={
-            <motion.div
-              initial={{ x: '100vw', opacity: 0 }}
-              animate={{ x: '0vw', opacity: 1 }}
-              exit={{ x: '-100vw', opacity: 0 }}
-              transition={{ ease: 'easeInOut', duration: 0.2 }}
-            >
-              <NotFound />
-            </motion.div>
-          } />
+          <Route
+            path="*"
+            element={
+              <motion.div
+                initial={{ x: "100vw", opacity: 0 }}
+                animate={{ x: "0vw", opacity: 1 }}
+                exit={{ x: "-100vw", opacity: 0 }}
+                transition={{ ease: "easeInOut", duration: 0.2 }}>
+                <NotFound />
+              </motion.div>
+            }
+          />
         </Routes>
       </AnimatePresence>
     </>
   )
 }
-
-
-
-
-

@@ -7,64 +7,87 @@ import { auth } from "../../config/firebase"
 import CurrentUser from "../../components/CurrentUser"
 
 export default function StudentsDashboard() {
-	const navigate = useNavigate()
-	const { dispatch } = useContext(AuthContext)
+  const navigate = useNavigate()
+  const { dispatch } = useContext(AuthContext)
 
-	// Logout
-	const HandleLogout = (e: React.FormEvent) => {
-		e.preventDefault()
-		toast.promise(
-			signOut(auth).then(() => {
-				navigate('/', { replace: true })
-				dispatch({ type: 'LOGOUT', payload: null, role: null })
-			}), {
-			loading: 'Logout...',
-			success: <b>Logged out!</b>,
-			error: <b>Failed to logout!</b>,
-		})
-	}
+  // Logout
+  const HandleLogout = (e: React.FormEvent) => {
+    e.preventDefault()
+    toast.promise(
+      signOut(auth).then(() => {
+        navigate("/", { replace: true })
+        dispatch({ type: "LOGOUT", payload: null, role: null })
+      }),
+      {
+        loading: "Logout...",
+        success: <b>Logged out!</b>,
+        error: <b>Failed to logout!</b>,
+      }
+    )
+  }
 
-	return (
-		<div className="container">
-			<nav style={{ textTransform: "uppercase" }}>
-				<ul>
-					<li style={{ fontSize: "30px" }}><strong><Link to="/">HOSETEL HIVE</Link></strong></li>
-					
-				</ul>
-				<ul>
-					<li><Link to="/">Home</Link></li>
-					<li>
-						<details className="dropdown">
-							<summary >Profile</summary>
-							<ul>
-								<li><Link to="/student/">Profile</Link></li>
-								<li><button className="outline" onClick={HandleLogout}>Logout</button></li>
-							</ul>
-						</details>
-					</li>
-				</ul>
-			</nav>
-			<Toaster />
-			<StudentNav />
-			<Outlet />
-		</div>
-	)
+  return (
+    <div className="container">
+      <nav style={{ textTransform: "uppercase" }}>
+        <ul>
+          <li style={{ fontSize: "30px" }}>
+            <strong>
+              <Link to="/">HOSETEL HIVE</Link>
+            </strong>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <details className="dropdown">
+              <summary>Profile</summary>
+              <ul>
+                <li>
+                  <Link to="/student/">Profile</Link>
+                </li>
+                <li>
+                  <button className="outline" onClick={HandleLogout}>
+                    Logout
+                  </button>
+                </li>
+              </ul>
+            </details>
+          </li>
+        </ul>
+      </nav>
+      <Toaster />
+      <StudentNav />
+      <Outlet />
+    </div>
+  )
 }
 
 function StudentNav() {
-	return (
-		<>
-			<h1>Students</h1>
-			<CurrentUser/>
-			<nav style={{ textTransform: "uppercase" }}>
-				<ul>
-					<li><Link to="/student/">Overview</Link></li>
-					<li><Link to="/student/food">Food</Link></li>
-					<li><Link to="/student/payment">Payment</Link></li>
-					<li><Link to="/student/room">Room & Floor</Link></li>
-					<li><Link to="/student/settings">Settings</Link></li>
-				</ul>
-			</nav>
-		</>
-	)
+  return (
+    <>
+      <h1>Students</h1>
+      <CurrentUser />
+      <nav style={{ textTransform: "uppercase" }}>
+        <ul>
+          <li>
+            <Link to="/student/">Overview</Link>
+          </li>
+          <li>
+            <Link to="/student/food">Food</Link>
+          </li>
+          <li>
+            <Link to="/student/payment">Payment</Link>
+          </li>
+          <li>
+            <Link to="/student/room">Room & Floor</Link>
+          </li>
+          <li>
+            <Link to="/student/settings">Settings</Link>
+          </li>
+        </ul>
+      </nav>
+    </>
+  )
 }
