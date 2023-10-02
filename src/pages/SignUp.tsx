@@ -49,7 +49,7 @@ export default function SignUp() {
         gender: "",
         religion: "",
         nationality: "",
-        booked: false,
+        booked: "",
         created_at: new Date()
           .toLocaleDateString("en-US", {
             month: "2-digit",

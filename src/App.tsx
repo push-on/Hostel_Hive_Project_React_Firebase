@@ -6,7 +6,7 @@ import RootPage from "./pages/HomePage/RootPage"
 import About from "./pages/HomePage/About"
 import SignUp from "./pages/SignUp"
 import NotFound from "./pages/NotFound"
-import Students from "./pages/Dashboard/Dashboard"
+import Students from "./pages/Dashboard/Students"
 import Staff from "./pages/Dashboard/Staff"
 import Food from "./pages/Dashboard/Food"
 import Payments from "./pages/Dashboard/Payment"
@@ -56,6 +56,7 @@ export default function App() {
   }
   useEffect(() => {
     getCurrentUser()
+    console.log(currentUser)
   }, [])
 
   if (loading) {

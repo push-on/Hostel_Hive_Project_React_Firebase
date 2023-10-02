@@ -40,20 +40,24 @@ export default function NavBar() {
         </li>
       </ul>
       <ul>
-        <li>
-          <Link
-            className={curLoc.pathname === "/rooms" ? "active" : ""}
-            to="/rooms">
-            Rooms
-          </Link>
-        </li>
-        <li>
-          <Link
-            className={curLoc.pathname === "/foods" ? "active" : ""}
-            to="/foods">
-            Foods
-          </Link>
-        </li>
+        {currentRole !== "admin" && currentRole !== "staff" && (
+          <>
+            <li>
+              <Link
+                className={curLoc.pathname === "/rooms" ? "active" : ""}
+                to="/rooms">
+                Rooms
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={curLoc.pathname === "/foods" ? "active" : ""}
+                to="/foods">
+                Foods
+              </Link>
+            </li>
+          </>
+        )}
         <li>
           <Link
             className={curLoc.pathname === "/about" ? "active" : ""}

@@ -1,84 +1,40 @@
-import { useState } from "react"
-
+import { collection, doc, getDoc, getDocs } from "firebase/firestore"
 import { motion } from "framer-motion"
-
-const dummyPaymentData = [
-  {
-    id: "1",
-    user_id: "1",
-    room_id: "101",
-    payment_type: "Cash",
-    amount: "৳1000",
-    transaction_id: "TXN12345",
-    payment_date: "2023-08-05",
-    status: "completed",
-  },
-  {
-    id: "2",
-    user_id: "2",
-    room_id: "102",
-    payment_type: "Credit Card",
-    amount: "৳1200",
-    transaction_id: "TXN67890",
-    payment_date: "2023-08-10",
-    status: "completed",
-  },
-  {
-    id: "3",
-    user_id: "3",
-    room_id: "103",
-    payment_type: "Bank Transfer",
-    amount: "৳1500",
-    transaction_id: "TXN98765",
-    payment_date: "2023-08-15",
-    status: "completed",
-  },
-  {
-    id: "4",
-    user_id: "4",
-    room_id: "104",
-    payment_type: "Cash",
-    amount: "৳800",
-    transaction_id: "TXN54321",
-    payment_date: "2023-08-20",
-    status: "completed",
-  },
-  {
-    id: "5",
-    user_id: "5",
-    room_id: "105",
-    payment_type: "Credit Card",
-    amount: "৳1100",
-    transaction_id: "TXN24680",
-    payment_date: "2023-08-25",
-    status: "completed",
-  },
-  {
-    id: "6",
-    user_id: "6",
-    room_id: "106",
-    payment_type: "Cash",
-    amount: "৳900",
-    transaction_id: "TXN13579",
-    payment_date: "2023-08-30",
-    status: "completed",
-  },
-  {
-    id: "7",
-    user_id: "7",
-    room_id: "107",
-    payment_type: "Bank Transfer",
-    amount: "৳1300",
-    transaction_id: "TXN56789",
-    payment_date: "2023-09-05",
-    status: "completed",
-  },
-  // Add more payment data here
-]
+import { useEffect, useState } from "react"
+import { db } from "../../config/firebase"
+import toast from "react-hot-toast"
 
 export default function Payments() {
-  const [payments, setPayments] = useState(dummyPaymentData)
-  const [createPaymentMode, setCreatePaymentMode] = useState(false)
+  const [Payments, setPayments] = useState<any>()
+  const [user, setUser] = useState<any>()
+  const [userModal, setUserModal] = useState(false)
+  const getData = async () => {
+    try {
+      const data = await getDocs(collection(db, "payments"))
+      const userData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      setPayments(userData)
+    } catch (error: any) {
+      toast.error(error.message)
+    }
+  }
+  const getUser = async (uid: string) => {
+    if (uid) {
+      const documentRef = doc(db, "students", uid)
+      getDoc(documentRef)
+        .then((doc) => {
+          setUser(doc.data())
+          setUserModal(true)
+        })
+        .catch((error) => {
+          toast.error("Error getting user data:", error)
+        })
+    } else {
+      toast.error("UID Not Found")
+    }
+  }
+  useEffect(() => {
+    getData()
+  }, [])
 
   return (
     <motion.div
@@ -94,52 +50,110 @@ export default function Payments() {
           </li>
         </ul>
         <ul>
-          <li>
-            <button
-              onClick={() => {
-                setCreatePaymentMode(!createPaymentMode)
-                setPayments(dummyPaymentData)
-              }}>
-              Make Payment
-            </button>
-          </li>
+          <li></li>
         </ul>
       </nav>
-      <h2>Payments</h2>
+      <h2>Payment Approvals</h2>
+      {userModal && <ShowUser setModal={setUserModal} User={user} />}
       <table>
         <thead>
           <tr>
-            <th>User ID</th>
-            <th>Room ID</th>
-            <th>Payment Type</th>
-            <th>Amount (৳)</th>
-            <th>Transaction ID</th>
-            <th>Payment Date</th>
-            <th>Status</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th>Details</th>
+            <th>Contact Info</th>
+            <th>Room Type</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Approve</th>
           </tr>
         </thead>
         <tbody>
-          {payments.map((payment) => (
-            <tr key={payment.id}>
-              <td>{payment.user_id}</td>
-              <td>{payment.room_id}</td>
-              <td>{payment.payment_type}</td>
-              <td>{payment.amount}</td>
-              <td>{payment.transaction_id}</td>
-              <td>{payment.payment_date}</td>
-              <td>{payment.status}</td>
+          {Payments?.map((payment: any) => (
+            <tr key={payment?.id}>
               <td>
-                <button className="btn">Edit</button>
+                <button className="btn" onClick={() => getUser(payment?.id)}>
+                  View
+                </button>
               </td>
+              <td>{payment?.phone}</td>
+              <td>{payment?.room_type}</td>
               <td>
-                <button className="btn">Delete</button>
+                <em
+                  data-tooltip={
+                    payment?.description ? payment?.description : "empty"
+                  }>
+                  Description
+                </em>
+              </td>
+              <td>{payment?.price}TK</td>
+              <td>
+                <button className="btn">Approve</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
     </motion.div>
+  )
+}
+
+function ShowUser({ setModal, User }: any) {
+  return (
+    <dialog open>
+      <article>
+        <h1>User Details</h1>
+        <button
+          onClick={() => setModal(false)}
+          aria-label="Close"
+          className="close outline secondary"
+        />
+        <p style={{ textTransform: "capitalize" }}>
+          <strong>User Name: </strong> {User?.student_name}
+        </p>
+        <p>
+          <strong>User Email: </strong> {User?.student_email}
+        </p>
+        <p style={{ textTransform: "capitalize" }}>
+          <strong>Booked: </strong> {User?.booked}
+        </p>
+        <p>
+          <strong>Hostel Room: </strong>
+          {User?.hostel_room === "" ? "Not Assigned" : User?.hostel_room}
+        </p>
+        <p>
+          <strong>Hostel Floor: </strong>
+          {User?.hostel_floor === "" ? "Not Assigned" : User?.hostel_floor}
+        </p>
+        <p>
+          <strong>Phone Number: </strong> {User?.phone}
+        </p>
+        <p>
+          <strong>Created At:</strong> {User?.created_at}
+        </p>
+        <p>
+          <strong>Address: </strong>
+          {User?.address === "" ? "Not Assigned" : User?.address}
+        </p>
+        <p>
+          <strong>Guardian Number: </strong>
+          {User?.guardian_name === "" ? "Not Assigned" : User?.guardian_name}
+        </p>
+        <p>
+          <strong>Guardian Number: </strong>
+          {User?.emergency_num === "" ? "Not Assigned" : User?.emergency_num}
+        </p>
+        <p>
+          <strong>Gender: </strong>
+          {User?.gender === "" ? "Not Assigned" : User?.gender}
+        </p>
+        <p>
+          <strong>Religion:</strong>
+          {User?.religion === "" ? "Not Assigned" : User?.religion}
+        </p>
+        <p>
+          <strong>Nationality: </strong>
+          {User?.nationality === "" ? "Not Assigned" : User?.nationality}
+        </p>
+      </article>
+    </dialog>
   )
 }
