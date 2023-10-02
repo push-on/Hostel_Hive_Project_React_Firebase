@@ -4,7 +4,6 @@ import { Navigate, Outlet } from "react-router-dom"
 
 export default function ProtectedRoutes() {
 	const { currentUser, currentRole } = useContext(AuthContext)
-	console.log(currentRole)
 
 	return (
 		currentUser !== null && currentRole === "staff"

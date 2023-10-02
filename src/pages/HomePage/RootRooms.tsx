@@ -32,7 +32,7 @@ export default function RootRooms() {
     }
   }
   const handleRoomBook = (id: string) => {
-    console.log(currentUser, paymentStatus)
+    // console.log(currentUser, paymentStatus)
 
     if (currentUser === null) {
       navigate("/login", { state: { from: "/rooms" } })

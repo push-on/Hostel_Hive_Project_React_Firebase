@@ -39,7 +39,6 @@ export default function StaffSettings() {
       navigate("/staff", { replace: true })
     } catch (error: any) {
       toast.error(error.message)
-      console.log(error)
     }
   }
 

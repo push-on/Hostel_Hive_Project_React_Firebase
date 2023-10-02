@@ -11,8 +11,7 @@ import { motion } from "framer-motion"
 import CurrentUser from "../../components/CurrentUser"
 
 export default function RootPage() {
-  const { currentRole } = useContext(AuthContext)
-  console.log(currentRole)
+
 
   return (
     <div className="container">

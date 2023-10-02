@@ -33,7 +33,6 @@ export default function Food() {
       const data = await getDocs(food_subscriptions)
       const foodData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
       setFoodSubs(foodData)
-      console.log()
     } catch (error: any) {
       toast.error(error.message)
     }

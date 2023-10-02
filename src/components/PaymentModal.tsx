@@ -3,6 +3,7 @@ export default function PaymentModal({ setModal }: any) {
     e.preventDefault()
     alert("submitted")
   }
+  
   return (
     <dialog open>
       <article>

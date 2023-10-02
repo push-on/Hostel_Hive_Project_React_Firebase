@@ -3,7 +3,7 @@ import NavBar from "../../components/NavBar"
 export default function RootPayment() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("submitted")
+    alert("submitted")
   }
   return (
     <div className="container">

@@ -68,7 +68,6 @@ export default function StudentSettings() {
         })
     } catch (error: any) {
       toast.error(error.message)
-      console.log(error)
     }
   }
 

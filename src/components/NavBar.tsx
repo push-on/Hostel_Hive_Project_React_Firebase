@@ -6,7 +6,6 @@ import { AuthContext } from "../context/AuthContext"
 export default function NavBar() {
 	const { currentUser, currentRole } = useContext(AuthContext)
 	let curLoc = useLocation()
-	console.log(curLoc.pathname);
 	
 	return (
 		<nav style={{ textTransform: "uppercase" }}>
