@@ -33,6 +33,7 @@ import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "./context/AuthContext"
 import { doc, getDoc } from "firebase/firestore"
 import { db } from "./config/firebase"
+import Loading from "./components/Loading"
 
 export default function App() {
   const location = useLocation()
@@ -62,7 +63,7 @@ export default function App() {
   if (loading) {
     return (
       <>
-        <h1>Loading</h1>
+        <Loading />
       </>
     )
   }
