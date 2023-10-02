@@ -58,7 +58,7 @@ export default function StudentOverview() {
           <strong>Created At:</strong> {User?.created_at}
         </p>
         <p>
-          <strong>Adress: </strong> {User?.adress}
+          <strong>Address: </strong> {User?.address}
         </p>
         <p>
           <strong>Phone Number: </strong> {User?.phone}
@@ -73,7 +73,7 @@ export default function StudentOverview() {
           <strong>Gender: </strong> {User?.gender}
         </p>
         <p>
-          <strong>religion: {User?.religion}</strong>
+          <strong>Religion: {User?.religion}</strong>
         </p>
         <p>
           <strong>Nationality: {User?.nationality}</strong>

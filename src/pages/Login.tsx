@@ -1,7 +1,7 @@
 import { useContext, useState } from "react"
 import { auth, db, googleProvider } from "../config/firebase"
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { Toaster, toast } from "react-hot-toast"
 import { AuthContext } from "../context/AuthContext"
 import { motion } from "framer-motion"
@@ -17,8 +17,13 @@ export default function Login() {
   const [password, setPassword] = useState("")
   const navigate = useNavigate()
   const { currentUser, dispatch } = useContext(AuthContext)
+  const { state } = useLocation()
 
   function navigateTo(role: string) {
+    if (state) {
+      navigate(state.from)
+      return
+    }
     switch (role) {
       case "admin":
         navigate("/dashboard")
@@ -41,7 +46,12 @@ export default function Login() {
       signInWithPopup(auth, googleProvider).then((userCredentials) => {
         const user = userCredentials.user
         getDoc(doc(db, "users", user.uid)).then((doc) => {
-          dispatch({ type: "LOGIN", payload: user, role: doc.data()?.role })
+          dispatch({
+            type: "LOGIN",
+            payload: user,
+            role: doc.data()?.role,
+            paymentStatus: doc.data()?.paymentStatus,
+          })
           navigateTo(doc.data()?.role)
         })
       }),
@@ -61,7 +71,12 @@ export default function Login() {
           const user = userCredentials.user
           getDoc(doc(db, "users", user.uid))
             .then((doc) => {
-              dispatch({ type: "LOGIN", payload: user, role: doc.data()?.role })
+              dispatch({
+                type: "LOGIN",
+                payload: user,
+                role: doc.data()?.role,
+                paymentStatus: doc.data()?.paymentStatus ,
+              })
               navigateTo(doc.data()?.role)
             })
             .catch((error: any) => {

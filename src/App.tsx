@@ -29,10 +29,43 @@ import StaffSettings from "./pages/Staff/StaffSettings"
 import StaffSchedule from "./pages/Staff/StaffScedule"
 import RootFoods from "./pages/HomePage/RootFoods"
 import RootRooms from "./pages/HomePage/RootRooms"
+import { useContext, useEffect, useState } from "react"
+import { AuthContext } from "./context/AuthContext"
+import { doc, getDoc } from "firebase/firestore"
+import { db } from "./config/firebase"
+import RootPayment from "./pages/HomePage/RootPayment"
 
 export default function App() {
   const location = useLocation()
+  const { dispatch, currentUser } = useContext(AuthContext)
 
+  const [loading, setLoading] = useState(false)
+
+  function getCurrentUser() {
+    if (currentUser !== null) {
+      setLoading(true)
+      getDoc(doc(db, "users", currentUser.uid)).then((doc) => {
+        dispatch({
+          type: "LOGIN",
+          payload: currentUser,
+          role: doc.data()?.role,
+          paymentStatus: doc.data()?.paymentStatus,
+        })
+      })
+      setLoading(false)
+    }
+  }
+  useEffect(() => {
+    getCurrentUser()
+  }, [])
+
+  if (loading) {
+    return (
+      <>
+        <h1>Loading</h1>
+      </>
+    )
+  }
   return (
     <>
       <AnimatePresence mode="wait">
@@ -101,7 +134,7 @@ export default function App() {
           <Route path="/" element={<RootPage />} />
           <Route path="/foods" element={<RootFoods />} />
           <Route path="/rooms" element={<RootRooms />} />
-          <Route />
+          <Route path="/payment" element={<RootPayment />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/about" element={<About />} />

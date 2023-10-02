@@ -5,17 +5,22 @@ import generalImage from "../../assets/Hostel_Imgs/img_16.webp"
 import singleRoom from "../../assets/Hostel_Imgs/img_7.webp"
 import doubleRoom from "../../assets/Hostel_Imgs/img_8.webp"
 import sharedRoom from "../../assets/Hostel_Imgs/img_6.webp"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Counter, CounterField } from "../../lib/Counter"
 import { db } from "../../config/firebase"
 import { getDocs, collection } from "firebase/firestore"
 import toast, { Toaster } from "react-hot-toast"
+import { AuthContext } from "../../context/AuthContext"
+import { useNavigate } from "react-router-dom"
+import PaymentModal from "../../components/PaymentModal"
 
 export default function RootRooms() {
   const [roomTypes, setRoomTypes] = useState<any[]>([])
-
+  const navigate = useNavigate()
   const [TotalRooms, setTotalRooms] = useState(0)
   const [TotalRoomsActive, setRoomsActive] = useState(0)
+  const { currentUser, paymentStatus } = useContext(AuthContext)
+  const [modal, setModal] = useState(false)
 
   const getData = async () => {
     try {
@@ -26,6 +31,18 @@ export default function RootRooms() {
       toast.error(error.message)
     }
   }
+  const handleRoomBook = (id: string) => {
+    console.log(currentUser, paymentStatus)
+
+    if (currentUser === null) {
+      navigate("/login", { state: { from: "/rooms" } })
+      return
+    }
+    if (paymentStatus === null || paymentStatus === false) {
+      setModal(true)
+    }
+  }
+
   useEffect(() => {
     // get number of rooms
     Counter("floor_and_room").then((data) => {
@@ -36,8 +53,10 @@ export default function RootRooms() {
     })
     getData()
   }, [])
+
   return (
     <div className="container">
+      {modal && <PaymentModal setModal={setModal} />}
       <NavBar />
       <Toaster />
       <motion.div
@@ -137,7 +156,9 @@ export default function RootRooms() {
                   <nav>
                     <ul></ul>
                     <ul>
-                      <button>BOOK</button>
+                      <button onClick={() => handleRoomBook(room.id)}>
+                        BOOK
+                      </button>
                     </ul>
                   </nav>
                 </footer>

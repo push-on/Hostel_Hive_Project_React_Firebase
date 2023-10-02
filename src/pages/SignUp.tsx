@@ -24,6 +24,7 @@ export default function SignUp() {
   const createRole = async (id: string, userRole: string | null) => {
     await setDoc(doc(usersCollection, id), {
       role: userRole,
+      paymentStatus: false,
       userID: id,
     }).catch((error) => {
       toast.error(error.message)
@@ -33,14 +34,21 @@ export default function SignUp() {
   const createUser = async (
     id: string,
     name: string | null,
-    useremail: string | null
+    userEmail: string | null
   ) => {
     if (isState === "student") {
       await setDoc(doc(studentsCollection, id), {
         student_name: name === null ? "" : name,
-        student_email: useremail,
+        student_email: userEmail,
         hostel_floor: "",
         hostel_room: "",
+        address: "",
+        phone: "",
+        guardian_name: "",
+        emergency_num: "",
+        gender: "",
+        religion: "",
+        nationality: "",
         booked: false,
         created_at: new Date()
           .toLocaleDateString("en-US", {
@@ -56,7 +64,7 @@ export default function SignUp() {
     } else if (isState === "staff") {
       await setDoc(doc(staffCollection, id), {
         staff_name: name === null ? "" : name,
-        staff_email: useremail,
+        staff_email: userEmail,
         created_at: new Date()
           .toLocaleDateString("en-US", {
             month: "2-digit",

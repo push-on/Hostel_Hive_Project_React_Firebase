@@ -8,10 +8,12 @@ export interface AuthAction {
 	type: 'LOGIN' | 'LOGOUT'
 	payload: User | null,
 	role: 'student' | 'staff' | 'admin' | null
+	paymentStatus: boolean | null
 }
 export interface AuthState {
-	currentUser: null | User
-	currentRole: string | null
+  currentUser: null | User
+  currentRole: string | null
+  paymentStatus: boolean | null
 }
 const AuthReducer = (state: AuthState, action: AuthAction): AuthState => {
 	switch (action.type) {
@@ -19,14 +21,16 @@ const AuthReducer = (state: AuthState, action: AuthAction): AuthState => {
 			return {
 				...state,
 				currentUser: action.payload,
-				currentRole: action.role
+				currentRole: action.role,
+				paymentStatus: action.paymentStatus
 			}
 
 		case 'LOGOUT':
 			return {
 				...state,
 				currentUser: null,
-				currentRole: null
+				currentRole: null,
+				paymentStatus: null
 			}
 
 		default:
