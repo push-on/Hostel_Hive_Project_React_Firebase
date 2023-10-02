@@ -77,7 +77,7 @@ export default function SignUp() {
         toast.error(error.message)
       })
     } else {
-       toast.error("Please select user type")
+      toast.error("Please select user type")
     }
   }
 

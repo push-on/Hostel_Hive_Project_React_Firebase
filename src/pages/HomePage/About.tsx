@@ -75,24 +75,28 @@ export default function About() {
           <div className="grid">
             <hgroup>
               <h3>Imran Hossain</h3>
-              <p></p>
+              <p>Batch: 55</p>
               <p>roll: 53</p>
             </hgroup>
             <hgroup>
               <h3>Abu Bakar Raihan</h3>
+              <p>Batch: 55</p>
               <p>roll: 52</p>
             </hgroup>
             <hgroup>
               <h3>Ashikuzzaman Pranto</h3>
-              <p>roll: 00</p>
+              <p>Batch: 55</p>
+              <p>roll: 17</p>
             </hgroup>
             <hgroup>
               <h3>Abu Sayed Khandaker</h3>
+              <p>Batch: 55</p>
               <p>roll: 54</p>
             </hgroup>
             <hgroup>
               <h3>Siyam Khondker</h3>
-              <p>role: 00</p>
+              <p>Batch: 55</p>
+              <p>role: 13</p>
             </hgroup>
           </div>
         </article>
