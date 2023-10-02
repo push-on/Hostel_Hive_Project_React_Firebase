@@ -2,12 +2,10 @@ import { useContext } from "react"
 import { AuthContext } from "../context/AuthContext"
 import { motion } from "framer-motion"
 
-
-
 export default function CurrentUser() {
-	const { currentUser, currentRole, paymentStatus } = useContext(AuthContext)
+  const { currentUser, currentRole, paymentStatus } = useContext(AuthContext)
 
-	return (
+  return (
     <>
       <motion.nav
         style={{ textTransform: "uppercase" }}
@@ -28,12 +26,18 @@ export default function CurrentUser() {
               {currentRole === null ? "Public" : currentRole}
             </span>
           </li>
-          <li className="nowrap">
-            <strong>PaymentStatus: </strong>
-            <span style={{ color: "silver" }}>
-              {paymentStatus === null ? "unavailable" : paymentStatus ? "paid" : "unpaid"}
-            </span>
-          </li>
+          {currentRole === "student" && (
+            <li className="nowrap">
+              <strong>PaymentStatus: </strong>
+              <span style={{ color: "silver" }}>
+                {paymentStatus === null
+                  ? "unavailable"
+                  : paymentStatus
+                  ? "paid"
+                  : "unpaid"}
+              </span>
+            </li>
+          )}
         </ul>
       </motion.nav>
     </>
