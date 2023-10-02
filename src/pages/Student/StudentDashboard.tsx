@@ -1,63 +1,14 @@
-import { useContext } from "react"
-import toast, { Toaster } from "react-hot-toast"
-import { Link, Outlet, useNavigate } from "react-router-dom"
-import { AuthContext } from "../../context/AuthContext"
-import { signOut } from "firebase/auth"
-import { auth } from "../../config/firebase"
+import { Toaster } from "react-hot-toast"
+import { Link, Outlet } from "react-router-dom"
+
 import CurrentUser from "../../components/CurrentUser"
+import NavBar from "../../components/NavBar"
 
 export default function StudentsDashboard() {
-  const navigate = useNavigate()
-  const { dispatch } = useContext(AuthContext)
-
-  // Logout
-  const HandleLogout = (e: React.FormEvent) => {
-    e.preventDefault()
-    toast.promise(
-      signOut(auth).then(() => {
-        navigate("/", { replace: true })
-        dispatch({ type: "LOGOUT", payload: null, role: null })
-      }),
-      {
-        loading: "Logout...",
-        success: <b>Logged out!</b>,
-        error: <b>Failed to logout!</b>,
-      }
-    )
-  }
-
   return (
     <div className="container">
-      <nav style={{ textTransform: "uppercase" }}>
-        <ul>
-          <li style={{ fontSize: "30px" }}>
-            <strong>
-              <Link to="/">HOSETEL HIVE</Link>
-            </strong>
-          </li>
-        </ul>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <details className="dropdown">
-              <summary>Profile</summary>
-              <ul>
-                <li>
-                  <Link to="/student/">Profile</Link>
-                </li>
-                <li>
-                  <button className="outline" onClick={HandleLogout}>
-                    Logout
-                  </button>
-                </li>
-              </ul>
-            </details>
-          </li>
-        </ul>
-      </nav>
       <Toaster />
+      <NavBar />
       <StudentNav />
       <Outlet />
     </div>

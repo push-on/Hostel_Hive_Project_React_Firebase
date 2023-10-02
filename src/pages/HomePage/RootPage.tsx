@@ -2,13 +2,10 @@ import HosteImg from "../../assets/Hostel_Imgs/img_5.webp"
 import img_one from "../../assets/Hostel_Imgs/img_2.webp"
 import img_two from "../../assets/Hostel_Imgs/img_4.webp"
 import img_three from "../../assets/Hostel_Imgs/img_10.webp"
-import { useContext } from "react"
-import { AuthContext } from "../../context/AuthContext"
 import { Toaster } from "react-hot-toast"
 import Footer from "../../components/Footer"
 import NavBar from "../../components/NavBar"
 import { motion } from "framer-motion"
-import CurrentUser from "../../components/CurrentUser"
 
 export default function RootPage() {
 
@@ -28,7 +25,6 @@ export default function RootPage() {
               <h1>HOSTEL HIVE</h1>
               <p>Students Hostel Management System</p>
             </hgroup>
-            <CurrentUser />
             <main>
               <div className="center ">
                 <img className="w-full" src={HosteImg} alt="" />

@@ -6,13 +6,13 @@ import RootPage from "./pages/HomePage/RootPage"
 import About from "./pages/HomePage/About"
 import SignUp from "./pages/SignUp"
 import NotFound from "./pages/NotFound"
-import Students from "./pages/Dashbord/Students"
-import Staff from "./pages/Dashbord/Staff"
-import Food from "./pages/Dashbord/Food"
-import Payments from "./pages/Dashbord/Payment"
-import Rooms from "./pages/Dashbord/Room"
-import Overview from "./pages/Dashbord/Overview"
-import Settings from "./pages/Dashbord/Settings"
+import Students from "./pages/Dashboard/Dashboard"
+import Staff from "./pages/Dashboard/Staff"
+import Food from "./pages/Dashboard/Food"
+import Payments from "./pages/Dashboard/Payment"
+import Rooms from "./pages/Dashboard/Room"
+import Overview from "./pages/Dashboard/Overview"
+import Settings from "./pages/Dashboard/Settings"
 import ProtectedRoutes from "./context/ProtectedRoutes"
 import ProtectedProfiles from "./context/ProtectedProfiles"
 import ProtectedStaff from "./context/ProtectedStaff"
@@ -26,7 +26,7 @@ import StudentFloor from "./pages/Student/StudentFloor"
 import StudentSettings from "./pages/Student/StudentSettings"
 import StaffRole from "./pages/Staff/StaffRole"
 import StaffSettings from "./pages/Staff/StaffSettings"
-import StaffSchedule from "./pages/Staff/StaffScedule"
+import StaffSchedule from "./pages/Staff/StaffSchedule"
 import RootFoods from "./pages/HomePage/RootFoods"
 import RootRooms from "./pages/HomePage/RootRooms"
 import { useContext, useEffect, useState } from "react"
@@ -95,7 +95,7 @@ export default function App() {
                 }
               />
               <Route
-                path="scedule"
+                path="schedule"
                 element={
                   <motion.div
                     initial={{ x: "100vw", opacity: 0 }}
