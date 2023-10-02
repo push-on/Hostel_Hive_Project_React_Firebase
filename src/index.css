@@ -1,5 +1,4 @@
-/* Jade color for light color scheme (Default) */
-/* Can be forced with data-theme="light" */
+
 [data-theme="light"],
 :root:not([data-theme="dark"]) {
   --pico-text-selection-color: rgba(0, 166, 110, 0.25);
@@ -12,8 +11,6 @@
   --pico-primary-inverse: #fff;
 }
 
-/* Jade color for dark color scheme (Auto) */
-/* Automatically enabled if user has Dark mode enabled */
 @media only screen and (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     --pico-text-selection-color: rgba(0, 180, 120, 0.1875);
