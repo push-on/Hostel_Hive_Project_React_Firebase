@@ -33,7 +33,6 @@ import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "./context/AuthContext"
 import { doc, getDoc } from "firebase/firestore"
 import { db } from "./config/firebase"
-import RootPayment from "./pages/HomePage/RootPayment"
 
 export default function App() {
   const location = useLocation()
@@ -134,7 +133,6 @@ export default function App() {
           <Route path="/" element={<RootPage />} />
           <Route path="/foods" element={<RootFoods />} />
           <Route path="/rooms" element={<RootRooms />} />
-          <Route path="/payment" element={<RootPayment />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/about" element={<About />} />

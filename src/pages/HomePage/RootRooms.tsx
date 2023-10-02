@@ -21,7 +21,7 @@ export default function RootRooms() {
   const [TotalRoomsActive, setRoomsActive] = useState(0)
   const { currentUser, paymentStatus } = useContext(AuthContext)
   const [modal, setModal] = useState(false)
-
+  const [roomID, setRoomID] = useState("")
   const getData = async () => {
     try {
       const data = await getDocs(collection(db, "room_types"))
@@ -32,13 +32,12 @@ export default function RootRooms() {
     }
   }
   const handleRoomBook = (id: string) => {
-    // console.log(currentUser, paymentStatus)
-
     if (currentUser === null) {
       navigate("/login", { state: { from: "/rooms" } })
       return
     }
     if (paymentStatus === null || paymentStatus === false) {
+      setRoomID(id)
       setModal(true)
     }
   }
@@ -56,7 +55,7 @@ export default function RootRooms() {
 
   return (
     <div className="container">
-      {modal && <PaymentModal setModal={setModal} />}
+      {modal && <PaymentModal setModal={setModal} id={roomID} />}
       <NavBar />
       <Toaster />
       <motion.div
