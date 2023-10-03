@@ -9,7 +9,7 @@ export default function StudentOverview() {
   const { currentUser } = useContext(AuthContext)
   const [User, setUser] = useState<any>()
 
-  useEffect(() => {
+  function getUsers() {
     const uid = currentUser?.uid
     if (uid) {
       const documentRef = doc(db, "students", uid)
@@ -23,6 +23,10 @@ export default function StudentOverview() {
     } else {
       toast.error("UID Not Found")
     }
+  }
+
+  useEffect(() => {
+    getUsers()
   }, [])
 
   return (
@@ -32,51 +36,58 @@ export default function StudentOverview() {
       exit={{ x: "-100vw", opacity: 0 }}
       transition={{ ease: "easeInOut", duration: 0.2 }}>
       <hgroup>
-        <h1>Profile</h1>
+        <h1>Profile </h1>
         <p>Student Profile</p>
       </hgroup>
 
       <article>
-        <p>
-          <strong>User Name:</strong> {User?.student_name}
+        <h1>User Details</h1>
+        <p style={{ textTransform: "capitalize" }}>
+          <strong>User Name: </strong> {User?.student_name}
         </p>
         <p>
-          <strong>User Email:</strong> {User?.student_email}
+          <strong>User Email: </strong> {User?.student_email}
+        </p>
+        <p style={{ textTransform: "capitalize" }}>
+          <strong>Booked: </strong> {User?.booked}
         </p>
         <p>
-          <strong>Booked:</strong> {User?.booked ? "Yes" : "No"}
-        </p>
-        <p>
-          <strong>Hostel Room:</strong>{" "}
+          <strong>Hostel Room: </strong>
           {User?.hostel_room === "" ? "Not Assigned" : User?.hostel_room}
         </p>
         <p>
-          <strong>Hostel Floor:</strong>{" "}
+          <strong>Hostel Floor: </strong>
           {User?.hostel_floor === "" ? "Not Assigned" : User?.hostel_floor}
-        </p>
-        <p>
-          <strong>Created At:</strong> {User?.created_at}
-        </p>
-        <p>
-          <strong>Address: </strong> {User?.address}
         </p>
         <p>
           <strong>Phone Number: </strong> {User?.phone}
         </p>
         <p>
-          <strong>Guardian Number: </strong> {User?.guardian_name}
+          <strong>Created At:</strong> {User?.created_at}
         </p>
         <p>
-          <strong>Guardian Number: </strong> {User?.emergency_num}
+          <strong>Address: </strong>
+          {User?.address === "" ? "Not Assigned" : User?.address}
         </p>
         <p>
-          <strong>Gender: </strong> {User?.gender}
+          <strong>Guardian Number: </strong>
+          {User?.guardian_name === "" ? "Not Assigned" : User?.guardian_name}
         </p>
         <p>
-          <strong>Religion: {User?.religion}</strong>
+          <strong>Guardian Number: </strong>
+          {User?.emergency_num === "" ? "Not Assigned" : User?.emergency_num}
         </p>
         <p>
-          <strong>Nationality: {User?.nationality}</strong>
+          <strong>Gender: </strong>
+          {User?.gender === "" ? "Not Assigned" : User?.gender}
+        </p>
+        <p>
+          <strong>Religion: </strong>
+          {User?.religion === "" ? "Not Assigned" : User?.religion}
+        </p>
+        <p>
+          <strong>Nationality: </strong>
+          {User?.nationality === "" ? "Not Assigned" : User?.nationality}
         </p>
       </article>
     </motion.div>

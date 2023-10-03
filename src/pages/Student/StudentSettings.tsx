@@ -10,9 +10,9 @@ export default function StudentSettings() {
   const { currentUser } = useContext(AuthContext)
   const [User, setUser] = useState<any>()
   const [userName, setUserName] = useState("")
-  const [adress, setAdress] = useState("")
+  const [address, setAddress] = useState("")
   const [phone, setPhone] = useState("")
-  const [gurdian_name, setGurdian_name] = useState("")
+  const [guardian_name, setGuardian_name] = useState("")
   const [gender, setGender] = useState("")
   const [emergency_number, setEmergency_number] = useState("")
   const [religion, setReligion] = useState("")
@@ -27,9 +27,9 @@ export default function StudentSettings() {
         .then((doc) => {
           setUser(doc.data())
           setUserName(doc.data()?.student_name)
-          setAdress(doc.data()?.adress)
+          setAddress(doc.data()?.address)
           setPhone(doc.data()?.phone)
-          setGurdian_name(doc.data()?.guardian_name)
+          setGuardian_name(doc.data()?.guardian_name)
           setGender(doc.data()?.gender)
           setEmergency_number(doc.data()?.emergency_num)
           setReligion(doc.data()?.religion)
@@ -50,9 +50,9 @@ export default function StudentSettings() {
     try {
       updateDoc(docRef, {
         student_name: userName,
-        adress: adress,
+        address: address,
         phone: phone,
-        guardian_name: gurdian_name,
+        guardian_name: guardian_name,
         gender: gender,
         emergency_num: emergency_number,
         religion: religion,
@@ -91,34 +91,41 @@ export default function StudentSettings() {
           <label>Full Name</label>
           <input
             type="text"
+            required
             value={userName}
             placeholder={User?.student_name}
             onChange={(e) => setUserName(e.target.value)}
-          />
-          <label>Adress</label>
-          <input
-            type="text"
-            value={adress}
-            onChange={(e) => setAdress(e.target.value)}
           />
           <label>Phone</label>
           <input
             type="text"
             value={phone}
+            required
             placeholder={User?.phone}
             onChange={(e) => setPhone(e.target.value)}
           />
-          <label>Gurdian Name</label>
+          <label>Address</label>
           <input
             type="text"
-            value={gurdian_name}
-            placeholder={User?.gurdian_name}
-            onChange={(e) => setGurdian_name(e.target.value)}
+            required
+            placeholder={User?.address}
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+
+          <label>Guardian Name</label>
+          <input
+            type="text"
+            value={guardian_name}
+            required
+            placeholder={User?.guardian_name}
+            onChange={(e) => setGuardian_name(e.target.value)}
           />
           <label>Gender</label>
           <input
             type="text"
             value={gender}
+            required
             placeholder={User?.gender}
             onChange={(e) => setGender(e.target.value)}
           />
@@ -126,6 +133,7 @@ export default function StudentSettings() {
           <input
             type="text"
             value={emergency_number}
+            required
             placeholder={User?.emergency_number}
             onChange={(e) => setEmergency_number(e.target.value)}
           />
@@ -133,6 +141,7 @@ export default function StudentSettings() {
           <input
             type="text"
             value={religion}
+            required
             placeholder={User?.religion}
             onChange={(e) => setReligion(e.target.value)}
           />
@@ -140,6 +149,7 @@ export default function StudentSettings() {
           <input
             type="text"
             value={Nationality}
+            required
             placeholder={User?.nationality}
             onChange={(e) => setNationality(e.target.value)}
           />

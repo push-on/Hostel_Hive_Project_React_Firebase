@@ -9,7 +9,7 @@ export interface User {
 interface AuthContextValue {
   currentUser: User | null
   currentRole: string | null
-  paymentStatus: boolean | null
+  paymentStatus: string | null
   dispatch: React.Dispatch<AuthAction>
 }
 

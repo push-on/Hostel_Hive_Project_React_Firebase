@@ -24,7 +24,7 @@ export default function SignUp() {
   const createRole = async (id: string, userRole: string | null) => {
     await setDoc(doc(usersCollection, id), {
       role: userRole,
-      paymentStatus: false,
+      paymentStatus: "unpaid",
       userID: id,
     }).catch((error) => {
       toast.error(error.message)
@@ -49,7 +49,7 @@ export default function SignUp() {
         gender: "",
         religion: "",
         nationality: "",
-        booked: "",
+        booked: false,
         created_at: new Date()
           .toLocaleDateString("en-US", {
             month: "2-digit",

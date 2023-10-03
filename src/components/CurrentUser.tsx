@@ -30,11 +30,7 @@ export default function CurrentUser() {
             <li className="nowrap">
               <strong>PaymentStatus: </strong>
               <span style={{ color: "silver" }}>
-                {paymentStatus === null
-                  ? "unavailable"
-                  : paymentStatus
-                  ? "paid"
-                  : "unpaid"}
+                {paymentStatus === null ? "unavailable" : paymentStatus}
               </span>
             </li>
           )}

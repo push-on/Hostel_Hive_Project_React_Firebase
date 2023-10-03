@@ -146,7 +146,7 @@ function ShowUser({ setModal, User }: any) {
           {User?.gender === "" ? "Not Assigned" : User?.gender}
         </p>
         <p>
-          <strong>Religion:</strong>
+          <strong>Religion: </strong>
           {User?.religion === "" ? "Not Assigned" : User?.religion}
         </p>
         <p>

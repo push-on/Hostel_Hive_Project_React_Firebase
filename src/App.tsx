@@ -57,7 +57,6 @@ export default function App() {
   }
   useEffect(() => {
     getCurrentUser()
-    console.log(currentUser)
   }, [])
 
   if (loading) {
