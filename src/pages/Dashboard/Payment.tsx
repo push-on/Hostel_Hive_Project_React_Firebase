@@ -44,17 +44,7 @@ export default function Payments() {
       exit={{ x: "-100vw", opacity: 0 }}
       transition={{ ease: "easeInOut", duration: 0.2 }}>
       {" "}
-      <nav>
-        <ul>
-          <li>
-            <h1>Payment Management</h1>
-          </li>
-        </ul>
-        <ul>
-          <li></li>
-        </ul>
-      </nav>
-      <h2>Payment Approvals</h2>
+      <h2>Payment History</h2>
       {userModal && <ShowUser setModal={setUserModal} User={user} />}
       <table>
         <thead>

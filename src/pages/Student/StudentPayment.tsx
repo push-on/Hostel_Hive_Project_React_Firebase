@@ -37,10 +37,29 @@ export default function StudentPayment() {
       <h1>Current Package</h1>
 
       <article style={{ textTransform: "capitalize" }}>
-        <p>Room Type: {Payments?.room_type} room</p>
-        <p>Message: {Payments?.description}</p>
-        <p>Amount: {Payments?.price} TK</p>
-        <p>Status: {paymentStatus}</p>
+        <p>
+          <strong>Room Type:</strong> {Payments?.room_type} room
+        </p>
+        <p>
+          <strong>Message:</strong> {Payments?.description}
+        </p>
+        <p>
+          <strong>Amount:</strong> {Payments?.price} TK
+        </p>
+        <p>
+          <strong>Status:</strong> {paymentStatus}
+        </p>
+        <p>
+          <strong>Days Left: </strong>
+          {Payments?.validity &&
+            `${Math.ceil(
+              (new Date(Payments.validity).getTime() - new Date().getTime()) /
+                (1000 * 60 * 60 * 24)
+            )} days`}
+        </p>
+        <p>
+          <strong>Valid till:</strong> {Payments?.validity}
+        </p>
       </article>
     </motion.div>
   )
