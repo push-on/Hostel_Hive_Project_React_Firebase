@@ -10,6 +10,7 @@ export default function PaymentModal({ setModal, id }: any) {
   const [contactInfo, setContactInfo] = useState("")
   const [description, setDescription] = useState("")
   const { currentUser } = useContext(AuthContext)
+  const [Payments, setPayments] = useState<any>()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -28,9 +29,10 @@ export default function PaymentModal({ setModal, id }: any) {
         price: selectedRoom?.price,
         description: description,
         phone: contactInfo,
+        paymentStatus: "pending",
       })
         .then(() => {
-          toast.success("Payment Completed")
+          toast.success("Payment is being Processed")
           updateData()
         })
         .catch((error) => {
@@ -42,11 +44,12 @@ export default function PaymentModal({ setModal, id }: any) {
   async function updateData() {
     if (currentUser?.uid) {
       try {
-        const docRef = doc(db, "students", currentUser?.uid)
-        await updateDoc(docRef, {
+        await updateDoc(doc(db, "students", currentUser?.uid), {
           phone: contactInfo,
-          booked: "pending",
-        }).then(() => {})
+        })
+        await updateDoc(doc(db, "users", currentUser?.uid), {
+          paymentStatus: "pending",
+        })
       } catch (error: any) {
         toast.error(error.message)
       }
@@ -58,9 +61,23 @@ export default function PaymentModal({ setModal, id }: any) {
     setSelectedRoom(docs.data())
   }
 
+  const getInstructionData = async () => {
+    try {
+      getDoc(doc(db, "instructions", "jnKliUnfxK9HVWsgAa4x"))
+        .then((doc) => {
+          setPayments(doc.data())
+        })
+        .catch((error) => {
+          toast.error("Error getting user data:", error)
+        })
+    } catch (error: any) {
+      toast.error(error.message)
+    }
+  }
   useEffect(() => {
     if (id !== "") {
       getData()
+      getInstructionData()
     }
   }, [setModal])
 
@@ -75,6 +92,7 @@ export default function PaymentModal({ setModal, id }: any) {
         <hgroup>
           <h1>Complete Your Payment</h1>
         </hgroup>
+
         <table>
           <thead>
             <tr>
@@ -98,6 +116,12 @@ export default function PaymentModal({ setModal, id }: any) {
             </motion.tr>
           </tbody>
         </table>
+        <p>
+          <strong>Title:</strong> {Payments?.title}
+        </p>
+        <p>
+          <strong>Instructions:</strong> {Payments?.description}
+        </p>
         <form onSubmit={handleSubmit}>
           <label>
             Phone Number:

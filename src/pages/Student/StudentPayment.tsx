@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 
 export default function StudentPayment() {
-  const { currentUser } = useContext(AuthContext)
+  const { currentUser, paymentStatus } = useContext(AuthContext)
   const [Payments, setPayments] = useState<any>()
 
   function getPayments() {
@@ -24,7 +24,6 @@ export default function StudentPayment() {
       toast.error("UID Not Found")
     }
   }
-
   useEffect(() => {
     getPayments()
   }, [])
@@ -39,9 +38,9 @@ export default function StudentPayment() {
 
       <article style={{ textTransform: "capitalize" }}>
         <p>Room Type: {Payments?.room_type} room</p>
-        <p>Description: {Payments?.description}</p>
+        <p>Message: {Payments?.description}</p>
         <p>Amount: {Payments?.price} TK</p>
-        <p>Validity: {Payments?.date}</p>
+        <p>Status: {paymentStatus}</p>
       </article>
     </motion.div>
   )

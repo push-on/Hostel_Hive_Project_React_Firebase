@@ -12,7 +12,6 @@ import Food from "./pages/Dashboard/Food"
 import Payments from "./pages/Dashboard/Payment"
 import Rooms from "./pages/Dashboard/Room"
 import Overview from "./pages/Dashboard/Overview"
-import Settings from "./pages/Dashboard/Settings"
 import ProtectedRoutes from "./context/ProtectedRoutes"
 import ProtectedProfiles from "./context/ProtectedProfiles"
 import ProtectedStaff from "./context/ProtectedStaff"
@@ -22,7 +21,6 @@ import StudentsFood from "./pages/Student/StudentsFood"
 import StudentPayment from "./pages/Student/StudentPayment"
 import StaffDashboard from "./pages/Staff/StaffDashboard"
 import StaffOverview from "./pages/Staff/StaffOverview"
-import StudentFloor from "./pages/Student/StudentFloor"
 import StudentSettings from "./pages/Student/StudentSettings"
 import StaffRole from "./pages/Staff/StaffRole"
 import StaffSettings from "./pages/Staff/StaffSettings"
@@ -34,6 +32,7 @@ import { AuthContext } from "./context/AuthContext"
 import { doc, getDoc } from "firebase/firestore"
 import { db } from "./config/firebase"
 import Loading from "./components/Loading"
+import Instructions from "./pages/Dashboard/Instructions"
 
 export default function App() {
   const location = useLocation()
@@ -75,7 +74,6 @@ export default function App() {
               <Route index element={<StudentOverview />} />
               <Route path="food" element={<StudentsFood />} />
               <Route path="payment" element={<StudentPayment />} />
-              <Route path="room" element={<StudentFloor />} />
               <Route path="settings" element={<StudentSettings />} />
             </Route>
           </Route>
@@ -128,7 +126,7 @@ export default function App() {
               <Route path="food" element={<Food />} />
               <Route path="payment" element={<Payments />} />
               <Route path="rooms" element={<Rooms />} />
-              <Route path="settings" element={<Settings />} />
+              <Route path="instructions" element={<Instructions />} />
             </Route>
           </Route>
           <Route path="/" element={<RootPage />} />

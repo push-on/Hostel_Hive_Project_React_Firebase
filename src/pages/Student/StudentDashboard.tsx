@@ -32,9 +32,6 @@ function StudentNav() {
             <Link to="/student/payment">Payment</Link>
           </li>
           <li>
-            <Link to="/student/room">Room & Floor</Link>
-          </li>
-          <li>
             <Link to="/student/settings">Settings</Link>
           </li>
         </ul>

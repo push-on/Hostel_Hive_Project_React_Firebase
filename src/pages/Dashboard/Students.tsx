@@ -1,12 +1,9 @@
-import { useState, useEffect, useContext } from "react"
+import { useState, useEffect } from "react"
 import { db } from "../../config/firebase"
 
-import { getDocs, collection, deleteDoc, doc } from "firebase/firestore"
+import { getDocs, collection, getDoc, doc, updateDoc } from "firebase/firestore"
 import { toast } from "react-hot-toast"
 import { motion } from "framer-motion"
-
-import EditUser from "./EditUser"
-import { AuthContext } from "../../context/AuthContext"
 
 interface Student {
   id: string
@@ -14,20 +11,8 @@ interface Student {
 
 export default function Students() {
   const [students, setStudents] = useState<Student[]>([])
-  const [updateID, setUpdateID] = useState("")
-  const [EditMode, setEditMode] = useState(false)
-  const { currentUser } = useContext(AuthContext)
 
   const myCollectionRef = collection(db, "students")
-
-  const editData = async (id: string) => {
-    if (currentUser) {
-      setUpdateID(id)
-      setEditMode(true)
-    } else {
-      toast.error("you are not logged in")
-    }
-  }
 
   const getData = async () => {
     try {
@@ -38,19 +23,96 @@ export default function Students() {
       toast.error(error.message)
     }
   }
-
-  const deleteData = async (id: string) => {
-    try {
-      const docRef = doc(db, "students", id)
-      await deleteDoc(docRef).then(() => {
-        getData()
-        toast.success("Deleted Successfully")
-      })
-    } catch (error) {
-      toast.error("you are not logged in")
+  async function Approval(id: string) {
+    const docs = await getDoc(doc(db, "users", id))
+    const docs_ = await getDoc(doc(db, "payments", id))
+    if (
+      docs.data()?.paymentStatus === "paid" &&
+      docs_.data()?.paymentStatus === "paid"
+    ) {
+      toast.error("Already Approved")
+      return
     }
-  }
 
+    updateDoc(doc(db, "students", id), {
+      validity: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+        .toLocaleDateString("en-US", {
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+        })
+        .replace(/\//g, "-"),
+    })
+    updateDoc(doc(db, "payments", id), {
+      paymentStatus: "paid",
+      validity: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+        .toLocaleDateString("en-US", {
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+        })
+        .replace(/\//g, "-"),
+    })
+    updateDoc(doc(db, "users", id), {
+      paymentStatus: "paid",
+      validity: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+        .toLocaleDateString("en-US", {
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+        })
+        .replace(/\//g, "-"),
+    }).then(() => {
+      toast.success("Approved")
+      getData()
+    })
+  }
+  async function reset(id: string) {
+    const docs = await getDoc(doc(db, "users", id))
+    const docs_ = await getDoc(doc(db, "payments", id))
+    if (
+      docs.data()?.paymentStatus !== "paid" &&
+      docs_.data()?.paymentStatus !== "paid"
+    ) {
+      toast.error("Already Set")
+      return
+    }
+    updateDoc(doc(db, "students", id), {
+      validity: new Date()
+        .toLocaleDateString("en-US", {
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+        })
+        .replace(/\//g, "-"),
+    })
+    updateDoc(doc(db, "payments", id), {
+      paymentStatus: "unpaid",
+      description: "",
+      price: "",
+      room_type: "",
+      validity: new Date()
+        .toLocaleDateString("en-US", {
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+        })
+        .replace(/\//g, "-"),
+    })
+    updateDoc(doc(db, "users", id), {
+      paymentStatus: "unpaid",
+      validity: new Date()
+        .toLocaleDateString("en-US", {
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+        })
+        .replace(/\//g, "-"),
+    }).then(() => {
+      toast.success("successfully reset")
+      getData()
+    })
+  }
   useEffect(() => {
     getData()
   }, [])
@@ -73,11 +135,12 @@ export default function Students() {
           <tr>
             <th className="nowrap">Student Name</th>
             <th className="nowrap">Student Email</th>
-            <th className="nowrap">Hostel FLoor</th>
-            <th className="nowrap">Hostel Room</th>
-            <th className="nowrap">Booked</th>
-            <th className="nowrap">Assign</th>
-            <th className="nowrap">Remove</th>
+            <th className="nowrap">Student Phone</th>
+            <th className="nowrap">Created At</th>
+            <th className="nowrap">Valid till</th>
+            <th className="nowrap">Validity</th>
+            <th className="nowrap">Action</th>
+            <th className="nowrap">End Subscription</th>
           </tr>
         </thead>
         <tbody>
@@ -90,39 +153,29 @@ export default function Students() {
               key={student?.id}>
               <td>{student?.student_name}</td>
               <td>{student?.student_email}</td>
+              <td>{student?.phone}</td>
+              <td>{student?.created_at}</td>
+              <td>{student?.validity}</td>
               <td>
-                {student?.hostel_floor === ""
-                  ? "Not Assigned"
-                  : student?.hostel_floor}
+                {student?.validity &&
+                  `${Math.ceil(
+                    (new Date(student.validity).getTime() -
+                      new Date().getTime()) /
+                      (1000 * 60 * 60 * 24)
+                  )} days`}
               </td>
               <td>
-                {student?.hostel_room === ""
-                  ? "Not Assigned"
-                  : student?.hostel_room}
-              </td>
-              <td>{student?.booked ? "Yes" : "No"}</td>
-              <td>
-                <button className="btn" onClick={() => editData(student.id)}>
-                  Assign
+                <button className="btn" onClick={() => Approval(student?.id)}>
+                  Approve
                 </button>
               </td>
               <td>
-                <button className="btn" onClick={() => deleteData(student.id)}>
-                  Remove
+                <button className="btn" onClick={() => reset(student?.id)}>
+                  End
                 </button>
               </td>
             </motion.tr>
           ))}
-          {EditMode ? (
-            <EditUser
-              editData={editData}
-              id={updateID}
-              editMode={setEditMode}
-              updateData={getData}
-            />
-          ) : (
-            ""
-          )}
         </tbody>
       </table>
     </motion.div>

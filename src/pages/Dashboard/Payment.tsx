@@ -8,15 +8,6 @@ export default function Payments() {
   const [Payments, setPayments] = useState<any>()
   const [user, setUser] = useState<any>()
   const [userModal, setUserModal] = useState(false)
-  const getData = async () => {
-    try {
-      const data = await getDocs(collection(db, "payments"))
-      const userData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-      setPayments(userData)
-    } catch (error: any) {
-      toast.error(error.message)
-    }
-  }
   const getUser = async (uid: string) => {
     if (uid) {
       const documentRef = doc(db, "students", uid)
@@ -32,6 +23,16 @@ export default function Payments() {
       toast.error("UID Not Found")
     }
   }
+  const getData = async () => {
+    try {
+      const data = await getDocs(collection(db, "payments"))
+      const userData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      setPayments(userData)
+    } catch (error: any) {
+      toast.error(error.message)
+    }
+  }
+
   useEffect(() => {
     getData()
   }, [])
@@ -58,12 +59,12 @@ export default function Payments() {
       <table>
         <thead>
           <tr>
-            <th>Details</th>
+            <th>User Details</th>
             <th>Contact Info</th>
             <th>Room Type</th>
             <th>Description</th>
             <th>Amount</th>
-            <th>Approve</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -75,7 +76,9 @@ export default function Payments() {
                 </button>
               </td>
               <td>{payment?.phone}</td>
-              <td>{payment?.room_type}</td>
+              <td style={{ textTransform: "capitalize" }}>
+                {payment?.room_type} Room
+              </td>
               <td>
                 <em
                   data-tooltip={
@@ -85,9 +88,7 @@ export default function Payments() {
                 </em>
               </td>
               <td>{payment?.price}TK</td>
-              <td>
-                <button className="btn">Approve</button>
-              </td>
+              <td>{payment?.paymentStatus}</td>
             </tr>
           ))}
         </tbody>
@@ -100,28 +101,17 @@ function ShowUser({ setModal, User }: any) {
   return (
     <dialog open>
       <article>
-        <h1>User Details</h1>
         <button
           onClick={() => setModal(false)}
           aria-label="Close"
           className="close outline secondary"
         />
+        <h1>User Details</h1>
         <p style={{ textTransform: "capitalize" }}>
           <strong>User Name: </strong> {User?.student_name}
         </p>
         <p>
           <strong>User Email: </strong> {User?.student_email}
-        </p>
-        <p style={{ textTransform: "capitalize" }}>
-          <strong>Booked: </strong> {User?.booked}
-        </p>
-        <p>
-          <strong>Hostel Room: </strong>
-          {User?.hostel_room === "" ? "Not Assigned" : User?.hostel_room}
-        </p>
-        <p>
-          <strong>Hostel Floor: </strong>
-          {User?.hostel_floor === "" ? "Not Assigned" : User?.hostel_floor}
         </p>
         <p>
           <strong>Phone Number: </strong> {User?.phone}

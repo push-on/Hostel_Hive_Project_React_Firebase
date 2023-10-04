@@ -8,7 +8,7 @@ import sharedRoom from "../../assets/Hostel_Imgs/img_6.webp"
 import { useContext, useEffect, useState } from "react"
 import { Counter, CounterField } from "../../lib/Counter"
 import { db } from "../../config/firebase"
-import { getDocs, collection } from "firebase/firestore"
+import { getDocs, collection, getDoc, doc } from "firebase/firestore"
 import toast, { Toaster } from "react-hot-toast"
 import { AuthContext } from "../../context/AuthContext"
 import { useNavigate } from "react-router-dom"
@@ -22,6 +22,21 @@ export default function RootRooms() {
   const { currentUser, paymentStatus } = useContext(AuthContext)
   const [modal, setModal] = useState(false)
   const [roomID, setRoomID] = useState("")
+  const [Payments, setPayments] = useState<any>()
+
+  const getPaymentsData = async () => {
+    const uid = currentUser?.uid
+    if (uid) {
+      getDoc(doc(db, "payments", uid))
+        .then((doc) => {
+          setPayments(doc.data())
+        })
+        .catch((error) => {
+          toast.error("Error getting user data:", error)
+        })
+    }
+  }
+
   const getData = async () => {
     try {
       const data = await getDocs(collection(db, "room_types"))
@@ -36,9 +51,19 @@ export default function RootRooms() {
       navigate("/login", { state: { from: "/rooms" } })
       return
     }
-    if (paymentStatus === null || paymentStatus === false) {
+    if (paymentStatus === null || paymentStatus === "unpaid") {
       setRoomID(id)
       setModal(true)
+    }
+    if (paymentStatus === "pending") {
+      toast("Payment transaction is being processed", {
+        duration: 6000,
+      })
+    }
+    if (paymentStatus === "paid") {
+      toast("Already booked", {
+        duration: 6000,
+      })
     }
   }
 
@@ -50,7 +75,9 @@ export default function RootRooms() {
     CounterField("floor_and_room", "status").then((data) => {
       setRoomsActive(data)
     })
+
     getData()
+    getPaymentsData()
   }, [])
 
   return (
@@ -82,9 +109,6 @@ export default function RootRooms() {
                 </li>
                 <li>
                   <p>Total Number of Rooms Available: 0{TotalRoomsActive}</p>
-                </li>
-                <li>
-                  <p>Number of Beds Available: </p>
                 </li>
                 <li>
                   <p>Air Conditioning: Available</p>
@@ -147,6 +171,7 @@ export default function RootRooms() {
                     {room.foodservice ? "Available" : "Not Available"}
                   </li>
                   <li>Price: {room.price}</li>
+                  <li>Validity: 1 Month</li>
                   <li>bathroom: {room.bathroom}</li>
                   <li>Study desk: {room.desk}</li>
                   <li>Wardrobe: {room.wardrobe}</li>
@@ -155,9 +180,13 @@ export default function RootRooms() {
                   <nav>
                     <ul></ul>
                     <ul>
-                      <button onClick={() => handleRoomBook(room.id)}>
-                        BOOK
-                      </button>
+                      {Payments?.room_type === room?.room_type ? (
+                        <strong>Already Booked</strong>
+                      ) : (
+                        <button onClick={() => handleRoomBook(room.id)}>
+                          BOOK
+                        </button>
+                      )}
                     </ul>
                   </nav>
                 </footer>

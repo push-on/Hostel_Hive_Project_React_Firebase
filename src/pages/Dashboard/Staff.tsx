@@ -127,14 +127,19 @@ export default function Staff() {
 function EditUser({ editMode, id, updateData }: any) {
   const [fullName, setFullName] = useState("")
   const [email, setEmail] = useState("")
-
+  const [createdAt, setCreatedAt] = useState("")
+  const [task, setTask] = useState("")
+  const [roomNo, setRoomNo] = useState("")
 
   const getPreviousData = async () => {
     const docRef = doc(db, "staffs", id)
     const docSnap = await getDoc(docRef)
     if (docSnap.exists()) {
-      setFullName(docSnap.data().staff_name)
-      setEmail(docSnap.data().staff_email)
+      setFullName(docSnap.data()?.staff_name)
+      setEmail(docSnap.data()?.staff_email)
+      setCreatedAt(docSnap.data()?.created_at)
+      setTask(docSnap.data()?.task)
+      setRoomNo(docSnap.data()?.room_no)
     }
   }
   useEffect(() => {
@@ -169,21 +174,28 @@ function EditUser({ editMode, id, updateData }: any) {
   return (
     <dialog open>
       <article>
-        <h2>Edit User</h2>
+        <h2>Assign Staff Work Order</h2>
+        <p>Full Name: {fullName}</p>
+        <p>Email: {email}</p>
         <form>
-          <label>Full Name</label>
+          <label>Shift Time</label>
           <input
             type="text"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-          />
-
-          <label>Email</label>
+            value={createdAt}
+            required
+            onChange={(e) => setCreatedAt(e.target.value)}></input>
+          <label htmlFor=""> Work Order</label>
           <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+            type="text"
+            value={task}
+            required
+            onChange={(e) => setTask(e.target.value)}></input>
+          <label htmlFor=""> Room No</label>
+          <input
+            type="text"
+            value={roomNo}
+            required
+            onChange={(e) => setRoomNo(e.target.value)}></input>
           <footer className="grid">
             <button className="outline" onClick={handleSubmit}>
               Submit

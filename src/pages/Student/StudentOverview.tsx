@@ -12,8 +12,7 @@ export default function StudentOverview() {
   function getUsers() {
     const uid = currentUser?.uid
     if (uid) {
-      const documentRef = doc(db, "students", uid)
-      getDoc(documentRef)
+      getDoc(doc(db, "students", uid))
         .then((doc) => {
           setUser(doc.data())
         })
@@ -48,29 +47,27 @@ export default function StudentOverview() {
         <p>
           <strong>User Email: </strong> {User?.student_email}
         </p>
-        <p style={{ textTransform: "capitalize" }}>
-          <strong>Booked: </strong> {User?.booked}
-        </p>
-        <p>
-          <strong>Hostel Room: </strong>
-          {User?.hostel_room === "" ? "Not Assigned" : User?.hostel_room}
-        </p>
-        <p>
-          <strong>Hostel Floor: </strong>
-          {User?.hostel_floor === "" ? "Not Assigned" : User?.hostel_floor}
-        </p>
+
         <p>
           <strong>Phone Number: </strong> {User?.phone}
         </p>
         <p>
           <strong>Created At:</strong> {User?.created_at}
         </p>
+        {/* <p>
+          <strong>Hostel Room: </strong>
+          {User?.hostel_room === "" ? "Not Assigned" : User?.hostel_room}
+        </p>
+        <p>
+          <strong>Hostel Floor: </strong>
+          {User?.hostel_floor === "" ? "Not Assigned" : User?.hostel_floor}
+        </p> */}
         <p>
           <strong>Address: </strong>
           {User?.address === "" ? "Not Assigned" : User?.address}
         </p>
         <p>
-          <strong>Guardian Number: </strong>
+          <strong>Guardian Name: </strong>
           {User?.guardian_name === "" ? "Not Assigned" : User?.guardian_name}
         </p>
         <p>

@@ -61,6 +61,9 @@ function DashboardNav() {
           <li>
             <Link to="/dashboard/payment">Payment</Link>
           </li>
+          <li>
+            <Link to="/dashboard/instructions">Instructions</Link>
+          </li>
         </ul>
       </nav>
     </>
