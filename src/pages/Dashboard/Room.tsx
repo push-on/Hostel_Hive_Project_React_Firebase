@@ -106,7 +106,7 @@ export default function Rooms() {
         </table>
       </article>
       <article>
-        <h1>Total Rooms</h1>
+        <h1>Total Available Rooms</h1>
 
         {TotalRooms.map((room) => (
           <>

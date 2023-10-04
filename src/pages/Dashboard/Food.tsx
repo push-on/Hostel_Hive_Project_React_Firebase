@@ -6,6 +6,7 @@ import toast from "react-hot-toast"
 
 export default function Food() {
   const [foodItems, setFoodItems] = useState<any[]>([])
+  const [foodSubs, setFoodSubs] = useState<any[]>([])
   const [modal, setModal] = useState(false)
   const getData = async () => {
     try {
@@ -16,9 +17,19 @@ export default function Food() {
       toast.error(error.message)
     }
   }
+  const getFoodSubs = async () => {
+    try {
+      const data = await getDocs(collection(db, "food_subscriptions"))
+      const foodData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      setFoodSubs(foodData)
+    } catch (error: any) {
+      toast.error(error.message)
+    }
+  }
 
   useEffect(() => {
     getData()
+    getFoodSubs()
   }, [])
   return (
     <div className="container">
@@ -30,7 +41,7 @@ export default function Food() {
         <nav>
           <ul>
             <li>
-              <h1>MONTHLY FOOD SUBSCRIPTION</h1>
+              <h3>MONTHLY FOOD SUBSCRIPTION TYPES</h3>
             </li>
           </ul>
           <ul>
@@ -67,6 +78,42 @@ export default function Food() {
                 <td>{option.description}</td>
                 <td>{option?.special ? `${option.special}` : "none"}</td>
                 <td>{option.price}</td>
+              </motion.tr>
+            ))}
+          </tbody>
+        </table>
+        <nav>
+          <ul>
+            <li>
+              <h3> SUBSCRIPTION USERS</h3>
+            </li>
+          </ul>
+          <ul>
+            <li></li>
+          </ul>
+        </nav>
+        <table style={{ textTransform: "capitalize" }}>
+          <thead>
+            <tr style={{ textTransform: "capitalize" }}>
+              <th>Selected Subscription:</th>
+              <th>Message:</th>
+              <th>Amount:</th>
+              <th>Payment Status:</th>
+              <th>Subscribed:</th>
+            </tr>
+          </thead>
+          <tbody>
+            {foodSubs?.map((option) => (
+              <motion.tr
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ ease: "easeInOut", duration: 0.3 }}>
+                <td>{option?.selected} </td>
+                <td>{option?.description}</td>
+                <td>{option?.price}</td>
+                <td>{option?.payment}</td>
+                <td>{option?.date}</td>
               </motion.tr>
             ))}
           </tbody>
