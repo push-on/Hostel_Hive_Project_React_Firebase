@@ -34,6 +34,7 @@ import { db } from "./config/firebase"
 import Loading from "./components/Loading"
 import Instructions from "./pages/Dashboard/Instructions"
 import toast from "react-hot-toast"
+import DailyMeals from "./pages/Dashboard/DailyMeals"
 
 export default function App() {
   const location = useLocation()
@@ -133,6 +134,7 @@ export default function App() {
               <Route path="student" element={<Students />} />
               <Route path="staff" element={<Staff />} />
               <Route path="food" element={<Food />} />
+              <Route path="daily_meals" element={<DailyMeals />} />
               <Route path="payment" element={<Payments />} />
               <Route path="rooms" element={<Rooms />} />
               <Route path="instructions" element={<Instructions />} />

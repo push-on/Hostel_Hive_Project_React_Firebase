@@ -22,6 +22,7 @@ function DashboardNav() {
     { path: "/dashboard/student", title: "Students" },
     { path: "/dashboard/staff", title: "Staff" },
     { path: "/dashboard/food", title: "Food" },
+    { path: "/dashboard/daily_meals", title: "Daily Meals" },
     { path: "/dashboard/payment", title: "Payment" },
     { path: "/dashboard/rooms", title: "Rooms & Floor" },
   ]
@@ -57,6 +58,9 @@ function DashboardNav() {
           </li>
           <li>
             <Link to="/dashboard/food">Food</Link>
+          </li>
+          <li>
+            <Link to="/dashboard/daily_meals">Daily Meals</Link>
           </li>
           <li>
             <Link to="/dashboard/payment">Payment</Link>

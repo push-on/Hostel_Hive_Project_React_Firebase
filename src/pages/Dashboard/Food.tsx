@@ -1,50 +1,60 @@
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { AiOutlineClose, AiOutlineEdit } from "react-icons/ai";
-import { db } from "../../config/firebase";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore"
+import { motion } from "framer-motion"
+import { useEffect, useState } from "react"
+import toast from "react-hot-toast"
+import { AiOutlineClose, AiOutlineEdit } from "react-icons/ai"
+import { db } from "../../config/firebase"
 
 export default function Food() {
-  const [foodItems, setFoodItems] = useState<any[]>([]);
-  const [foodForm, setFoodForm] = useState({ name: "", price: 0, status: true });
-  const [modal, setModal] = useState(false);
-  const [editModal, setEditModal] = useState(false);
-  const [selected, setSelected] = useState();
+  const [foodItems, setFoodItems] = useState<any[]>([])
+  const [foodForm, setFoodForm] = useState({ name: "", price: 0, status: true })
+  const [modal, setModal] = useState(false)
+  const [editModal, setEditModal] = useState(false)
+  const [selected, setSelected] = useState()
 
   const getData = async () => {
     try {
-      const data = await getDocs(collection(db, "food_items"));
-      const foodData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-      setFoodItems(foodData);
+      const data = await getDocs(collection(db, "food_items"))
+      const foodData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      setFoodItems(foodData)
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.message)
     }
-  };
+  }
 
   const deleteData = async (id: string) => {
     try {
-      const docRef = doc(db, "food_items", id);
+      const docRef = doc(db, "food_items", id)
       await deleteDoc(docRef).then(() => {
-        getData();
-        toast.success("Deleted Successfully");
-      });
+        getData()
+        toast.success("Deleted Successfully")
+      })
     } catch (error) {
-      toast.error("you are not logged in");
+      toast.error("you are not logged in")
     }
-  };
+  }
 
-  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleOnChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     try {
-      const { name, value } = event.target;
-      setFoodForm((prev) => ({ ...prev, [name]: value }));
+      const { name, value } = event.target
+      setFoodForm((prev) => ({ ...prev, [name]: value }))
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
   useEffect(() => {
-    getData();
-  }, []);
+    getData()
+  }, [])
 
   return (
     <div className="container">
@@ -52,8 +62,7 @@ export default function Food() {
         initial={{ x: "100vw", opacity: 0 }}
         animate={{ x: "0vw", opacity: 1 }}
         exit={{ x: "-100vw", opacity: 0 }}
-        transition={{ ease: "easeInOut", duration: 0.2 }}
-      >
+        transition={{ ease: "easeInOut", duration: 0.2 }}>
         <nav>
           <ul>
             <li>
@@ -107,8 +116,7 @@ export default function Food() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ ease: "easeInOut", duration: 0.3 }}
-              >
+                transition={{ ease: "easeInOut", duration: 0.3 }}>
                 <td>{option?.name} </td>
                 <td>{option?.status === true ? "Active" : "Inactive"}</td>
                 <td>{option?.price}</td>
@@ -116,10 +124,9 @@ export default function Food() {
                   <button
                     className="btn"
                     onClick={() => {
-                      setSelected(option?.id);
-                      setEditModal(true);
-                    }}
-                  >
+                      setSelected(option?.id)
+                      setEditModal(true)
+                    }}>
                     <AiOutlineEdit />
                   </button>
                 </td>
@@ -134,32 +141,32 @@ export default function Food() {
         </table>
       </motion.div>
     </div>
-  );
+  )
 }
 
 function AddFoodItem({ setModal, getData, food, setFoodForm, onChange }: any) {
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
     await addDoc(collection(db, "food_items"), food)
       .then(() => {
-        toast.success("Added Successfully");
-        setFoodForm({ name: "", price: 0, status: true });
-        getData();
-        setModal(false);
+        toast.success("Added Successfully")
+        setFoodForm({ name: "", price: 0, status: true })
+        getData()
+        setModal(false)
       })
       .catch((error) => {
-        toast.error(error.message);
-        setModal(false);
-      });
-  };
+        toast.error(error.message)
+        setModal(false)
+      })
+  }
 
   return (
     <article>
       <button
         className="close contrast "
         onClick={() => {
-          setFoodForm({ name: "", price: 0, status: true });
-          setModal(false);
+          setFoodForm({ name: "", price: 0, status: true })
+          setModal(false)
         }}
       />
       <h1>Add Food Item</h1>
@@ -190,7 +197,7 @@ function AddFoodItem({ setModal, getData, food, setFoodForm, onChange }: any) {
         <button type="submit">Submit</button>
       </form>
     </article>
-  );
+  )
 }
 
 function EditFoodItem({ setModal, id, getData, food, setFood, onChange }: any) {
@@ -198,35 +205,35 @@ function EditFoodItem({ setModal, id, getData, food, setFood, onChange }: any) {
     try {
       getDoc(doc(db, "food_items", id))
         .then((doc) => {
-          setFood(doc.data());
+          setFood(doc.data())
         })
         .catch((error) => {
-          throw new Error(error.message);
-        });
+          throw new Error(error.message)
+        })
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     updateDoc(doc(db, "food_items", id), food)
       .then(() => {
-        toast.success("Added Successfully");
-        setFood({ name: "", price: 0, status: true });
-        getData();
-        setModal(false);
+        toast.success("Added Successfully")
+        setFood({ name: "", price: 0, status: true })
+        getData()
+        setModal(false)
       })
       .catch((error) => {
-        toast.error(error.message);
-        setModal(false);
-      });
-  };
+        toast.error(error.message)
+        setModal(false)
+      })
+  }
 
   useEffect(() => {
-    getFoodById();
-  }, []);
+    getFoodById()
+  }, [])
 
   return (
     <article>
@@ -234,22 +241,34 @@ function EditFoodItem({ setModal, id, getData, food, setFood, onChange }: any) {
       <button
         className="close contrast "
         onClick={() => {
-          setFood({ name: "", price: 0, status: true });
-          setModal(false);
+          setFood({ name: "", price: 0, status: true })
+          setModal(false)
         }}
       />
       <form onSubmit={handleSubmit}>
         <label>Food Item Name</label>
-        <input name="name" type="text" required value={food.name} onChange={onChange} />
+        <input
+          name="name"
+          type="text"
+          required
+          value={food.name}
+          onChange={onChange}
+        />
         <label>status</label>
         <select name="status" required value={food.status} onChange={onChange}>
           <option value={"true"}>Available</option>
           <option value={"false"}>N/A</option>
         </select>
         <label>Price</label>
-        <input name="price" type="text" required value={food.price} onChange={onChange} />
+        <input
+          name="price"
+          type="text"
+          required
+          value={food.price}
+          onChange={onChange}
+        />
         <button type="submit">Submit</button>
       </form>
     </article>
-  );
+  )
 }
