@@ -45,7 +45,7 @@ export default function DailyMeals() {
           <tr>
             <td>Breakfast</td>
             <td>
-              <select>
+              <select multiple>
                 {foodItems?.map((item) => (
                   <option key={item.id}>{item.name}</option>
                 ))}
@@ -61,7 +61,7 @@ export default function DailyMeals() {
           <tr>
             <td>Lunch</td>
             <td>
-              <select>
+              <select multiple>
                 {foodItems?.map((item) => (
                   <option key={item.id}>{item.name}</option>
                 ))}
@@ -77,7 +77,7 @@ export default function DailyMeals() {
           <tr>
             <td>Dinner</td>
             <td>
-              <select>
+              <select multiple>
                 {foodItems?.map((item) => (
                   <option key={item.id}>{item.name}</option>
                 ))}
