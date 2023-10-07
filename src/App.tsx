@@ -29,17 +29,25 @@ import RootFoods from "./pages/HomePage/RootFoods"
 import RootRooms from "./pages/HomePage/RootRooms"
 import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "./context/AuthContext"
-import { doc, getDoc } from "firebase/firestore"
+import { collection, doc, getDoc, getDocs } from "firebase/firestore"
 import { db } from "./config/firebase"
 import Loading from "./components/Loading"
 import Instructions from "./pages/Dashboard/Instructions"
+import toast from "react-hot-toast"
 
 export default function App() {
   const location = useLocation()
   const { dispatch, currentUser } = useContext(AuthContext)
-
   const [loading, setLoading] = useState(false)
-
+  const getData = async () => {
+    try {
+      const data = await getDocs(collection(db, "meals"))
+      const foodData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      console.log(foodData)
+    } catch (error: any) {
+      toast.error(error.message)
+    }
+  }
   function getCurrentUser() {
     if (currentUser !== null) {
       setLoading(true)
@@ -55,6 +63,7 @@ export default function App() {
     }
   }
   useEffect(() => {
+    getData()
     getCurrentUser()
   }, [])
 
