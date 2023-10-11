@@ -61,11 +61,7 @@ export default function Instructions() {
             <input type="text" name="title" />
             <label htmlFor="">Description</label>
             <input type="text" name="description" />
-            <input
-              type="submit"
-              value="Submit"
-              className="outline  secondary"
-            />
+            <input type="submit" value="Submit" className="contrast" />
           </form>
         </article>
       </article>

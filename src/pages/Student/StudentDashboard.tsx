@@ -35,7 +35,7 @@ function StudentNav() {
             <Link
               to="/student/food"
               className={curLoc.pathname === "/student/food" ? "active " : ""}>
-              Food
+              Daily-Meal
             </Link>
           </li>
           <li>

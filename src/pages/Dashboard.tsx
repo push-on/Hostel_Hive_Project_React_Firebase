@@ -44,7 +44,7 @@ function DashboardNav() {
         <ul>
           <li>
             <Link
-              to="/dashboard/"
+              to="/dashboard"
               className={curLoc.pathname === "/dashboard" ? "active " : ""}>
               Overview
             </Link>{" "}
@@ -57,7 +57,7 @@ function DashboardNav() {
                   ? "active nowrap"
                   : "nowrap"
               }>
-              Rooms & Floor
+              Rooms-&-Floor
             </Link>
           </li>
           <li>
@@ -84,7 +84,7 @@ function DashboardNav() {
               className={
                 curLoc.pathname === "/dashboard/food" ? "active " : ""
               }>
-              Food
+              Food-Items
             </Link>
           </li>
           <li>
@@ -93,7 +93,7 @@ function DashboardNav() {
               className={
                 curLoc.pathname === "/dashboard/daily_meals" ? "active " : ""
               }>
-              Daily Meals
+              Daily-Meals
             </Link>
           </li>
           <li>

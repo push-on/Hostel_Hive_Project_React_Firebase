@@ -54,9 +54,6 @@ export default function Rooms() {
       exit={{ x: "-100vw", opacity: 0 }}
       transition={{ ease: "easeInOut", duration: 0.2 }}>
       <article>
-        <h1>Assign Room</h1>
-      </article>
-      <article>
         <dialog open={modal}>
           <AddRoomType setModal={setModal} getData={getData} />
         </dialog>

@@ -13,8 +13,9 @@ export default function NavBar() {
   // Logout
   const HandleLogout = (e: React.FormEvent) => {
     e.preventDefault()
-    toast.promise(
-      signOut(auth).then(() => {
+
+    signOut(auth)
+      .then(() => {
         navigate("/", { replace: true })
         dispatch({
           type: "LOGOUT",
@@ -22,13 +23,11 @@ export default function NavBar() {
           role: null,
           paymentStatus: null,
         })
-      }),
-      {
-        loading: "Logout...",
-        success: <b>Logged out!</b>,
-        error: <b>Failed to logout!</b>,
-      }
-    )
+        toast.success("Logged Out")
+      })
+      .catch((error) => {
+        toast.error(error.message)
+      })
   }
   return (
     <nav style={{ textTransform: "uppercase" }}>
@@ -68,7 +67,7 @@ export default function NavBar() {
         {currentUser !== null && currentRole === "admin" ? (
           <li>
             <Link
-              className={curLoc.pathname === "/dashboard" ? "active" : ""}
+              className={curLoc.pathname.includes("/dashboard") ? "active" : ""}
               to="/dashboard">
               Dashboard
             </Link>
@@ -76,7 +75,7 @@ export default function NavBar() {
         ) : currentUser !== null && currentRole === "student" ? (
           <li>
             <Link
-              className={curLoc.pathname === "/student" ? "active" : ""}
+              className={curLoc.pathname.includes("/student") ? "active" : ""}
               to="/student">
               Dashboard
             </Link>
@@ -84,7 +83,7 @@ export default function NavBar() {
         ) : currentUser !== null && currentRole === "staff" ? (
           <li>
             <Link
-              className={curLoc.pathname === "/staff" ? "active" : ""}
+              className={curLoc.pathname.includes("/student") ? "active" : ""}
               to="/staff">
               Dashboard
             </Link>
@@ -98,13 +97,15 @@ export default function NavBar() {
             </Link>
           </li>
         )}
-        {currentUser !== null ? (
+        {currentUser ? (
           <li>
             <button className="outline" onClick={HandleLogout}>
               Logout
             </button>
           </li>
-        ) : null}
+        ) : (
+          ""
+        )}
       </ul>
     </nav>
   )

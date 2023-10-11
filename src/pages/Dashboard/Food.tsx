@@ -58,7 +58,7 @@ export default function Food() {
 
   return (
     <div className="container">
-      <motion.div
+      <motion.article
         initial={{ x: "100vw", opacity: 0 }}
         animate={{ x: "0vw", opacity: 1 }}
         exit={{ x: "-100vw", opacity: 0 }}
@@ -139,7 +139,7 @@ export default function Food() {
             ))}
           </tbody>
         </table>
-      </motion.div>
+      </motion.article>
     </div>
   )
 }

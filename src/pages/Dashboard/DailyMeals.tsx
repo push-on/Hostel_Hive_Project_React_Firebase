@@ -2,6 +2,7 @@ import { collection, getDocs, addDoc, query } from "firebase/firestore"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { db } from "../../config/firebase"
+import { motion } from "framer-motion"
 
 export default function DailyMeals() {
   const [foodItems, setFoodItems] = useState<any[]>()
@@ -62,128 +63,146 @@ export default function DailyMeals() {
 
   return (
     <div>
-      <nav>
-        <ul>
-          <li>
-            <h3>Daily Meals</h3>
-          </li>
-        </ul>
-        <ul>
-          <li>
-            <button onClick={submitMeal}>SUBMIT MEAL</button>
-          </li>
-        </ul>
-      </nav>
-      <table>
-        <thead>
-          <tr>
-            <th>Day Time</th>
-            <th>Meal Item</th>
-            <th>From</th>
-            <th>To</th>
-          </tr>
-        </thead>
-        <tbody>
-          {mealTimes.map((meal, index) => (
-            <tr key={meal.time}>
-              <td>{meal.time}</td>
-              <td>
-                <details className="dropdown">
-                  <summary>Select meal items...</summary>
-                  <ul>
-                    {foodItems &&
-                      foodItems.map((item) => (
-                        <li key={item.id}>
-                          <label>
-                            <input
-                              type="checkbox"
-                              value={item.name}
-                              checked={selectedFood[index]?.includes(item.name)}
-                              onChange={(e) => {
-                                const isChecked = e.target.checked
-                                setSelectedFood((prevSelectedFood) => {
-                                  const newSelectedFood = [...prevSelectedFood]
-                                  if (!newSelectedFood[index]) {
-                                    newSelectedFood[index] = []
-                                  }
-                                  if (
-                                    isChecked &&
-                                    !newSelectedFood[index].includes(item.name)
-                                  ) {
-                                    newSelectedFood[index].push(item.name)
-                                  } else if (!isChecked) {
-                                    const itemIndex = newSelectedFood[
-                                      index
-                                    ].indexOf(item.name)
-                                    if (itemIndex !== -1) {
-                                      newSelectedFood[index].splice(
-                                        itemIndex,
-                                        1
-                                      )
-                                    }
-                                  }
-                                  return newSelectedFood
-                                })
-                              }}
-                            />
-
-                            {item.name}
-                          </label>
-                        </li>
-                      ))}
-                  </ul>
-                </details>
-              </td>
-              <td>
-                <input
-                  type="time"
-                  value={meal.from}
-                  onChange={(e) => {
-                    const newMealTimes = [...mealTimes]
-                    newMealTimes[index].from = e.target.value
-                    setMealTimes(newMealTimes)
-                  }}
-                />
-              </td>
-              <td>
-                <input
-                  type="time"
-                  value={meal.to}
-                  onChange={(e) => {
-                    const newMealTimes = [...mealTimes]
-                    newMealTimes[index].to = e.target.value
-                    setMealTimes(newMealTimes)
-                  }}
-                />
-              </td>
+      <motion.article
+        initial={{ x: "100vw", opacity: 0 }}
+        animate={{ x: "0vw", opacity: 1 }}
+        exit={{ x: "-100vw", opacity: 0 }}
+        transition={{ ease: "easeInOut", duration: 0.2 }}>
+        <nav>
+          <ul>
+            <li>
+              <h3>Daily Meals</h3>
+            </li>
+          </ul>
+          <ul>
+            <li>
+              <button onClick={submitMeal}>SUBMIT MEAL</button>
+            </li>
+          </ul>
+        </nav>
+        <table>
+          <thead>
+            <tr>
+              <th>Day Time</th>
+              <th>Meal Item</th>
+              <th>From</th>
+              <th>To</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {mealTimes.map((meal, index) => (
+              <tr key={meal.time}>
+                <td>{meal.time}</td>
+                <td>
+                  <details className="dropdown">
+                    <summary>Select meal items...</summary>
+                    <ul>
+                      {foodItems &&
+                        foodItems.map((item) => (
+                          <li key={item.id}>
+                            <label>
+                              <input
+                                type="checkbox"
+                                value={item.name}
+                                checked={selectedFood[index]?.includes(
+                                  item.name
+                                )}
+                                onChange={(e) => {
+                                  const isChecked = e.target.checked
+                                  setSelectedFood((prevSelectedFood) => {
+                                    const newSelectedFood = [
+                                      ...prevSelectedFood,
+                                    ]
+                                    if (!newSelectedFood[index]) {
+                                      newSelectedFood[index] = []
+                                    }
+                                    if (
+                                      isChecked &&
+                                      !newSelectedFood[index].includes(
+                                        item.name
+                                      )
+                                    ) {
+                                      newSelectedFood[index].push(item.name)
+                                    } else if (!isChecked) {
+                                      const itemIndex = newSelectedFood[
+                                        index
+                                      ].indexOf(item.name)
+                                      if (itemIndex !== -1) {
+                                        newSelectedFood[index].splice(
+                                          itemIndex,
+                                          1
+                                        )
+                                      }
+                                    }
+                                    return newSelectedFood
+                                  })
+                                }}
+                              />
 
-      <h2>Current Meals</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Day Time</th>
-            <th>Meal Items</th>
-            <th>From</th>
-            <th>To</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentMeals?.map((mealData, index) =>
-            mealData?.meals?.map((meal: any, mealIndex: any) => (
-              <tr key={`${index}_${mealIndex}`}>
-                <td>{meal?.time}</td>
-                <td>{meal?.foodItems?.join(", ")}</td>
-                <td>{meal?.from}</td>
-                <td>{meal?.to}</td>
+                              {item.name}
+                            </label>
+                          </li>
+                        ))}
+                    </ul>
+                  </details>
+                </td>
+                <td>
+                  <input
+                    type="time"
+                    value={meal.from}
+                    onChange={(e) => {
+                      const newMealTimes = [...mealTimes]
+                      newMealTimes[index].from = e.target.value
+                      setMealTimes(newMealTimes)
+                    }}
+                  />
+                </td>
+                <td>
+                  <input
+                    type="time"
+                    value={meal.to}
+                    onChange={(e) => {
+                      const newMealTimes = [...mealTimes]
+                      newMealTimes[index].to = e.target.value
+                      setMealTimes(newMealTimes)
+                    }}
+                  />
+                </td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            ))}
+          </tbody>
+        </table>
+      </motion.article>
+
+      <motion.article
+        initial={{ x: "100vw", opacity: 0 }}
+        animate={{ x: "0vw", opacity: 1 }}
+        exit={{ x: "-100vw", opacity: 0 }}
+        transition={{ ease: "easeInOut", duration: 0.2 }}>
+        <h2>Current Meals</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Day Time</th>
+              <th>Meal Items</th>
+              <th>From</th>
+              <th>To</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentMeals?.map((mealData, index) =>
+              mealData?.meals?.map((meal: any, mealIndex: any) => (
+                <tr key={`${index}_${mealIndex}`}>
+                  <td>{meal?.time}</td>
+                  <td>{meal?.foodItems?.join(", ")}</td>
+                  <td>{meal?.from}</td>
+                  <td>{meal?.to}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </motion.article>
     </div>
   )
 }

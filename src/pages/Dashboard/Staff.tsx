@@ -60,7 +60,7 @@ export default function Staff() {
   }, [])
 
   return (
-    <motion.div
+    <motion.article
       initial={{ x: "100vw", opacity: 0 }}
       animate={{ x: "0vw", opacity: 1 }}
       exit={{ x: "-100vw", opacity: 0 }}
@@ -120,7 +120,7 @@ export default function Staff() {
           )}
         </tbody>
       </table>
-    </motion.div>
+    </motion.article>
   )
 }
 

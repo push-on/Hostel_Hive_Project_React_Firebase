@@ -72,7 +72,6 @@ img {
 .red {
   color: red;
   text-transform: capitalize;
-
 }
 
 .nowrap {
@@ -84,7 +83,7 @@ img {
 }
 
 .icon {
-  color: white
+  color: white;
 }
 
 .center {
@@ -107,7 +106,6 @@ img {
 
 .border {
   border: 1px solid white;
-
 }
 
 h1,
@@ -132,4 +130,9 @@ h6 {
 
 th {
   font-weight: 700;
+  white-space: nowrap;
+  text-transform: capitalize;
+}
+td {
+  white-space: nowrap;
 }

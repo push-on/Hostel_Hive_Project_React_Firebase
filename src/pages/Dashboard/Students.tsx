@@ -118,7 +118,7 @@ export default function Students() {
   }, [])
 
   return (
-    <motion.div
+    <motion.article
       initial={{ x: "100vw", opacity: 0 }}
       animate={{ x: "0vw", opacity: 1 }}
       exit={{ x: "-100vw", opacity: 0 }}
@@ -133,14 +133,14 @@ export default function Students() {
       <table>
         <thead>
           <tr>
-            <th className="nowrap">Student Name</th>
-            <th className="nowrap">Student Email</th>
-            <th className="nowrap">Student Phone</th>
-            <th className="nowrap">Created At</th>
-            <th className="nowrap">Valid till</th>
-            <th className="nowrap">Validity</th>
-            <th className="nowrap">Action</th>
-            <th className="nowrap">End Subscription</th>
+            <th>Student Name</th>
+            <th>Student Phone</th>
+            <th>room</th>
+            <th>floor</th>
+            <th>Valid till</th>
+            <th>Validity</th>
+            <th>Action</th>
+            <th>End Subscription</th>
           </tr>
         </thead>
         <tbody>
@@ -151,10 +151,15 @@ export default function Students() {
               exit={{ opacity: 0 }}
               transition={{ ease: "easeInOut", duration: 0.3 }}
               key={student?.id}>
-              <td>{student?.student_name}</td>
-              <td>{student?.student_email}</td>
-              <td>{student?.phone}</td>
-              <td>{student?.created_at}</td>
+              {student?.student_name &&
+                student.student_name.split(" ").slice(0, 2).join(" ")}
+              <td>{student?.phone ? student?.phone : "Not Available"}</td>
+              <td>
+                {student?.student_room ? student?.student_room : "Not Booked"}
+              </td>
+              <td>
+                {student?.student_floor ? student?.student_floor : "Not Booked"}
+              </td>
               <td>{student?.validity}</td>
               <td>
                 {student?.validity &&
@@ -178,6 +183,6 @@ export default function Students() {
           ))}
         </tbody>
       </table>
-    </motion.div>
+    </motion.article>
   )
 }

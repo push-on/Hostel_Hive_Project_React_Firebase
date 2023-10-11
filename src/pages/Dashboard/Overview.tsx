@@ -32,7 +32,7 @@ export default function Overview() {
   }, [])
 
   return (
-    <motion.div
+    <motion.article
       initial={{ x: "100vw", opacity: 0 }}
       animate={{ x: "0vw", opacity: 1 }}
       exit={{ x: "-100vw", opacity: 0 }}
@@ -77,6 +77,6 @@ export default function Overview() {
           </div>
         </article>
       </div>
-    </motion.div>
+    </motion.article>
   )
 }
