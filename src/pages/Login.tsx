@@ -75,7 +75,7 @@ export default function Login() {
                 type: "LOGIN",
                 payload: user,
                 role: doc.data()?.role,
-                paymentStatus: doc.data()?.paymentStatus ,
+                paymentStatus: doc.data()?.paymentStatus,
               })
               navigateTo(doc.data()?.role)
             })

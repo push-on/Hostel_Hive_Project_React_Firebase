@@ -97,7 +97,7 @@ export default function RootRooms() {
               <p>Rooms & Service of Hostel Hive</p>
             </hgroup>
           </header>
-          <article className="grid">
+          <div className="grid">
             <article>
               <hgroup>
                 <h1>General Information</h1>
@@ -130,9 +130,9 @@ export default function RootRooms() {
             <article>
               <img src={generalImage} alt="" />
             </article>
-          </article>
+          </div>
           {roomTypes.map((room, index) => (
-            <motion.article
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -183,7 +183,9 @@ export default function RootRooms() {
                       {Payments?.room_type === room?.room_type ? (
                         <strong>Already Booked</strong>
                       ) : (
-                        <button onClick={() => handleRoomBook(room.id)}>
+                        <button
+                          className="contrast"
+                          onClick={() => handleRoomBook(room.id)}>
                           BOOK
                         </button>
                       )}
@@ -191,7 +193,7 @@ export default function RootRooms() {
                   </nav>
                 </footer>
               </article>
-            </motion.article>
+            </motion.div>
           ))}
         </article>
       </motion.div>

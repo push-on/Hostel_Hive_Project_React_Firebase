@@ -1,4 +1,3 @@
-
 [data-theme="light"],
 :root:not([data-theme="dark"]) {
   --pico-text-selection-color: rgba(0, 166, 110, 0.25);
@@ -124,5 +123,13 @@ h6 {
 .active:hover,
 .active:focus,
 .active:active {
+  font-weight: 700;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+th {
   font-weight: 700;
 }

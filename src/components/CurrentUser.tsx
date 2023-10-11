@@ -16,20 +16,18 @@ export default function CurrentUser() {
         <ul>
           <li className="nowrap">
             <strong>User: </strong>{" "}
-            <span style={{ color: "silver" }}>
+            <span>
               {currentUser === null ? "User Not Logged in" : currentUser?.email}
             </span>
           </li>
           <li className="nowrap">
             <strong>Role: </strong>
-            <span style={{ color: "silver" }}>
-              {currentRole === null ? "Public" : currentRole}
-            </span>
+            <span>{currentRole === null ? "Public" : currentRole}</span>
           </li>
           {currentRole === "student" && (
             <li className="nowrap">
               <strong>PaymentStatus: </strong>
-              <span style={{ color: "silver" }}>
+              <span>
                 {paymentStatus === null ? "unavailable" : paymentStatus}
               </span>
             </li>
