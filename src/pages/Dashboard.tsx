@@ -43,30 +43,76 @@ function DashboardNav() {
       <nav style={{ textTransform: "uppercase" }}>
         <ul>
           <li>
-            <Link to="/dashboard/">Overview</Link>{" "}
+            <Link
+              to="/dashboard/"
+              className={curLoc.pathname === "/dashboard" ? "active " : ""}>
+              Overview
+            </Link>{" "}
           </li>
           <li>
-            <Link to="/dashboard/rooms" className="nowrap">
+            <Link
+              to="/dashboard/rooms"
+              className={
+                curLoc.pathname === "/dashboard/rooms"
+                  ? "active nowrap"
+                  : "nowrap"
+              }>
               Rooms & Floor
             </Link>
           </li>
           <li>
-            <Link to="/dashboard/student">Students</Link>
+            <Link
+              to="/dashboard/student"
+              className={
+                curLoc.pathname === "/dashboard/student" ? "active " : ""
+              }>
+              Students
+            </Link>
           </li>
           <li>
-            <Link to="/dashboard/staff">Staffs</Link>
+            <Link
+              className={
+                curLoc.pathname === "/dashboard/staff" ? "active " : ""
+              }
+              to="/dashboard/staff">
+              Staffs
+            </Link>
           </li>
           <li>
-            <Link to="/dashboard/food">Food</Link>
+            <Link
+              to="/dashboard/food"
+              className={
+                curLoc.pathname === "/dashboard/food" ? "active " : ""
+              }>
+              Food
+            </Link>
           </li>
           <li>
-            <Link to="/dashboard/daily_meals">Daily Meals</Link>
+            <Link
+              to="/dashboard/daily_meals"
+              className={
+                curLoc.pathname === "/dashboard/daily_meals" ? "active " : ""
+              }>
+              Daily Meals
+            </Link>
           </li>
           <li>
-            <Link to="/dashboard/payment">Payment</Link>
+            <Link
+              to="/dashboard/payment"
+              className={
+                curLoc.pathname === "/dashboard/payment" ? "active " : ""
+              }>
+              Payment
+            </Link>
           </li>
           <li>
-            <Link to="/dashboard/instructions">Instructions</Link>
+            <Link
+              to="/dashboard/instructions"
+              className={
+                curLoc.pathname === "/dashboard/instructions" ? "active " : ""
+              }>
+              Instructions
+            </Link>
           </li>
         </ul>
       </nav>

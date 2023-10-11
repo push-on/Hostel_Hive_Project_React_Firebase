@@ -53,7 +53,7 @@ export default function NavBar() {
               <Link
                 className={curLoc.pathname === "/foods" ? "active" : ""}
                 to="/foods">
-                Foods
+                meals
               </Link>
             </li>
           </>
@@ -65,7 +65,6 @@ export default function NavBar() {
             About
           </Link>
         </li>
-        {/* <li><Link className={curLoc.pathname === "/payment" ? "active" : ""} to="/payment">Payment</Link></li> */}
         {currentUser !== null && currentRole === "admin" ? (
           <li>
             <Link

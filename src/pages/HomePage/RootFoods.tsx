@@ -96,36 +96,27 @@ export default function RootFoods() {
         animate={{ x: "0vw", opacity: 1 }}
         exit={{ x: "-100vw", opacity: 0 }}
         transition={{ ease: "easeInOut", duration: 0.2 }}>
-        <article>
-          <header>
-            <h1 style={{ textAlign: "center" }}>MONTHLY FOOD SUBSCRIPTION</h1>
-          </header>
-          {foodItems?.map((option) => (
-            <motion.article
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ ease: "easeInOut", duration: 0.2 }}
-              style={{ textTransform: "capitalize" }}
-              key={option.id}>
-              <h2>{option.type}</h2>
-              <p>Lunch: {option.lunch}</p>
-              <p>Dinner: {option.lunch}</p>
-              <p>Description: {option.description}</p>
-              <p> {option?.special ? `Special: ${option.special}` : ""}</p>
-              <p>Price: {option.price}</p>
-              {status?.selected_ID === option.id ? (
-                <strong>Already Booked</strong>
-              ) : (
-                <button
-                  className="contrast"
-                  onClick={() => handleFoodSub(option.id)}>
-                  Select
-                </button>
-              )}
-            </motion.article>
-          ))}
-        </article>
+        <h2>Food Menu</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {foodItems?.map((foodItem) => (
+              <tr key={foodItem.id}>
+                <td>{foodItem.name}</td>
+                <td>
+                  {foodItem.status === true ? "Available" : "Not Available"}
+                </td>
+                <td>{foodItem.price}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </motion.div>
       <Footer />
     </div>

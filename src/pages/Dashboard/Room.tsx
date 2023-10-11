@@ -54,13 +54,16 @@ export default function Rooms() {
       exit={{ x: "-100vw", opacity: 0 }}
       transition={{ ease: "easeInOut", duration: 0.2 }}>
       <article>
+        <h1>Assign Room</h1>
+      </article>
+      <article>
         <dialog open={modal}>
           <AddRoomType setModal={setModal} getData={getData} />
         </dialog>
         <nav>
           <ul>
             <li>
-              <h1>Room Management</h1>
+              <h2>Types Of Rooms</h2>
             </li>
           </ul>
           <ul>
@@ -69,7 +72,6 @@ export default function Rooms() {
             </li>
           </ul>
         </nav>
-        <h2>Types Of Rooms</h2>
         <table>
           <thead>
             <tr style={{ textTransform: "capitalize" }}>
@@ -106,11 +108,9 @@ export default function Rooms() {
         </table>
       </article>
       <article>
-        <h1>Total Available Rooms</h1>
-
         {TotalRooms.map((room) => (
           <>
-            <h3>Total Rooms: {room.number}</h3>
+            <h3>Total Rooms Avilable: {room.number}</h3>
             <label>Set total room</label>
             <form
               role="group"

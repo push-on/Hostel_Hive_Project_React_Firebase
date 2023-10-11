@@ -54,14 +54,14 @@ export default function StudentOverview() {
         <p>
           <strong>Created At:</strong> {User?.created_at}
         </p>
-        {/* <p>
+        <p>
           <strong>Hostel Room: </strong>
           {User?.hostel_room === "" ? "Not Assigned" : User?.hostel_room}
         </p>
         <p>
           <strong>Hostel Floor: </strong>
           {User?.hostel_floor === "" ? "Not Assigned" : User?.hostel_floor}
-        </p> */}
+        </p>
         <p>
           <strong>Address: </strong>
           {User?.address === "" ? "Not Assigned" : User?.address}
