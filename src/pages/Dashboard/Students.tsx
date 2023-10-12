@@ -4,6 +4,7 @@ import { db } from "../../config/firebase"
 import { getDocs, collection, getDoc, doc, updateDoc } from "firebase/firestore"
 import { toast } from "react-hot-toast"
 import { motion } from "framer-motion"
+import { AiOutlineEdit } from "react-icons/ai"
 
 interface Student {
   id: string
@@ -11,7 +12,9 @@ interface Student {
 
 export default function Students() {
   const [students, setStudents] = useState<Student[]>([])
-
+  const [editModal, setEditModal] = useState(false)
+  const [selected, setSelected] = useState("")
+  const [singleStudent, setSingleStudent] = useState<any>()
   const myCollectionRef = collection(db, "students")
 
   const getData = async () => {
@@ -21,6 +24,16 @@ export default function Students() {
       setStudents(userData)
     } catch (error: any) {
       toast.error(error.message)
+    }
+  }
+  const handleOnChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    try {
+      const { name, value } = event.target
+      setSingleStudent((prev: any) => ({ ...prev, [name]: value }))
+    } catch (error) {
+      console.log(error)
     }
   }
   async function Approval(id: string) {
@@ -122,7 +135,8 @@ export default function Students() {
       initial={{ x: "100vw", opacity: 0 }}
       animate={{ x: "0vw", opacity: 1 }}
       exit={{ x: "-100vw", opacity: 0 }}
-      transition={{ ease: "easeInOut", duration: 0.2 }}>
+      transition={{ ease: "easeInOut", duration: 0.2 }}
+      style={{ overflowX: "scroll" }}>
       <nav>
         <ul>
           <li>
@@ -130,17 +144,30 @@ export default function Students() {
           </li>
         </ul>
       </nav>
+      {editModal && (
+        <dialog open={editModal}>
+          <EditStudent
+            setModal={setEditModal}
+            onChange={handleOnChange}
+            student={singleStudent}
+            setStudent={setSingleStudent}
+            getData={getData}
+            id={selected}
+          />
+        </dialog>
+      )}
       <table>
         <thead>
           <tr>
-            <th>Student Name</th>
-            <th>Student Phone</th>
-            <th>room</th>
-            <th>floor</th>
-            <th>Valid till</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Floor</th>
+            <th>Room</th>
+            <th data-tooltip="Assign room & floor">Assign</th>
+            <th>Valid-till</th>
             <th>Validity</th>
             <th>Action</th>
-            <th>End Subscription</th>
+            <th>Subscription</th>
           </tr>
         </thead>
         <tbody>
@@ -153,30 +180,55 @@ export default function Students() {
               key={student?.id}>
               {student?.student_name &&
                 student.student_name.split(" ").slice(0, 2).join(" ")}
-              <td>{student?.phone ? student?.phone : "Not Available"}</td>
+              <td>{student?.phone ? student?.phone : "Not Available"} </td>
               <td>
-                {student?.student_room ? student?.student_room : "Not Booked"}
+                {student?.hostel_floor ? student?.hostel_floor : "not booked"}
               </td>
               <td>
-                {student?.student_floor ? student?.student_floor : "Not Booked"}
+                {student?.hostel_room ? student?.hostel_room : "not booked"}
+              </td>
+              <td>
+                <button
+                  className="btn"
+                  data-tooltip="Assign room & floor"
+                  onClick={() => {
+                    setSelected(student?.id)
+                    setEditModal(true)
+                  }}>
+                  <AiOutlineEdit />
+                </button>
               </td>
               <td>{student?.validity}</td>
               <td>
                 {student?.validity &&
-                  `${Math.ceil(
-                    (new Date(student.validity).getTime() -
-                      new Date().getTime()) /
-                      (1000 * 60 * 60 * 24)
-                  )} days`}
+                  (() => {
+                    const validityDate = new Date(student.validity)
+                    const currentDate = new Date()
+                    const daysRemaining = Math.ceil(
+                      (validityDate.getTime() - currentDate.getTime()) /
+                        (1000 * 60 * 60 * 24)
+                    )
+                    if (daysRemaining > 0) {
+                      return `${daysRemaining} days`
+                    } else {
+                      return "Expired"
+                    }
+                  })()}
               </td>
               <td>
-                <button className="btn" onClick={() => Approval(student?.id)}>
+                <button
+                  data-tooltip="Approve Student Booking"
+                  className="btn"
+                  onClick={() => Approval(student?.id)}>
                   Approve
                 </button>
               </td>
               <td>
-                <button className="btn" onClick={() => reset(student?.id)}>
-                  End
+                <button
+                  data-tooltip="Reset Validity"
+                  className="btn"
+                  onClick={() => reset(student?.id)}>
+                  Validity
                 </button>
               </td>
             </motion.tr>
@@ -184,5 +236,78 @@ export default function Students() {
         </tbody>
       </table>
     </motion.article>
+  )
+}
+
+function EditStudent({
+  setModal,
+  onChange,
+  id,
+  student,
+  setStudent,
+  getData,
+}: any) {
+  const setStudentById = () => {
+    try {
+      getDoc(doc(db, "students", id))
+        .then((doc) => {
+          setStudent(doc.data())
+          getData()
+        })
+        .catch((error) => {
+          throw new Error(error.message)
+        })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+
+    updateDoc(doc(db, "students", id), student)
+      .then(() => {
+        toast.success("Added Successfully")
+        setStudent()
+        setModal(false)
+      })
+      .catch((error) => {
+        toast.error(error.message)
+        setModal(false)
+      })
+  }
+
+  useEffect(() => {
+    setStudentById()
+  }, [])
+  return (
+    <article>
+      <h1>Assign Room & Floor</h1>
+      <button
+        className="close contrast "
+        onClick={() => {
+          setModal(false)
+        }}
+      />
+      <form onSubmit={handleSubmit}>
+        <label>Assign Room</label>
+        <input
+          name="hostel_room"
+          type="number"
+          required
+          value={student?.hostel_room}
+          onChange={onChange}
+        />
+        <label>Assign floor</label>
+        <input
+          name="hostel_floor"
+          type="number"
+          required
+          value={student?.hostel_floor}
+          onChange={onChange}
+        />
+        <button type="submit">Submit</button>
+      </form>
+    </article>
   )
 }

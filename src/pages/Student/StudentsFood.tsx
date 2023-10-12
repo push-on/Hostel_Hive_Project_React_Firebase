@@ -40,7 +40,7 @@ export default function StudentsFood() {
           <strong>Message:</strong> {status?.description}
         </p>
         <p>
-          <strong>Amount:</strong> {status?.price} TK
+          <strong>Amount:</strong> {status?.price}
         </p>
         <p>
           <strong>Payment Status:</strong> {status?.payment}

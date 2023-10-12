@@ -2,13 +2,39 @@ import { collection, doc, getDoc, getDocs } from "firebase/firestore"
 import Footer from "../../components/Footer"
 import NavBar from "../../components/NavBar"
 import { motion } from "framer-motion"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { db } from "../../config/firebase"
 import toast, { Toaster } from "react-hot-toast"
+import { useNavigate } from "react-router-dom"
+import { AuthContext } from "../../context/AuthContext"
 
 export default function RootFoods() {
   const [foodItems, setFoodItems] = useState<any[]>([])
   const [meals, setMeals] = useState<any[]>([])
+  const navigate = useNavigate()
+  const { currentUser, paymentStatus } = useContext(AuthContext)
+
+  function handleOrderMeal() {
+    if (currentUser === null) {
+      navigate("/login", { state: { from: "/rooms" } })
+      return
+    }
+    if (paymentStatus === null || paymentStatus === "unpaid") {
+      toast("Please book a room first", {
+        duration: 6000,
+      })
+    }
+    if (paymentStatus === "pending") {
+      toast("you can order food after payment is completed", {
+        duration: 6000,
+      })
+    }
+    if (paymentStatus === "paid") {
+      toast("You can order Food", {
+        duration: 6000,
+      })
+    }
+  }
 
   const getData = async () => {
     try {
@@ -76,6 +102,7 @@ export default function RootFoods() {
                 <th>Food Items</th>
                 <th>From</th>
                 <th>To</th>
+                <th>order Meal</th>
               </tr>
             </thead>
             <tbody>
@@ -85,6 +112,11 @@ export default function RootFoods() {
                   <td>{meal.foodItems.join(", ")}</td>
                   <td>{meal.from}</td>
                   <td>{meal.to}</td>
+                  <td>
+                    <button onClick={handleOrderMeal} className="btn ">
+                      Order
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
