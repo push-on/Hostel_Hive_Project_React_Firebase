@@ -6,6 +6,7 @@ import toast from "react-hot-toast"
 
 export default function Payments() {
   const [Payments, setPayments] = useState<any>()
+  const [foodPayments, setFoodPayments] = useState<any>()
   const [user, setUser] = useState<any>()
   const [userModal, setUserModal] = useState(false)
   const getUser = async (uid: string) => {
@@ -26,8 +27,14 @@ export default function Payments() {
   const getData = async () => {
     try {
       const data = await getDocs(collection(db, "payments"))
+      const foodData = await getDocs(collection(db, "food_subscriptions"))
+      const foodPaymentData = foodData.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }))
       const userData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
       setPayments(userData)
+      setFoodPayments(foodPaymentData)
     } catch (error: any) {
       toast.error(error.message)
     }
@@ -78,6 +85,41 @@ export default function Payments() {
                 </em>
               </td>
               <td>{payment?.price}TK</td>
+              <td>{payment?.paymentStatus}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <table>
+        <thead>
+          <tr>
+            <th>User Details</th>
+            <th>ID</th>
+            <th>Room Type</th>
+            <th>Description</th>
+            <th>time</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {foodPayments?.map((payment: any) => (
+            <tr key={payment?.id}>
+              <td>
+                <button className="btn" onClick={() => getUser(payment?.id)}>
+                  View
+                </button>
+              </td>
+              <td>{payment?.id.slice(0, 7)}</td>
+              <td style={{ textTransform: "capitalize" }}>{payment?.meal}</td>
+              <td>
+                <em
+                  data-tooltip={
+                    payment?.description ? payment?.description : "empty"
+                  }>
+                  Description
+                </em>
+              </td>
+              <td>{payment?.time}</td>
               <td>{payment?.paymentStatus}</td>
             </tr>
           ))}

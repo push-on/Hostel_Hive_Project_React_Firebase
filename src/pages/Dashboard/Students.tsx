@@ -131,19 +131,7 @@ export default function Students() {
   }, [])
 
   return (
-    <motion.article
-      initial={{ x: "100vw", opacity: 0 }}
-      animate={{ x: "0vw", opacity: 1 }}
-      exit={{ x: "-100vw", opacity: 0 }}
-      transition={{ ease: "easeInOut", duration: 0.2 }}
-      style={{ overflowX: "scroll" }}>
-      <nav>
-        <ul>
-          <li>
-            <h1>Student Details</h1>
-          </li>
-        </ul>
-      </nav>
+    <>
       {editModal && (
         <dialog open={editModal}>
           <EditStudent
@@ -156,86 +144,103 @@ export default function Students() {
           />
         </dialog>
       )}
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Floor</th>
-            <th>Room</th>
-            <th data-tooltip="Assign room & floor">Assign</th>
-            <th>Valid-till</th>
-            <th>Validity</th>
-            <th>Action</th>
-            <th>Subscription</th>
-          </tr>
-        </thead>
-        <tbody>
-          {students?.map((student: any) => (
-            <motion.tr
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ ease: "easeInOut", duration: 0.3 }}
-              key={student?.id}>
-              {student?.student_name &&
-                student.student_name.split(" ").slice(0, 2).join(" ")}
-              <td>{student?.phone ? student?.phone : "Not Available"} </td>
-              <td>
-                {student?.hostel_floor ? student?.hostel_floor : "not assigned"}
-              </td>
-              <td>
-                {student?.hostel_room ? student?.hostel_room : "not assigned"}
-              </td>
-              <td>
-                <button
-                  className="btn"
-                  data-tooltip="Assign room & floor"
-                  onClick={() => {
-                    setSelected(student?.id)
-                    setEditModal(true)
-                  }}>
-                  <AiOutlineEdit />
-                </button>
-              </td>
-              <td>{student?.validity}</td>
-              <td>
-                {student?.validity &&
-                  (() => {
-                    const validityDate = new Date(student.validity)
-                    const currentDate = new Date()
-                    const daysRemaining = Math.ceil(
-                      (validityDate.getTime() - currentDate.getTime()) /
-                        (1000 * 60 * 60 * 24)
-                    )
-                    if (daysRemaining > 0) {
-                      return `${daysRemaining} days`
-                    } else {
-                      return "Expired"
-                    }
-                  })()}
-              </td>
-              <td>
-                <button
-                  data-tooltip="Approve Student Booking"
-                  className="btn"
-                  onClick={() => Approval(student?.id)}>
-                  Approve
-                </button>
-              </td>
-              <td>
-                <button
-                  data-tooltip="Reset Validity"
-                  className="btn"
-                  onClick={() => reset(student?.id)}>
-                  Validity
-                </button>
-              </td>
-            </motion.tr>
-          ))}
-        </tbody>
-      </table>
-    </motion.article>
+      <motion.article
+        initial={{ x: "100vw", opacity: 0 }}
+        animate={{ x: "0vw", opacity: 1 }}
+        exit={{ x: "-100vw", opacity: 0 }}
+        transition={{ ease: "easeInOut", duration: 0.2 }}
+        style={{ overflowX: "scroll" }}>
+        <nav>
+          <ul>
+            <li>
+              <h1>Student Details</h1>
+            </li>
+          </ul>
+        </nav>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Floor</th>
+              <th>Room</th>
+              <th data-tooltip="Assign room & floor">Assign</th>
+              <th>Valid-till</th>
+              <th>Validity</th>
+              <th>Action</th>
+              <th>Subscription</th>
+            </tr>
+          </thead>
+          <tbody>
+            {students?.map((student: any) => (
+              <motion.tr
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ ease: "easeInOut", duration: 0.3 }}
+                key={student?.id}>
+                {student?.student_name &&
+                  student.student_name.split(" ").slice(0, 2).join(" ")}
+                <td>{student?.phone ? student?.phone : "Not Available"} </td>
+                <td>
+                  {student?.hostel_floor
+                    ? student?.hostel_floor
+                    : "not assigned"}
+                </td>
+                <td>
+                  {student?.hostel_room ? student?.hostel_room : "not assigned"}
+                </td>
+                <td>
+                  <button
+                    className="btn"
+                    data-tooltip="Assign room & floor"
+                    onClick={() => {
+                      setSelected(student?.id)
+                      setEditModal(true)
+                    }}>
+                    <AiOutlineEdit />
+                  </button>
+                </td>
+                <td>{student?.validity}</td>
+                <td>
+                  {student?.validity &&
+                    (() => {
+                      const validityDate = new Date(student.validity)
+                      const currentDate = new Date()
+                      const daysRemaining = Math.ceil(
+                        (validityDate.getTime() - currentDate.getTime()) /
+                          (1000 * 60 * 60 * 24)
+                      )
+                      if (daysRemaining > 0) {
+                        return `${daysRemaining} days`
+                      } else {
+                        return "Expired"
+                      }
+                    })()}
+                </td>
+                <td>
+                  <button
+                    data-tooltip="Approve Student Booking"
+                    className="btn"
+                    onClick={() => Approval(student?.id)}>
+                    Approve
+                  </button>
+                </td>
+                <td>
+                  <button
+                    data-tooltip="Reset Validity"
+                    className="btn"
+                    onClick={() => reset(student?.id)}>
+                    Validity
+                  </button>
+                </td>
+              </motion.tr>
+            ))}
+          </tbody>
+        </table>
+      </motion.article>
+    </>
   )
 }
 

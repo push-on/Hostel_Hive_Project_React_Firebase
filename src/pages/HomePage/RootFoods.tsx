@@ -7,14 +7,16 @@ import { db } from "../../config/firebase"
 import toast, { Toaster } from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
 import { AuthContext } from "../../context/AuthContext"
+import FoodPayment from "../../components/FoodPayment"
 
 export default function RootFoods() {
   const [foodItems, setFoodItems] = useState<any[]>([])
   const [meals, setMeals] = useState<any[]>([])
   const navigate = useNavigate()
   const { currentUser, paymentStatus } = useContext(AuthContext)
-
-  function handleOrderMeal() {
+  const [modal, setModal] = useState(false)
+  const [selected, setSelected] = useState("")
+  function handleOrderMeal(meal: any) {
     if (currentUser === null) {
       toast("Please please login or register first", {
         duration: 6000,
@@ -35,9 +37,8 @@ export default function RootFoods() {
       })
     }
     if (paymentStatus === "paid") {
-      toast("You can order Food", {
-        duration: 6000,
-      })
+      setSelected(meal)
+      setModal(true)
     }
   }
 
@@ -61,6 +62,7 @@ export default function RootFoods() {
 
   return (
     <div className="container">
+      {modal && <FoodPayment setModal={setModal} selected={selected} />}
       <NavBar />
       <Toaster />
       <motion.article
@@ -118,7 +120,11 @@ export default function RootFoods() {
                   <td>{meal.from}</td>
                   <td>{meal.to}</td>
                   <td>
-                    <button onClick={handleOrderMeal} className="btn ">
+                    <button
+                      onClick={() => {
+                        handleOrderMeal(meal.time)
+                      }}
+                      className="btn ">
                       Order
                     </button>
                   </td>
