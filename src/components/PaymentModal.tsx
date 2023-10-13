@@ -9,7 +9,7 @@ export default function PaymentModal({ setModal, id }: any) {
   const [selectedRoom, setSelectedRoom] = useState<any>()
   const [contactInfo, setContactInfo] = useState("")
   const [description, setDescription] = useState("")
-  const { currentUser } = useContext(AuthContext)
+  const { currentUser, paymentStatus, currentRole } = useContext(AuthContext)
   const [Payments, setPayments] = useState<any>()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -21,8 +21,13 @@ export default function PaymentModal({ setModal, id }: any) {
       toast.error("Invalid Description")
       return
     }
-    if (currentUser?.uid) {
-      await setDoc(doc(collection(db, "payments"), currentUser?.uid), {
+    if (currentUser?.uid && paymentStatus !== "pending") {
+      setDoc(doc(collection(db, "users"), currentUser?.uid), {
+        role: currentRole,
+        userID: currentUser?.uid,
+        paymentStatus: "pending",
+      })
+      setDoc(doc(collection(db, "payments"), currentUser?.uid), {
         mail: currentUser?.email,
         userID: currentUser?.uid,
         room_type: selectedRoom?.room_type,
@@ -34,6 +39,7 @@ export default function PaymentModal({ setModal, id }: any) {
         .then(() => {
           toast.success("Payment is being Processed")
           updateData()
+          setModal(false)
         })
         .catch((error) => {
           toast.error(error.message)

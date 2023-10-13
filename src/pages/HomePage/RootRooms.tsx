@@ -48,6 +48,9 @@ export default function RootRooms() {
   }
   const handleRoomBook = (id: string) => {
     if (currentUser === null) {
+      toast("Please please login or register first", {
+        duration: 6000,
+      })
       navigate("/login", { state: { from: "/rooms" } })
       return
     }

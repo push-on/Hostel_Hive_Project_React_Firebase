@@ -16,10 +16,15 @@ export default function RootFoods() {
 
   function handleOrderMeal() {
     if (currentUser === null) {
-      navigate("/login", { state: { from: "/rooms" } })
+      toast("Please please login or register first", {
+        duration: 6000,
+      })
+      navigate("/login", { state: { from: "/foods" } })
       return
     }
     if (paymentStatus === null || paymentStatus === "unpaid") {
+      navigate("/rooms", { state: { from: "/foods" } })
+
       toast("Please book a room first", {
         duration: 6000,
       })

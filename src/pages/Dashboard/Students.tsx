@@ -182,10 +182,10 @@ export default function Students() {
                 student.student_name.split(" ").slice(0, 2).join(" ")}
               <td>{student?.phone ? student?.phone : "Not Available"} </td>
               <td>
-                {student?.hostel_floor ? student?.hostel_floor : "not booked"}
+                {student?.hostel_floor ? student?.hostel_floor : "not assigned"}
               </td>
               <td>
-                {student?.hostel_room ? student?.hostel_room : "not booked"}
+                {student?.hostel_room ? student?.hostel_room : "not assigned"}
               </td>
               <td>
                 <button

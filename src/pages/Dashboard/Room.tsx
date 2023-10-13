@@ -36,6 +36,7 @@ export default function Rooms() {
         number: number,
       }).then(() => {
         toast.success("Updated")
+        getRoom()
       })
     } catch (error: any) {
       toast.error(error.message)

@@ -10,7 +10,7 @@ export default function NavBar() {
   let curLoc = useLocation()
   const navigate = useNavigate()
   const { dispatch } = useContext(AuthContext)
-  // Logout
+
   const HandleLogout = (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -29,6 +29,7 @@ export default function NavBar() {
         toast.error(error.message)
       })
   }
+
   return (
     <nav style={{ textTransform: "uppercase" }}>
       <ul>
